@@ -1,0 +1,9 @@
+# оригінали фото — лишаються на Mac, на сайт не потрібні
+/*.png
+/*.jpg
+/*.jpeg
+img/*.jpg
+img/*.jpeg
+!img/og-image.jpg
+img/Sho_po_steikam_gold_flat.png
+.DS_Store
