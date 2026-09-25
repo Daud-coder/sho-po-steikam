@@ -7,3 +7,7 @@ img/*.jpeg
 !img/og-image.jpg
 img/Sho_po_steikam_gold_flat.png
 .DS_Store
+
+# история проекта — только на Mac, не публикуется
+/история/
+/ИСТОРИЯ-ПРОЕКТА.md
