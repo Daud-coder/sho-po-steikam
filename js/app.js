@@ -37,6 +37,8 @@
   // Кодове слово: без регістру, пробілів, лапок і розділових знаків.
   // \p{L} ловить кирилицю (на відміну від \w).
   function norm(s) { return String(s).toLowerCase().replace(/[^\p{L}\p{N}]/gu, ''); }
+  // Контакт заповнений у config.js (не порожній, не '#', не заглушка '[...]')
+  function filled(v) { return !!v && v !== '#' && !/^\s*\[/.test(v); }
   function codewordOk() { return state.codeword !== '' && norm(state.codeword) === norm(CFG.codeword); }
 
   function load() {
@@ -115,7 +117,7 @@
         '" alt="' + esc(p.name + ' — ' + p.en) + '" loading="lazy" decoding="async" width="1200" height="896">';
     }
     return '<div class="ph ph--' + kind + '" role="img" aria-label="Фото незабаром: ' + esc(p.name) + '">' +
-      (kind === 'thumb' ? '' : '<span class="ph__cap">Фото незабаром</span>') + '</div>';
+      (kind === 'thumb' ? '<svg class="ph__glyph" aria-hidden="true"><use href="#i-steak"/></svg>' : '<span class="ph__cap">Фото незабаром</span>') + '</div>';
   }
 
   function badge(p, cls) {
@@ -136,6 +138,9 @@
         '<h4 class="card__name">' + esc(p.name) + '</h4>' +
         '<p class="card__en">' + esc(p.en) + '</p>' +
         '<p class="card__desc">' + esc(p.desc) + '</p>' +
+        (p.featured && p.cook ? '<dl class="card__cook">' + p.cook.map(function (c) {
+          return '<div><dt>' + esc(c[0]) + '</dt><dd>' + esc(c[1]) + '</dd></div>';
+        }).join('') + '</dl>' : '') +
         '<div class="card__foot">' +
           '<div class="card__price">' + priceHTML(p, 'card__sum') + '<span class="card__meta">' + metaLabel(p) + '</span></div>' +
           '<div class="card__action" data-action="' + p.id + '" data-kind="full"></div>' +
@@ -152,6 +157,7 @@
         '<h4 class="mrow__name">' + esc(p.name) + badge(p, 'mrow__badge') + '</h4>' +
         '<p class="mrow__en">' + esc(p.en) + '</p>' +
         '<p class="mrow__desc">' + esc(p.desc) + '</p>' +
+        (p.like ? '<p class="mrow__like">' + esc(p.like) + '</p>' : '') +
       '</div>' +
       '<div class="mrow__side">' + priceHTML(p, 'mrow__sum') +
         '<span class="mrow__meta">' + money(p.perKg || p.price) + (p.perKg ? '/кг' : '') + '</span>' +
@@ -189,8 +195,8 @@
     if (cat === 'alt') {
       return '<div class="cgroup cgroup--alt" id="group-alt"><div class="container">' + groupHead(cat) +
         '<ul class="mlist" data-reveal>' + list.map(altRowHTML).join('') + '</ul>' +
-        '<div class="helpbar" data-reveal><p><strong>Не знаєш, що обрати?</strong> Напиши, під що готуєш — гриль, пательня чи духовка, — і на скільки людей. Підкажемо відруб і вагу.</p>' +
-        '<a class="btn btn--outline" href="' + esc(CFG.telegram) + '" target="_blank" rel="noopener">Написати в Telegram</a></div>' +
+        (filled(CFG.telegram) ? '<div class="helpbar" data-reveal><p><strong>Не знаєш, що обрати?</strong> Напиши, під що готуєш — гриль, пательня чи духовка, — і на скільки людей. Підкажемо відруб і вагу.</p>' +
+        '<a class="btn btn--outline" href="' + esc(CFG.telegram) + '" target="_blank" rel="noopener">Написати в Telegram</a></div>' : '') +
       '</div></div>';
     }
     var g = GROUPS.burger;
@@ -532,16 +538,43 @@
      Endpoint (напр. Cloudflare Worker) сам пересилає text у бот через Bot API,
      щоб токен бота не лежав у коді сайту. */
   function sendOrder(order) {
-    if (!CFG.orderEndpoint) {
-      console.info('[Шо по стейкам?] Замовлення (orderEndpoint не заданий):', order, '\n\n' + orderText(order));
-      return Promise.resolve();
-    }
+    // Без endpoint замовлення нікуди не йде — тоді клієнт надсилає текст сам (крок «Залишився один крок»)
+    if (!CFG.orderEndpoint) return Promise.resolve({ sent: false });
     return fetch(CFG.orderEndpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ order: order, text: orderText(order) })
-    }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); });
+      body: JSON.stringify({ order: order, text: orderText(order), website: form.elements.website.value })
+    }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return { sent: true }; });
   }
+
+  // Екран після оформлення: «прийняли» (надіслано) або «надішліть нам» (endpoint ще не підключений)
+  function showThanks(order, sent) {
+    $$('[data-order-no]').forEach(function (el) { el.textContent = order.number; });
+    $('[data-thanks-sent]').hidden = !sent;
+    $('[data-thanks-manual]').hidden = sent;
+    if (sent) return;
+    var text = orderText(order);
+    $('[data-order-text]').value = text;
+    var tg = $('[data-order-tg]');
+    var user = filled(CFG.telegram) ? CFG.telegram.replace(/^https?:\/\/t\.me\//, '').replace(/[\/?].*$/, '') : '';
+    tg.hidden = !user;
+    if (user) tg.href = 'https://t.me/' + user + '?text=' + encodeURIComponent(text);
+    var box = $('[data-thanks-manual]'), canSend = !!user || filled(CFG.phone);
+    $('.thanks__title', box).textContent = canSend ? 'Залишився один крок' : 'Замовлення сформовано';
+    $('.thanks__text', box).innerHTML = canSend
+      ? 'Надішли нам замовлення <strong>' + esc(order.number) + '</strong> — і менеджер передзвонить, щоб уточнити вагу, час і оплату.'
+      : 'Номер замовлення — <strong>' + esc(order.number) + '</strong>.';
+    var call = $('[data-order-call]');
+    call.hidden = !filled(CFG.phone) && !!user;
+    call.textContent = filled(CFG.phone) ? 'Або зателефонуй: ' + CFG.phone
+      : 'Онлайн-замовлення запускаємо найближчими днями. Скопіюй текст — він знадобиться, щойно ми відкриємо прийом.';
+  }
+  $('[data-order-copy]').addEventListener('click', function () {
+    var ta = $('[data-order-text]'), b = this;
+    var done = function () { b.textContent = 'Скопійовано'; setTimeout(function () { b.textContent = 'Скопіювати текст'; }, 2000); };
+    if (navigator.clipboard) navigator.clipboard.writeText(ta.value).then(done, function () { ta.select(); });
+    else { ta.select(); try { document.execCommand('copy'); done(); } catch (e) {} }
+  });
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -551,18 +584,18 @@
     var btn = $('[data-submit]');
     btn.disabled = true; btn.textContent = 'Надсилаємо…';
     var order = buildOrder();
-    sendOrder(order).then(function () {
+    sendOrder(order).then(function (res) {
+      showThanks(order, res.sent);
       state.cart = {}; state.codeword = ''; codewordInput.value = '';
       save();
       form.reset(); state.method = 'kyiv';
       updateMethodUI();
-      $('[data-order-no]').textContent = order.number;
       renderCart();
       PRODUCTS.forEach(function (p) { renderCardAction(p.id); });
       setView('thanks');
       $('#drawer-title').focus();
     }).catch(function () {
-      errBox.textContent = 'Не вдалося надіслати замовлення. Спробуй ще раз або зателефонуй: ' + CFG.phone;
+      errBox.textContent = 'Не вдалося надіслати замовлення. Спробуй ще раз' + (filled(CFG.phone) ? ' або зателефонуй: ' + CFG.phone : '') + '.';
       errBox.hidden = false;
     }).then(function () {
       btn.disabled = false; btn.textContent = 'Підтвердити замовлення';
@@ -577,13 +610,15 @@
       var k = CFG.deliveryFee.kyiv, n = CFG.deliveryFee.np;
       el.textContent = k === n ? money(k) : 'Київ ' + money(k) + ' · НП ' + money(n);
     });
+    // Незаповнені контакти не показуємо зовсім — жодних «[ТЕЛЕФОН]» і мертвих посилань
     var phoneLink = $('[data-link="phone"]');
+    phoneLink.hidden = !filled(CFG.phone);
     if (CFG.phoneHref) phoneLink.href = 'tel:' + CFG.phoneHref;
     else phoneLink.removeAttribute('href');
     [['instagram', CFG.instagram], ['telegram', CFG.telegram]].forEach(function (x) {
       var a = $('[data-link="' + x[0] + '"]');
-      a.href = x[1];
-      if (x[1] && x[1] !== '#') { a.target = '_blank'; a.rel = 'noopener'; }
+      a.hidden = !filled(x[1]);
+      if (filled(x[1])) { a.href = x[1]; a.target = '_blank'; a.rel = 'noopener'; }
     });
     $$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
   }
@@ -592,7 +627,7 @@
   load();
   codewordInput.value = state.codeword;
   applyConfig();
-  $$('.section__head, .perks__list, .delivery__grid, .reviews__list').forEach(function (el) { el.setAttribute('data-reveal', ''); });
+  $$('.section__head, .perks__list, .delivery__grid, .faq__list').forEach(function (el) { el.setAttribute('data-reveal', ''); });
   observeReveal(document);
   renderTabs();
   renderGrid();

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://daud-coder.github.io/sho-po-steikam/sitemap.xml

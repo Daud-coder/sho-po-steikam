@@ -443,12 +443,6 @@ ul, ol { padding: 0; list-style: none; }
 .terms__row--gold dd { color: var(--gold); }
 
 /* ---------- відгуки ---------- */
-.reviews__list { display: grid; gap: 12px; }
-@media (min-width: 768px) { .reviews__list { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
-.review { position: relative; display: flex; flex-direction: column; padding: 22px 20px; background: var(--card); border: 1px dashed var(--line); border-radius: var(--r); }
-.review__tag { align-self: flex-start; margin-bottom: 14px; padding: 4px 8px; border: 1px solid var(--line); border-radius: 2px; font: 500 12px/1 var(--f-head); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-.review__text { font-size: 17px; line-height: 1.5; }
-.review__who { margin-top: auto; padding-top: 16px; font: 500 13px/1 var(--f-head); letter-spacing: .12em; text-transform: uppercase; color: var(--gold); }
 
 /* ---------- футер ---------- */
 .footer { padding: 48px 0 24px; }
@@ -580,3 +574,53 @@ body::after {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+/* ---------- ПИТАННЯ ---------- */
+.faq__wrap { max-width: 900px; }
+.faq__list { border-top: 1px solid var(--line); }
+.faq__item { border-bottom: 1px solid var(--line); }
+.faq__item summary {
+  list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  padding: 20px 0; font: 600 19px/1.3 var(--f-head); letter-spacing: .02em; color: var(--text);
+  transition: color .2s;
+}
+.faq__item summary::-webkit-details-marker { display: none; }
+.faq__item summary::after {
+  content: ''; flex: none; width: 12px; height: 12px; margin-right: 4px;
+  border-right: 1.5px solid var(--gold); border-bottom: 1.5px solid var(--gold);
+  transform: translateY(-3px) rotate(45deg); transition: transform .3s var(--ease-out);
+}
+.faq__item[open] summary::after { transform: translateY(2px) rotate(225deg); }
+.faq__item p { padding: 0 40px 22px 0; color: var(--muted); font-size: 17px; line-height: 1.6; max-width: 68ch; }
+@media (hover: hover) { .faq__item summary:hover { color: var(--gold); } }
+.faq__item summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+
+/* ---------- як готувати (великі картки) ---------- */
+.card__cook { margin: 18px 0 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
+.card__cook > div { display: grid; grid-template-columns: 110px 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.card__cook dt { font: 500 12px/1.5 var(--f-head); letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+.card__cook dd { margin: 0; font-size: 15px; line-height: 1.45; color: var(--text); }
+@media (min-width: 1024px) { .card__cook dd { font-size: 16px; } }
+
+/* ---------- на що схоже (альтернативні) ---------- */
+.mrow__like { margin-top: 4px; font-size: 14px; line-height: 1.35; color: #CDBB93; }
+.mrow__like::before { content: '≈ '; color: var(--gold); }
+
+/* заглушка фото в круглій мініатюрі */
+.ph--thumb { background: radial-gradient(circle at 50% 40%, #26231e, #19191b); }
+.ph__glyph { width: 46%; height: 46%; fill: none; stroke: var(--gold-dark); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+
+/* табы на телефоні: натяк, що їх можна гортати */
+@media (max-width: 767px) {
+  .tabs { -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); }
+}
+
+/* пастка для спам-ботів у формі */
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* замовлення без автоматичної відправки */
+.thanks--manual { text-align: left; justify-items: stretch; align-content: start; }
+.thanks--manual .thanks__text { max-width: none; }
+.thanks--manual > .btn--ghost { justify-self: center; }
+.thanks__order { font: 400 14px/1.5 var(--f-body); resize: none; min-height: 190px; color: var(--text); }
+.thanks__actions { display: grid; gap: 10px; }
