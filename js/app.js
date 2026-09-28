@@ -909,6 +909,8 @@
       if (!L) return;
       btns.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.roastGo === id)); });
       root.style.setProperty('--core', L.core);
+      // центр зрізу на фото doneness.webp (px із 1336) — для збільшеного кадру
+      root.style.setProperty('--cx', ({ 'blue': 125, 'rare': 349, 'medium-rare': 565, 'medium': 776, 'medium-well': 996, 'well-done': 1206 })[id]);
       root.style.setProperty('--k', L.k);
       root.style.setProperty('--t', pos(L.t[1] ? (L.t[0] + L.t[1]) / 2 : L.t[0] + 2));
       root.style.setProperty('--off', pos(parseInt(L.off, 10)));

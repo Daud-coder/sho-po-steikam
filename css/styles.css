@@ -934,6 +934,16 @@ a.is-revealed { letter-spacing: .06em; border-color: var(--gold); color: var(--g
 .card--hero .card__media img { object-fit: contain; }
 @media (min-width: 1024px) { .card--hero .card__media { display: flex; align-items: center; } }
 
+/* прожарка: фото шести зрізів + збільшений обраний */
+.roast__strip { position: relative; margin-bottom: 10px; border-radius: var(--r); overflow: hidden; border: 1px solid var(--line); background: #111; }
+.roast__strip img { display: block; width: 100%; height: auto; }
+.roast__slice { position: absolute; top: 0; bottom: 0; padding: 0; border: 0; background: rgba(12,12,13,.55); cursor: pointer; transition: background-color .3s var(--ease-out), box-shadow .3s var(--ease-out); }
+.roast__slice:hover { background: rgba(12,12,13,.25); }
+.roast__slice[aria-pressed="true"] { background: transparent; box-shadow: inset 0 -3px 0 var(--gold); }
+.roast__zoom { position: relative; width: 100%; aspect-ratio: 230 / 175; border-radius: var(--r); overflow: hidden; background: #111; border: 1px solid var(--line); }
+.roast__zoom img { position: absolute; max-width: none; width: calc(1336 / 230 * 100%); top: -28%; left: calc((var(--cx, 565) - 115) / 230 * -100%); transition: left .5s var(--ease-out); }
+@media (prefers-reduced-motion: reduce) { .roast__zoom img { transition: none; } }
+
 /* ---------- зерно і поява ---------- */
 body::after {
   content: ''; position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: .07;

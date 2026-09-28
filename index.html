@@ -321,6 +321,15 @@
           <p class="section__lead">Обери ступінь — і подивись, яким стейк буде всередині і коли знімати його з вогню. Без термометра вгадати складно, з ним — жодних сюрпризів.</p>
         </div>
         <div class="roast" data-roast>
+          <div class="roast__strip" aria-hidden="true">
+            <img src="images/doneness.webp" srcset="images/doneness-800.webp 800w, images/doneness.webp 1336w" sizes="(min-width: 1240px) 1176px, 100vw" alt="" width="1336" height="300" loading="lazy" decoding="async">
+            <button type="button" tabindex="-1" class="roast__slice" data-roast-go="blue" style="left:1.27%;width:16.17%"></button>
+            <button type="button" tabindex="-1" class="roast__slice" data-roast-go="rare" style="left:18.04%;width:16.17%"></button>
+            <button type="button" tabindex="-1" class="roast__slice" data-roast-go="medium-rare" style="left:34.21%;width:16.17%"></button>
+            <button type="button" tabindex="-1" class="roast__slice" data-roast-go="medium" style="left:50.00%;width:16.17%"></button>
+            <button type="button" tabindex="-1" class="roast__slice" data-roast-go="medium-well" style="left:66.47%;width:16.17%"></button>
+            <button type="button" tabindex="-1" class="roast__slice" data-roast-go="well-done" style="left:82.19%;width:16.17%"></button>
+          </div>
           <div class="roast__levels" role="group" aria-label="Ступінь прожарювання">
             <button class="roast__btn" type="button" data-roast-go="blue" aria-pressed="false">Blue</button>
             <button class="roast__btn" type="button" data-roast-go="rare" aria-pressed="false">Rare</button>
@@ -331,7 +340,7 @@
           </div>
           <div class="roast__panel">
             <div class="roast__visual" aria-hidden="true">
-              <div class="steakx"><span class="steakx__band"><span class="steakx__core"></span></span></div>
+              <div class="roast__zoom"><img src="images/doneness.webp" alt="" width="1336" height="300" loading="lazy" decoding="async"></div>
               <div class="thermo">
                 <span class="thermo__track"><span class="thermo__fill"></span><span class="thermo__off"></span></span>
                 <span class="thermo__scale"><span>40 °C</span><span>55</span><span>75 °C</span></span>
