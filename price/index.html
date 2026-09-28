@@ -170,6 +170,51 @@
       .foot { flex-direction: column; gap: 8px; font-size: 8.5px; }
     }
 
+
+    /* ---------- інтерактив лише на екрані (у друці/PDF вимкнено) ---------- */
+    @media screen {
+      .gitem, .item { cursor: pointer; transition: background-color .2s; }
+      .gitem:focus-visible, .item:focus-visible { outline: 1px solid var(--gold); outline-offset: 2px; }
+      @media (hover: hover) { .gitem:hover, .item:hover { background: linear-gradient(90deg, rgba(201,162,74,.07), rgba(201,162,74,0) 80%); } }
+      .gitem.is-active, .item.is-active { background: linear-gradient(90deg, rgba(201,162,74,.1), rgba(201,162,74,0) 85%); }
+      .gitem__cell[data-g] { transition: color .2s; }
+      @media (hover: hover) { .gitem__cell[data-g]:hover { color: var(--gold-soft); } }
+      .gitem__cell.is-on { color: var(--gold-soft); }
+
+      /* золоті лінії розділів промальовуються один раз */
+      .js-draw .sec__head { border-bottom-color: transparent; background: linear-gradient(90deg, var(--gold-deep), var(--gold) 50%, var(--gold-deep)) left bottom / 0% 1px no-repeat; transition: background-size 1.1s cubic-bezier(.16, 1, .3, 1); }
+      .js-draw .sec__head.is-drawn { background-size: 100% 1px; }
+
+      /* «подача» стейка поруч з аркушем (десктоп) */
+      .plate { position: fixed; z-index: 4; top: 50%; right: max(16px, calc((100vw - 210mm) / 2 - 330px)); width: 300px; transform: translateY(-50%); pointer-events: none; }
+      .plate__frame { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid var(--gold-deep); background: #0a0a0a;
+        clip-path: inset(0 0 0 100%); transition: clip-path .55s cubic-bezier(.16, 1, .3, 1); box-shadow: 0 30px 60px rgba(0,0,0,.6); }
+      .plate.is-on .plate__frame { clip-path: inset(0 0 0 0); }
+      .plate__frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .3s ease; }
+      .plate__frame img.is-shown { opacity: 1; }
+      .plate__cap { margin-top: 10px; opacity: 0; transform: translateY(6px); transition: opacity .35s .15s, transform .35s .15s cubic-bezier(.16, 1, .3, 1); }
+      .plate.is-on .plate__cap { opacity: 1; transform: none; }
+      .plate__name { font: 600 22px/1.1 var(--serif); color: var(--text); }
+      .plate__grade { margin-top: 4px; font: 600 9px/1 var(--sans); letter-spacing: .26em; text-transform: uppercase; color: var(--gold); }
+      .plate__hint { margin-top: 6px; font-size: 11px; color: var(--muted); }
+      @media (max-width: 1379px), (hover: none) { .plate { display: none; } }
+
+      /* розкриття під рядком (телефон / без ховера) */
+      .reveal { grid-column: 1 / -1; display: grid; grid-template-rows: 0fr; transition: grid-template-rows .45s cubic-bezier(.16, 1, .3, 1); }
+      .reveal > div { overflow: hidden; }
+      .is-open > .reveal { grid-template-rows: 1fr; }
+      .reveal__row { display: grid; grid-template-columns: repeat(var(--n, 1), 1fr); gap: 8px; padding-top: 10px; }
+      .reveal figure { margin: 0; }
+      .reveal img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border: 1px solid rgba(201,162,74,.3); }
+      .reveal figcaption { margin-top: 5px; text-align: center; font: 600 9px/1 var(--sans); letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
+      .tip { display: none; }
+      @media (hover: none), (max-width: 1379px) { .tip { display: block; margin: 0 0 10px; font: 500 11px/1.4 var(--sans); color: var(--gold); letter-spacing: .04em; } }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .plate__frame, .plate__cap, .reveal, .js-draw .sec__head { transition: none !important; }
+    }
+    @media print { .plate, .reveal, .tip { display: none !important; } }
+
     /* ---------- друк / PDF ---------- */
     @page { size: A4; margin: 0; }
     @media print {
@@ -184,6 +229,7 @@
 </head>
 <body>
   <div class="bar"><button type="button" onclick="window.print()">Зберегти PDF / друк</button><a href="../">На сайт</a></div>
+  <aside class="plate" aria-hidden="true"><div class="plate__frame"></div><div class="plate__cap"><p class="plate__name"></p><p class="plate__grade"></p><p class="plate__hint">Наведи на Select · Choice · Prime</p></div></aside>
 
   <!-- АРКУШ 1: шапка, класичні, для гриля й казана -->
   <section class="sheet">
@@ -197,6 +243,7 @@
 
       <section class="sec">
         <div class="sec__head"><h2 class="sec__title">Класичні стейки</h2><p class="sec__note">Волога витримка 21 день<br>ціни за 1 кг</p></div>
+        <p class="tip">Натисни на стейк — покажемо фото. У класиці — одразу всі класи мармуру.</p>
         <div class="gradehead"><span>Відруб</span><span>Select</span><span>Choice / Клас.</span><span>Prime</span></div>
         <div data-classic></div>
         <div class="gradeinfo">
@@ -280,13 +327,13 @@
       function cell(id, label) {
         var x = g[id];
         if (!x) return '<div class="gitem__cell dash">—</div>';
-        return '<div class="gitem__cell">' + price(x.perKg) + '<small>' + esc(label) + '</small></div>';
+        return '<div class="gitem__cell" data-g="' + id + '">' + price(x.perKg) + '<small>' + esc(label) + '</small></div>';
       }
       var main = '<div class="gitem__main">' + nameHTML(p) + '<p class="item__desc">' + esc(p.desc) + ' · <b>' + portion(p.weight) + '</b></p></div>';
       // без класів мармуру (міньйон) — одна ціна на всю ширину колонок
-      if (!p.grades) return '<div class="gitem">' + main + '<div class="gitem__cell gitem__cell--wide">' + price(p.perKg) + '<small>один клас</small></div></div>';
+      if (!p.grades) return '<div class="gitem" data-id="' + p.id + '" tabindex="0">' + main + '<div class="gitem__cell gitem__cell--wide">' + price(p.perKg) + '<small>один клас</small></div></div>';
       var mid = g.choice ? cell('choice', 'Choice') : cell('classic', 'Класичний');
-      return '<div class="gitem">' + main + cell('select', 'Select') + mid + cell('prime', 'Prime') + '</div>';
+      return '<div class="gitem" data-id="' + p.id + '" tabindex="0">' + main + cell('select', 'Select') + mid + cell('prime', 'Prime') + '</div>';
     }).join('');
 
     // АЛЬТЕРНАТИВНІ та ГРИЛЬ — назва ····· ціна
@@ -294,7 +341,7 @@
       var perPack = !!p.pack;
       var val = perPack ? p.price : p.perKg;
       var unit = perPack ? p.pack : 'за 1 кг';
-      return '<li class="item">' +
+      return '<li class="item" data-id="' + p.id + '" tabindex="0">' +
         '<div class="item__name"><span class="item__uk">' + esc(p.name) + '</span><span class="item__en">' + esc(p.en) + '</span>' + badge(p) + '<span class="item__lead"></span></div>' +
         '<div class="item__price">' + price(val) + '</div>' +
         '<p class="item__desc">' + esc(p.like || p.desc) + '</p>' +
@@ -316,6 +363,81 @@
     if (CFG.phone) document.querySelector('[data-phone]').textContent = CFG.phone;
     function social(key, sel) { var v = CFG[key]; if (v && v !== '#') document.querySelector(sel).textContent = v.replace(/^https?:\/\/(www\.)?/, ''); }
     social('instagram', '[data-ig]'); social('tiktok', '[data-tt]'); social('youtube', '[data-yt]');
+
+    /* ---------- «подача» стейка: фото при наведенні / розкриття при дотику ---------- */
+    var byId = {}; P.forEach(function (p) { byId[p.id] = p; });
+    function src(path) { return path ? '../' + path.replace(/\.webp$/, '-600.webp') : ''; }
+    function gradePhoto(p, gid) {
+      var g = (p.grades || []).filter(function (x) { return x.id === gid; })[0];
+      return (g && g.photo) || p.photo || ((p.grades || []).filter(function (x) { return x.photo; }).slice(-1)[0] || {}).photo || '';
+    }
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var hoverDevice = window.matchMedia('(hover: hover) and (min-width: 1380px)');
+    var plate = document.querySelector('.plate'), frame = plate.querySelector('.plate__frame');
+    var cur = '';
+    function show(p, gid) {
+      var path = p.grades ? gradePhoto(p, gid || 'prime') : p.photo;
+      if (!path) { plate.classList.remove('is-on'); return; }
+      var key = p.id + '|' + path; if (key === cur) return; cur = key;
+      var img = new Image(); img.alt = ''; img.src = src(path);
+      frame.appendChild(img);
+      var done = function () { img.classList.add('is-shown'); Array.prototype.slice.call(frame.querySelectorAll('img'), 0, -1).forEach(function (o) { setTimeout(function () { o.remove(); }, 320); }); };
+      img.complete ? requestAnimationFrame(done) : img.addEventListener('load', done);
+      plate.querySelector('.plate__name').textContent = p.name;
+      var g = (p.grades || []).filter(function (x) { return x.id === (gid || 'prime'); })[0];
+      plate.querySelector('.plate__grade').textContent = g ? g.label : p.en;
+      plate.querySelector('.plate__hint').style.display = p.grades ? '' : 'none';
+      plate.classList.add('is-on');
+    }
+    document.addEventListener('mouseover', function (e) {
+      if (!hoverDevice.matches) return;
+      var row = e.target.closest('[data-id]');
+      if (!row) return;
+      var cell = e.target.closest('[data-g]');
+      document.querySelectorAll('.gitem__cell.is-on').forEach(function (c) { c.classList.remove('is-on'); });
+      if (cell) cell.classList.add('is-on');
+      show(byId[row.dataset.id], cell ? cell.dataset.g : null);
+    });
+    document.addEventListener('mouseleave', function () { plate.classList.remove('is-on'); cur = ''; });
+    document.querySelectorAll('.sheet').forEach(function (sh) { sh.addEventListener('mouseleave', function () { plate.classList.remove('is-on'); cur = ''; }); });
+
+    // дотик / клавіатура: розкрити фото під рядком (у класиці — всі класи поруч)
+    function toggle(row) {
+      if (hoverDevice.matches) return;
+      var p = byId[row.dataset.id]; if (!p) return;
+      var box = row.querySelector('.reveal');
+      if (!box) {
+        var figs = p.grades
+          ? p.grades.map(function (g) { var ph = gradePhoto(p, g.id); return ph ? '<figure><img src="' + src(ph) + '" alt="' + esc(p.name + ' ' + g.label) + '" loading="lazy"><figcaption>' + esc(g.label) + '</figcaption></figure>' : ''; })
+          : (p.photo ? ['<figure><img src="' + src(p.photo) + '" alt="' + esc(p.name) + '" loading="lazy"></figure>'] : []);
+        figs = figs.filter(Boolean);
+        if (!figs.length) return;
+        box = document.createElement('div'); box.className = 'reveal';
+        box.innerHTML = '<div><div class="reveal__row" style="--n:' + figs.length + '">' + figs.join('') + '</div></div>';
+        row.appendChild(box);
+        box.offsetHeight;   // щоб розкриття анімувалось з нуля
+      }
+      var open = !row.classList.contains('is-open');
+      document.querySelectorAll('.is-open').forEach(function (r) { if (r !== row) { r.classList.remove('is-open', 'is-active'); } });
+      row.classList.toggle('is-open', open); row.classList.toggle('is-active', open);
+      row.setAttribute('aria-expanded', String(open));
+    }
+    document.addEventListener('click', function (e) { var row = e.target.closest('[data-id]'); if (row) toggle(row); });
+    document.addEventListener('keydown', function (e) {
+      var row = e.target.closest && e.target.closest('[data-id]');
+      if (!row || (e.key !== 'Enter' && e.key !== ' ')) return;
+      e.preventDefault();
+      if (hoverDevice.matches) show(byId[row.dataset.id]); else toggle(row);
+    });
+
+    // золоті лінії розділів — один раз, коли розділ у полі зору
+    if (!reduce && 'IntersectionObserver' in window) {
+      document.documentElement.classList.add('js-draw');
+      var io = new IntersectionObserver(function (es) { es.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add('is-drawn'); io.unobserve(x.target); } }); }, { threshold: .6 });
+      document.querySelectorAll('.sec__head').forEach(function (h) { io.observe(h); });
+      window.addEventListener('beforeprint', function () { document.querySelectorAll('.sec__head').forEach(function (h) { h.classList.add('is-drawn'); }); });
+    }
+
     var d = new Date(), dd = ('0' + d.getDate()).slice(-2) + '.' + ('0' + (d.getMonth() + 1)).slice(-2) + '.' + d.getFullYear();
     Array.prototype.forEach.call(document.querySelectorAll('[data-date]'), function (el) { el.textContent = 'актуально на ' + dd; });
   })();
