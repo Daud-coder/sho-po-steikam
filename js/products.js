@@ -32,25 +32,21 @@ window.PRODUCTS = [
   { id: 'cowboy',      cat: 'classic', name: 'Ковбой',      en: 'Cowboy',       desc: 'Рібай на короткій кістці',            perKg: 1550, weight: 700,  badge: '',                 photo: 'images/cowboy.webp' },
   { id: 'tomahawk',    cat: 'classic', name: 'Томагавк',    en: 'Tomahawk',     desc: 'Рібай на довгій кістці, для компанії', perKg: 1600, weight: 1100, badge: 'Витримка 21 день', photo: 'images/tomahawk.webp', featured: true,
     cook: [['Просмаження', 'medium rare, 54–56 °C'], ['Як готувати', 'Духовка 120 °C до 50 °C всередині, потім 1–2 хв на бік на гриль'], ['Порція', 'на 2–3 людей']] },
+  { id: 'club',        cat: 'classic', name: 'Клаб-стейк',  en: 'Club steak',   desc: 'Нью-Йорк на кістці',                   perKg: 0,    weight: 450,  badge: '',                 photo: '' },
   { id: 'filet',       cat: 'classic', name: 'Міньйон',     en: 'Filet mignon', desc: 'Найніжніший, з центру вирізки',       perKg: 2200, weight: 300,  badge: '',                 photo: 'images/filet-mignon.webp' },
 
-  // ---------- АЛЬТЕРНАТИВНІ ----------
-  { id: 'chuck-roll',  cat: 'alt', name: 'Чак-рол',     en: 'Chuck roll', desc: '«Рібай для своїх»',          perKg: 850, weight: 350, badge: '',    photo: 'images/chuck-roll.webp', like: 'Схожий на рібай, трохи щільніший' },
-  { id: 'picanha',     cat: 'alt', name: 'Піканья',     en: 'Picanha',    desc: 'З жировою шапкою, хіт гриля', perKg: 950, weight: 350, badge: 'Хіт', photo: 'images/picanha.webp', like: 'Соковита, як рібай, завдяки жировій шапці' },
-  { id: 'denver',      cat: 'alt', name: 'Денвер',      en: 'Denver',     desc: 'М’який і мармуровий',         perKg: 800, weight: 300, badge: '',    photo: 'images/denver.webp', like: 'Мармур як у рібаю, а ціна вдвічі нижча' },
-  { id: 'flat-iron',   cat: 'alt', name: 'Флет-айрон',  en: 'Flat iron',  desc: 'Ніжний стейк з лопатки',      perKg: 850, weight: 300, badge: '',    photo: 'images/flat-iron.webp', like: 'Ніжність майже як у міньйону' },
-  { id: 'tri-tip',     cat: 'alt', name: 'Трай-тип',    en: 'Tri-tip',    desc: 'Каліфорнійська класика',      perKg: 850, weight: 400, badge: '',    photo: 'images/tri-tip.webp', like: 'Цілий шматок на гриль для компанії' },
-  { id: 'skirt',       cat: 'alt', name: 'Мачете',      en: 'Skirt',      desc: 'Смажиться за хвилини',        perKg: 900, weight: 300, badge: '',    photo: 'images/skirt.webp', like: 'Найяскравіший смак, 2 хв з кожного боку' },
-  { id: 'flank',       cat: 'alt', name: 'Фланк',       en: 'Flank',      desc: 'Яскравий м’ясний смак',       perKg: 750, weight: 400, badge: '',    photo: 'images/flank.webp', like: 'Нежирний, різати тонко поперек волокон' },
-  { id: 'bavette',     cat: 'alt', name: 'Бавет',       en: 'Bavette',    desc: 'Найкраще бере маринад',       perKg: 700, weight: 350, badge: '',    photo: '', like: 'Як фланк, але м’якший і соковитіший' },
-  // ТОП БЛЕЙД: прихований, доки немає ціни й фото. Щоб показати — впиши perKg, photo і прибери hidden: true
-  { id: 'top-blade',   cat: 'alt', name: 'Топ блейд',   en: 'Top blade',  desc: 'Лопатковий стейк з жилкою по центру', perKg: 0, weight: 300, badge: '', photo: '', like: 'Той самий м’яз, що й флет-айрон, але з жилкою — смак яскравіший', hidden: true },
-  { id: 'hanger',      cat: 'alt', name: 'Хенгер',      en: 'Hanger',     desc: '«Стейк м’ясника»',            perKg: 900, weight: 300, badge: '',    photo: '', like: 'Насичений смак, улюблений у м’ясників' },
+  // ---------- АЛЬТЕРНАТИВНІ (склад від 28.09: лише ці 6) ----------
+  // perKg: 0 / price: 0 — ціна ще не вказана: на сайті «Ціну уточнюйте» і кнопка дзвінка замість «В кошик».
+  { id: 'top-blade',   cat: 'alt', name: 'Топ блейд',   en: 'Top blade',      desc: 'Лопатковий стейк з жилкою по центру', perKg: 0,   weight: 300, badge: '',    photo: 'images/top-blade.webp', like: 'Ніжний, з яскравим смаком — той самий м’яз, що й флет-айрон' },
+  { id: 'chuck-roll',  cat: 'alt', name: 'Чак-ай рол',  en: 'Chuck eye roll', desc: 'Продовження рібаю з лопаткової частини', perKg: 850, weight: 350, badge: '', photo: 'images/chuck-roll.webp', like: 'Схожий на рібай, а ціна нижча' },
+  { id: 'flank',       cat: 'alt', name: 'Фланк',       en: 'Flank',          desc: 'Яскравий м’ясний смак',       perKg: 750, weight: 400, badge: '',    photo: 'images/flank.webp', like: 'Нежирний, різати тонко поперек волокон' },
+  { id: 'rump',        cat: 'alt', name: 'Рамп',        en: 'Rump',           desc: 'Щільний стейк з огузка',       perKg: 0,   weight: 350, badge: '',    photo: '', like: 'Нежирний, з глибоким «м’ясним» смаком' },
+  { id: 'top-round',   cat: 'alt', name: 'Топ раунд',   en: 'Top round',      desc: 'Найпісніший стейк зі стегна',  perKg: 0,   weight: 350, badge: '',    photo: '', like: 'До medium rare і тонко поперек волокон — або на ростбіф' },
+  { id: 'picanha',     cat: 'alt', name: 'Піканья',     en: 'Picanha',        desc: 'З жировою шапкою, хіт гриля', perKg: 950, weight: 350, badge: 'Хіт', photo: 'images/picanha.webp', like: 'Соковита, як рібай, завдяки жировій шапці' },
 
-  // ---------- БУРГЕРИ ----------
-  { id: 'burger-150', cat: 'burger', name: 'Бургерні котлети', en: 'Burger patties', desc: 'Фарш з обрізі витриманих стейків, 20% жиру, без добавок', price: 420, pack: '4 × 150 г', badge: 'Новинка', photo: '' },
-  { id: 'burger-180', cat: 'burger', name: 'Бургерні котлети', en: 'Burger patties', desc: 'Фарш з обрізі витриманих стейків, 20% жиру, без добавок', price: 490, pack: '4 × 180 г', badge: '',        photo: '' },
-  { id: 'smash-100',  cat: 'burger', name: 'Смеш-котлети',     en: 'Smash patties',  desc: 'Фарш з обрізі витриманих стейків, 20% жиру, без добавок', price: 450, pack: '6 × 100 г', badge: '',        photo: '' }
+  // ---------- БУРГЕР І ШАШЛИК ----------
+  { id: 'burger-200',  cat: 'burger', name: 'Бургерна котлета', en: 'Burger patty',    desc: 'Фарш з обрізі витриманих стейків, 20% жиру, без добавок', price: 0, pack: '200 г', badge: '', photo: 'images/patties-200.webp' },
+  { id: 'shashlyk',    cat: 'burger', name: 'Шашлик з вирізки', en: 'Tenderloin kebab', desc: 'Сирий: кубики яловичої вирізки в маринаді, у вакуумі — одразу на мангал', perKg: 800, weight: 1000, badge: 'Новинка', photo: '' }
 ];
 
 // Назви розділів (таби каталогу)
@@ -58,5 +54,5 @@ window.CATEGORIES = [
   { id: 'all',     label: 'Всі' },
   { id: 'classic', label: 'Класичні' },
   { id: 'alt',     label: 'Альтернативні' },
-  { id: 'burger',  label: 'Бургери' }
+  { id: 'burger',  label: 'Бургер і шашлик' }
 ];

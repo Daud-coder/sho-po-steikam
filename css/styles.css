@@ -352,6 +352,8 @@ button.mrow__img { cursor: zoom-in; }
 .bcard__pack { font: 600 15px/1 var(--f-head); letter-spacing: .12em; text-transform: uppercase; color: var(--gold); }
 .bcard__name { margin-top: 14px; font: 600 24px/1.1 var(--f-head); letter-spacing: .02em; }
 .bcard__en { margin-top: 5px; font: 500 12px/1.2 var(--f-head); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.bcard__desc { margin-top: 8px; font-size: 15px; line-height: 1.4; color: #c9c1b3; }
+@media (min-width: 1024px) { .bcard__desc { grid-column: 1; } }
 .bcard__foot { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 24px; }
 .bcard__sum { font: 600 26px/1 var(--f-head); white-space: nowrap; }
 .bcard .card__action { margin-top: 0; flex: 0 1 170px; }
@@ -374,7 +376,7 @@ button.mrow__img { cursor: zoom-in; }
   .bcard__name { grid-column: 1; margin-top: 6px; font-size: 22px; }
   .bcard__en { grid-column: 1; }
   .bcard__foot { grid-column: 2; grid-row: 1 / span 3; margin-top: 0; flex-direction: column; align-items: flex-end; gap: 10px; }
-  .bcard .card__action { flex: none; width: 150px; }
+  .bcard .card__action { flex: none; min-width: 150px; }
 }
 
 /* ---------- банер ---------- */
@@ -716,6 +718,9 @@ textarea.input { resize: vertical; min-height: 84px; }
 .aging::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(19,19,21,.55) 0%, rgba(19,19,21,.85) 45%, var(--bg) 100%); }
 .aging__inner { position: relative; z-index: 1; }
 
+.price-none { font-size: 17px !important; color: var(--muted); letter-spacing: .02em; }
+a.btn-plus { text-decoration: none; }
+
 /* ---------- зерно і поява ---------- */
 body::after {
   content: ''; position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: .07;
@@ -779,3 +784,5 @@ body::after {
 .thanks--manual > .btn--ghost { justify-self: center; }
 .thanks__order { font: 400 14px/1.5 var(--f-body); resize: none; min-height: 190px; color: var(--text); }
 .thanks__actions { display: grid; gap: 10px; }
+
+.btn { white-space: nowrap; }

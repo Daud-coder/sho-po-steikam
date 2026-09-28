@@ -30,6 +30,8 @@
     return Math.round((p.perKg * p.weight / 1000) / 5) * 5;
   }
   function isApprox(p) { return !p.price; }
+  // Ціна ще не вказана (perKg/price = 0) — показуємо «Ціну уточнюйте» і не пускаємо в кошик
+  function hasPrice(p) { return (p.price || p.perKg) > 0; }
   function weightLabel(g) { return g >= 1000 ? (g / 1000).toLocaleString('uk-UA') + ' кг' : g + ' г'; }
   function metaLabel(p) {
     return p.price ? p.pack : money(p.perKg) + '/кг · ≈ ' + weightLabel(p.weight);
@@ -45,7 +47,7 @@
     try {
       var saved = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
       Object.keys(saved.cart || {}).forEach(function (id) {
-        if (byId[id] && saved.cart[id] > 0) state.cart[id] = Math.min(99, saved.cart[id] | 0);
+        if (byId[id] && hasPrice(byId[id]) && saved.cart[id] > 0) state.cart[id] = Math.min(99, saved.cart[id] | 0);
       });
       state.codeword = saved.codeword || '';
     } catch (e) { /* приватний режим або заблоковане сховище — працюємо без нього */ }
@@ -87,7 +89,7 @@
   var GROUPS = {
     classic: { title: 'Класичні', lead: 'Перевірені часом відруби' },
     alt: { title: 'Альтернативні', lead: 'Для тих, хто вже скуштував рібай і хоче далі' },
-    burger: { title: 'Бургери', lead: 'Фарш з обрізі витриманих стейків, 20% жиру, без добавок',
+    burger: { title: 'Бургер і шашлик', lead: 'Котлета з обрізі витриманих стейків і шашлик з вирізки — для гриля й компанії',
       bg: 'images/burgers-bg.webp', bgSmall: 'images/burgers-bg-800.webp' }
   };
 
@@ -128,6 +130,7 @@
   }
 
   function priceHTML(p, cls) {
+    if (!hasPrice(p)) return '<span class="' + cls + ' price-none">Ціну уточнюйте</span>';
     return '<span class="' + cls + '">' + (isApprox(p) ? '<small>≈</small>' : '') + money(unitPrice(p)) + '</span>';
   }
 
@@ -143,7 +146,7 @@
           return '<div><dt>' + esc(c[0]) + '</dt><dd>' + esc(c[1]) + '</dd></div>';
         }).join('') + '</dl>' : '') +
         '<div class="card__foot">' +
-          '<div class="card__price">' + priceHTML(p, 'card__sum') + '<span class="card__meta">' + metaLabel(p) + '</span></div>' +
+          '<div class="card__price">' + priceHTML(p, 'card__sum') + '<span class="card__meta">' + (hasPrice(p) ? metaLabel(p) : 'порція ≈ ' + weightLabel(p.weight)) + '</span></div>' +
           '<div class="card__action" data-action="' + p.id + '" data-kind="full"></div>' +
         '</div>' +
       '</div>' +
@@ -164,7 +167,7 @@
         (p.like ? '<p class="mrow__like">' + esc(p.like) + '</p>' : '') +
       '</div>' +
       '<div class="mrow__side">' + priceHTML(p, 'mrow__sum') +
-        '<span class="mrow__meta">' + money(p.perKg || p.price) + (p.perKg ? '/кг' : '') + '</span>' +
+        '<span class="mrow__meta">' + (hasPrice(p) ? money(p.perKg || p.price) + (p.perKg ? '/кг' : '') : 'ціна скоро') + '</span>' +
         '<div class="mrow__action" data-action="' + p.id + '" data-kind="compact"></div>' +
       '</div>' +
     '</li>';
@@ -173,10 +176,11 @@
   // БУРГЕРИ — картки на фото-смузі
   function burgerCardHTML(p) {
     return '<article class="bcard" data-id="' + p.id + '">' +
-      (p.photo ? '<div class="bcard__img">' + media(p, 'card') + '</div>' : '') +
-      '<div class="bcard__top"><p class="bcard__pack">' + esc(p.pack) + '</p>' + badge(p, 'bcard__badge') + '</div>' +
+      // фото котлет уже стоїть фоном усієї смуги — у картці не дублюємо (фото товару лишається для кошика)
+      '<div class="bcard__top"><p class="bcard__pack">' + esc(p.pack || (hasPrice(p) ? money(p.perKg) + '/кг · ' : '') + 'порція ≈ ' + weightLabel(p.weight)) + '</p>' + badge(p, 'bcard__badge') + '</div>' +
       '<h4 class="bcard__name">' + esc(p.name) + '</h4>' +
       '<p class="bcard__en">' + esc(p.en) + '</p>' +
+      '<p class="bcard__desc">' + esc(p.desc) + '</p>' +
       '<div class="bcard__foot">' + priceHTML(p, 'bcard__sum') +
         '<div class="card__action" data-action="' + p.id + '" data-kind="full"></div>' +
       '</div>' +
@@ -228,6 +232,13 @@
     var addBtn = slot.dataset.kind === 'compact'
       ? '<button class="btn-plus" type="button" data-add="' + id + '" aria-label="Додати в кошик: ' + esc(p.name) + '"><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg></button>'
       : '<button class="btn btn--outline" type="button" data-add="' + id + '">В кошик</button>';
+    if (!hasPrice(p)) {
+      var tel = CFG.phoneHref ? 'tel:' + CFG.phoneHref : '#contacts';
+      addBtn = slot.dataset.kind === 'compact'
+        ? '<a class="btn-plus" href="' + tel + '" aria-label="Дізнатись ціну: ' + esc(p.name) + '"><svg class="i" aria-hidden="true"><use href="#i-phone"/></svg></a>'
+        : '<a class="btn btn--outline" href="' + tel + '">Дізнатись ціну</a>';
+      qty = 0;
+    }
     slot.innerHTML = qty ? stepperHTML(id, qty, p.name) : addBtn;
     // тримаємо фокус клавіатури на місці після перемальовки
     if (hadFocus) {
@@ -283,9 +294,11 @@
     $('[data-zoom-name]', zoomDlg).textContent = p.name;
     $('[data-zoom-en]', zoomDlg).textContent = p.en;
     $('[data-zoom-desc]', zoomDlg).textContent = p.like || p.desc;
-    $('[data-zoom-price]', zoomDlg).innerHTML = (isApprox(p) ? '<small>≈</small>' : '') + money(unitPrice(p)) +
-      '<span>' + metaLabel(p) + '</span>';
+    $('[data-zoom-price]', zoomDlg).innerHTML = hasPrice(p)
+      ? (isApprox(p) ? '<small>≈</small>' : '') + money(unitPrice(p)) + '<span>' + metaLabel(p) + '</span>'
+      : 'Ціну уточнюйте<span>порція ≈ ' + weightLabel(p.weight) + '</span>';
     $('[data-zoom-add]', zoomDlg).dataset.zoomAdd = id;
+    $('[data-zoom-add]', zoomDlg).hidden = !hasPrice(p);
     zoomDlg.showModal();
   }
   if (zoomDlg) {
