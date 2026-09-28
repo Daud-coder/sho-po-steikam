@@ -82,7 +82,7 @@
     .band span b { margin-right: 6px; color: var(--gold-l); font-weight: 600; }
 
     /* рядки */
-    .row { display: grid; grid-template-columns: 1fr 30mm 46mm; align-items: center; column-gap: 4mm; padding: 2.6mm 0; border-bottom: 1px solid var(--rule); break-inside: avoid; }
+    .row { display: grid; grid-template-columns: 1fr 50mm; align-items: center; column-gap: 4mm; padding: 2.6mm 0; border-bottom: 1px solid var(--rule); break-inside: avoid; }
     .row__name { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 9px; }
     .row__uk { font: 700 26px/1.1 var(--cond); color: var(--text); }
     .row__en { font: 500 11px/1 var(--cond); letter-spacing: .28em; text-transform: uppercase; color: var(--gold); }
@@ -91,16 +91,16 @@
     .row__por small { display: block; font-size: 12px; color: var(--gold); }
     .row__price { text-align: right; font: 700 34px/1 var(--cond); letter-spacing: -.01em; font-variant-numeric: tabular-nums; color: var(--text); white-space: nowrap; }
     .row__price small { margin-left: 4px; font: 400 15px/1 var(--body); color: var(--muted); }
+    .row__unit { display: block; margin-top: 5px; font: 500 11px/1 var(--cond); letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
     .blank { color: var(--gold); font-weight: 500; letter-spacing: .04em; font-size: .8em; }
     .badge { display: inline-block; padding: 3px 8px; background: var(--wine); color: #f6e3cf; font: 600 10px/1.2 var(--cond); letter-spacing: .18em; text-transform: uppercase; transform: translateY(-2px); }
 
     /* класичні: три класи мармуру */
-    .ghead, .grow { display: grid; grid-template-columns: 1fr 22mm 24mm 24mm 24mm; column-gap: 3mm; align-items: center; }
+    .ghead, .grow { display: grid; grid-template-columns: 1fr 26mm 26mm 26mm; column-gap: 3mm; align-items: center; }
     .ghead { padding: 2.2mm 0 1.6mm; border-bottom: 1px solid var(--rule); }
     .ghead span { text-align: right; font: 600 11px/1.2 var(--cond); letter-spacing: .24em; text-transform: uppercase; color: var(--gold); }
     .ghead span:first-child { text-align: left; color: var(--muted); }
-    .ghead span:nth-child(2) { text-align: center; color: var(--muted); }
-    .grow { padding: 3.4mm 0; border-bottom: 1px solid var(--rule); break-inside: avoid; }
+        .grow { padding: 3.4mm 0; border-bottom: 1px solid var(--rule); break-inside: avoid; }
     .grow .row__por { text-align: center; }
     .gcell { text-align: right; font: 700 28px/1 var(--cond); font-variant-numeric: tabular-nums; }
     .gcell.dash { color: #b9b09e; font-weight: 400; }
@@ -198,12 +198,11 @@
       .row { grid-template-columns: 1fr auto; row-gap: 4px; padding: 12px 0; }
       .row__por { grid-column: 1; grid-row: 2; text-align: left; font-size: 13px; }
       .row__por small { display: inline; margin-left: 6px; }
-      .row__price { grid-column: 2; grid-row: 1 / span 2; font-size: 26px; }
+      .row__price { grid-column: 2; grid-row: 1; font-size: 26px; }
       .row__uk { font-size: 20px; } .row__en { display: none; } .row__desc { font-size: 14px; }
       .ghead { display: none; }
       .grow { grid-template-columns: 1fr 1fr 1fr; row-gap: 8px; padding: 13px 0; }
       .grow > .grow__main { grid-column: 1 / -1; }
-      .grow > .row__por { display: none; }
       .gcell { text-align: left; font-size: 22px; }
       .gcell::after { content: attr(data-label); display: block; margin-top: 3px; font: 600 9px/1 var(--cond); letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
       .gcell--wide { grid-column: 1 / -1; }
@@ -257,14 +256,14 @@
 
     <div class="band"><div><h2>Класичні</h2><p>Волога витримка 21 день · класи мармуру</p></div><span data-count="classic"></span></div>
     <p class="tip">Натисни на стейк — покажемо фото. У класиці — одразу всі класи мармуру.</p>
-    <div class="ghead"><span>Відруб</span><span>Порція</span><span>Select</span><span>Choice · Клас.</span><span>Prime</span></div>
+    <div class="ghead"><span>Відруб · ціна за 1 кг</span><span>Select</span><span>Choice · Клас.</span><span>Prime</span></div>
     <div data-classic></div>
     <div class="gnote">
       <p><b>Select</b>Мінімум мармуру: щільніший і нежирний.</p>
       <p><b>Choice · Класичний</b>Помірний мармур — баланс ніжності й ціни.</p>
       <p><b>Prime</b>Виразний мармур — найсоковитіший.</p>
     </div>
-    <p class="fine">Ціна — за кілограм. Порція «≈ вага» орієнтовна: кожен стейк ріжемо вручну, точну суму назвемо після зважування, ще до оплати.</p>
+    <p class="fine">Усі ціни — за 1 кг. Кожен стейк ріжемо вручну, тож точну суму назвемо після зважування, ще до оплати.</p>
     <div class="spacer"></div>
     <footer class="pfoot"><span>Шо по стейкам? · ціни у гривнях · <span data-date2></span></span><span><b>01</b> / 03</span></footer>
   </section>
@@ -346,7 +345,7 @@
         if (!x) return '<div class="gcell dash" data-label="' + esc(label) + '">—</div>';
         return '<div class="gcell" data-g="' + id + '" data-label="' + esc(label) + '">' + price(x.perKg) + '</div>';
       }
-      var main = '<div class="grow__main">' + nameHTML(p) + '<p class="row__desc">' + esc(p.desc) + '</p></div><div class="row__por">' + portion(p.weight) + '</div>';
+      var main = '<div class="grow__main">' + nameHTML(p) + '<p class="row__desc">' + esc(p.desc) + '</p></div>';
       if (!p.grades) return '<div class="grow" data-id="' + p.id + '" tabindex="0">' + main + '<div class="gcell gcell--wide" data-label="один клас">' + price(p.perKg) + '<small>один клас</small></div></div>';
       var mid = g.choice ? cell('choice', 'Choice') : cell('classic', 'Класичний');
       return '<div class="grow" data-id="' + p.id + '" tabindex="0">' + main + cell('select', 'Select') + mid + cell('prime', 'Prime') + '</div>';
@@ -358,8 +357,7 @@
       var val = perPack ? p.price : p.perKg;
       return '<li class="row" data-id="' + p.id + '" tabindex="0">' +
         '<div>' + nameHTML(p) + '<p class="row__desc">' + esc(desc || p.like || p.desc) + '</p></div>' +
-        '<div class="row__por">' + (perPack ? esc(p.pack) : portion(p.weight)) + '<small>' + (perPack ? 'за 1 шт' : 'за 1 кг') + '</small></div>' +
-        '<div class="row__price">' + price(val) + '</div>' +
+        '<div class="row__price">' + price(val) + '<span class="row__unit">' + (perPack ? esc(p.pack) + ' · за 1 шт' : 'за 1 кг') + '</span></div>' +
       '</li>';
     }
     document.querySelector('[data-alt]').innerHTML = P.filter(function (p) { return p.cat === 'alt'; }).map(function (p) { return row(p); }).join('');
