@@ -65,8 +65,8 @@ window.PRODUCTS = [
     ] },
   { id: 'club',        cat: 'classic', name: 'Клаб-стейк',  en: 'Club steak',   desc: 'Нью-Йорк на кістці',                   perKg: 0,    weight: 450,  badge: '',                 photo: '',
     grades: [
-      { id: 'classic', label: 'Класичний', perKg: 0, photo: '' },
-      { id: 'prime',   label: 'Prime',     perKg: 0, photo: '' }
+      { id: 'classic', label: 'Класичний', perKg: 0, photo: 'images/club-classic.webp' },
+      { id: 'prime',   label: 'Prime',     perKg: 0, photo: 'images/club-prime.webp' }
     ] },
   { id: 'filet',       cat: 'classic', name: 'Міньйон',     en: 'Filet mignon', desc: 'Найніжніший, з центру вирізки',       perKg: 2200, weight: 300,  badge: '',                 photo: 'images/filet-mignon.webp', featured: true,  // без класів мармуру — одна позиція
     cook: [['Просмаження', 'rare — medium rare, 50–56 °C'], ['Сковорода', '2–3 хв з кожного боку, наприкінці — шматочок масла'], ['Порада', 'Нежирний: далі medium не смаж, інакше пересохне']] },
@@ -80,7 +80,7 @@ window.PRODUCTS = [
   { id: 'tri-tip',     cat: 'alt', name: 'Трай-тип',      en: 'Tri-tip',      desc: 'Каліфорнійська класика',                  perKg: 850, weight: 400, badge: '',    photo: 'images/tri-tip.webp', like: 'Цілий шматок на гриль для компанії' },
   { id: 'eye-round',   cat: 'alt', name: 'Ай раунд',      en: 'Eye of round', desc: 'Круглий нежирний медальйон зі стегна',    perKg: 0,   weight: 300, badge: '',    photo: 'images/eye-round.webp', like: 'Формою як міньйон, але щільніший — не пересмажуй' },
   { id: 'top-blade',   cat: 'alt', name: 'Топ блейд',     en: 'Top blade',    desc: 'Лопатковий стейк з жилкою по центру',     perKg: 0,   weight: 300, badge: '',    photo: 'images/top-blade.webp', like: 'Ніжний, з яскравим смаком — той самий м’яз, що й флет-айрон' },
-  { id: 'spider',      cat: 'alt', name: 'Спайдер',       en: 'Spider steak', desc: 'Рідкісний «стейк м’ясника» зі стегна',    perKg: 0,   weight: 250, badge: '',    photo: '', like: 'Мармур павутинкою, дуже соковитий — з однієї туші лише два' },
+  { id: 'spider',      cat: 'alt', name: 'Спайдер',       en: 'Spider steak', desc: 'Рідкісний «стейк м’ясника» зі стегна',    perKg: 0,   weight: 250, badge: '',    photo: 'images/spider.webp', like: 'Мармур павутинкою, дуже соковитий — з однієї туші лише два' },
   { id: 'flank',       cat: 'alt', name: 'Фланк',         en: 'Flank',        desc: 'Яскравий м’ясний смак',                   perKg: 750, weight: 400, badge: '',    photo: 'images/flank.webp', like: 'Нежирний, різати тонко поперек волокон' },
   { id: 'bavette',     cat: 'alt', name: 'Бавет',         en: 'Bavette',      desc: 'Найкраще бере маринад',                   perKg: 700, weight: 350, badge: '',    photo: 'images/bavette.webp', like: 'Як фланк, але м’якший і соковитіший' },
 
