@@ -153,7 +153,10 @@
   // АЛЬТЕРНАТИВНІ — компактне меню
   function altRowHTML(p) {
     return '<li class="mrow" data-id="' + p.id + '">' +
-      '<div class="mrow__img">' + media(p, 'thumb') + '</div>' +
+      (p.photo
+        ? '<button class="mrow__img" type="button" data-zoom="' + p.id + '" aria-label="Збільшити фото: ' + esc(p.name) + '">' + media(p, 'thumb') +
+          '<span class="mrow__zoom" aria-hidden="true"><svg class="i"><use href="#i-zoom"/></svg></span></button>'
+        : '<div class="mrow__img">' + media(p, 'thumb') + '</div>') +
       '<div class="mrow__main">' +
         '<h4 class="mrow__name">' + esc(p.name) + badge(p, 'mrow__badge') + '</h4>' +
         '<p class="mrow__en">' + esc(p.en) + '</p>' +
@@ -262,10 +265,37 @@
   gridEl.addEventListener('click', function (e) {
     var b = e.target.closest('button');
     if (!b) return;
+    if (b.dataset.zoom) { openZoom(b.dataset.zoom, b); return; }
     if (b.dataset.add) { setQty(b.dataset.add, 1); bump(); }
     else if (b.dataset.inc) { setQty(b.dataset.inc, (state.cart[b.dataset.inc] || 0) + 1); bump(); }
     else if (b.dataset.dec) setQty(b.dataset.dec, (state.cart[b.dataset.dec] || 0) - 1);
   });
+
+  /* ---------- фото на весь екран (альтернативні) ---------- */
+  var zoomDlg = $('[data-zoom-dialog]');
+  var zoomFrom = null;
+  function openZoom(id, from) {
+    var p = byId[id];
+    if (!p || !p.photo || !zoomDlg.showModal) return;
+    zoomFrom = from;
+    var img = $('[data-zoom-img]', zoomDlg);
+    img.src = p.photo; img.alt = p.name + ' — ' + p.en;
+    $('[data-zoom-name]', zoomDlg).textContent = p.name;
+    $('[data-zoom-en]', zoomDlg).textContent = p.en;
+    $('[data-zoom-desc]', zoomDlg).textContent = p.like || p.desc;
+    $('[data-zoom-price]', zoomDlg).innerHTML = (isApprox(p) ? '<small>≈</small>' : '') + money(unitPrice(p)) +
+      '<span>' + metaLabel(p) + '</span>';
+    $('[data-zoom-add]', zoomDlg).dataset.zoomAdd = id;
+    zoomDlg.showModal();
+  }
+  if (zoomDlg) {
+    zoomDlg.addEventListener('click', function (e) {
+      if (e.target === zoomDlg || e.target.closest('[data-zoom-close]')) zoomDlg.close();
+      var add = e.target.closest('[data-zoom-add]');
+      if (add) { setQty(add.dataset.zoomAdd, (state.cart[add.dataset.zoomAdd] || 0) + 1); bump(); zoomDlg.close(); }
+    });
+    zoomDlg.addEventListener('close', function () { if (zoomFrom && document.contains(zoomFrom)) zoomFrom.focus(); });
+  }
 
   /* ---------- шапка / меню ---------- */
   var navEl = $('#nav');

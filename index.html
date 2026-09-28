@@ -53,6 +53,7 @@
     <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><path d="M16.6 7.4h.01"/></symbol>
     <symbol id="i-telegram" viewBox="0 0 24 24"><path d="M20.5 4.5L3.5 11.2l5.3 2 2 5.8 3-3.6 4.5 3.4z"/><path d="M8.8 13.2l8.2-5.7-6.2 7.1"/></symbol>
     <symbol id="i-steak" viewBox="0 0 24 24"><path d="M6.2 6.6C9 3.9 14.6 3.4 18 5.6c3 1.9 3.3 5.8.9 8.6-2.1 2.4-4 2.6-5.6 4.6-1.9 2.4-5.3 2.9-7.6 1.1-2.6-2-3.1-5.6-1.9-8.3.7-1.6 1.1-3.6 2.4-5z"/><circle cx="14.4" cy="10.2" r="2.3"/><path d="M8 13.5c1.2.6 2.4.6 3.5 0"/></symbol>
+    <symbol id="i-zoom" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5M10.5 8v5M8 10.5h5"/></symbol>
     <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6.6 3.5h3l1.5 4-2 1.3a10.5 10.5 0 0 0 6.1 6.1l1.3-2 4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/></symbol>
   </defs>
 </svg>
@@ -406,6 +407,25 @@
   <span class="cartbar__label">Кошик</span>
   <span class="cartbar__sum" data-cartbar-sum>0 ₴</span>
 </button>
+
+<!-- Фото альтернативного стейка на весь екран -->
+<dialog class="zoom" data-zoom-dialog aria-labelledby="zoom-name">
+  <button class="icon-btn zoom__close" type="button" data-zoom-close aria-label="Закрити фото">
+    <svg class="i" aria-hidden="true"><use href="#i-close"/></svg>
+  </button>
+  <img class="zoom__img" data-zoom-img src="" alt="" width="1200" height="896">
+  <div class="zoom__cap">
+    <div>
+      <p class="zoom__name" id="zoom-name" data-zoom-name></p>
+      <p class="zoom__en" data-zoom-en></p>
+      <p class="zoom__desc" data-zoom-desc></p>
+    </div>
+    <div class="zoom__buy">
+      <p class="zoom__price" data-zoom-price></p>
+      <button class="btn btn--primary" type="button" data-zoom-add>В кошик</button>
+    </div>
+  </div>
+</dialog>
 
 <!-- КОШИК -->
 <div class="overlay" data-overlay hidden></div>

@@ -43,6 +43,8 @@ window.PRODUCTS = [
   { id: 'skirt',       cat: 'alt', name: 'Мачете',      en: 'Skirt',      desc: 'Смажиться за хвилини',        perKg: 900, weight: 300, badge: '',    photo: 'images/skirt.webp', like: 'Найяскравіший смак, 2 хв з кожного боку' },
   { id: 'flank',       cat: 'alt', name: 'Фланк',       en: 'Flank',      desc: 'Яскравий м’ясний смак',       perKg: 750, weight: 400, badge: '',    photo: 'images/flank.webp', like: 'Нежирний, різати тонко поперек волокон' },
   { id: 'bavette',     cat: 'alt', name: 'Бавет',       en: 'Bavette',    desc: 'Найкраще бере маринад',       perKg: 700, weight: 350, badge: '',    photo: '', like: 'Як фланк, але м’якший і соковитіший' },
+  // ТОП БЛЕЙД: прихований, доки немає ціни й фото. Щоб показати — впиши perKg, photo і прибери hidden: true
+  { id: 'top-blade',   cat: 'alt', name: 'Топ блейд',   en: 'Top blade',  desc: 'Лопатковий стейк з жилкою по центру', perKg: 0, weight: 300, badge: '', photo: '', like: 'Той самий м’яз, що й флет-айрон, але з жилкою — смак яскравіший', hidden: true },
   { id: 'hanger',      cat: 'alt', name: 'Хенгер',      en: 'Hanger',     desc: '«Стейк м’ясника»',            perKg: 900, weight: 300, badge: '',    photo: '', like: 'Насичений смак, улюблений у м’ясників' },
 
   // ---------- БУРГЕРИ ----------
