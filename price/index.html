@@ -40,7 +40,7 @@
     .sheet { position: relative; width: 210mm; min-height: 297mm; margin: 24px auto; display: flex; flex-direction: column; box-shadow: 0 24px 60px rgba(0,0,0,.45); overflow: hidden; }
 
     /* ---------- обкладинка ---------- */
-    .cover { background: radial-gradient(90% 60% at 50% 38%, #2a2519 0%, #151413 62%), var(--ink); color: #efe8dc; padding: 12mm; }
+    .cover { background: radial-gradient(80% 55% at 50% 36%, #221e16 0%, #151413 65%), var(--ink); color: #efe8dc; padding: 12mm; }
     .cover__frame { position: absolute; inset: 9mm; border: 1px solid rgba(201,168,106,.35); pointer-events: none; }
     .cover__frame::before, .cover__frame::after { content: ''; position: absolute; width: 11mm; height: 11mm; border: 1.5px solid var(--gold-l); }
     .cover__frame::before { top: -1.5mm; left: -1.5mm; border-right: 0; border-bottom: 0; }
@@ -48,10 +48,12 @@
     .cover__top { display: flex; align-items: center; justify-content: center; gap: 5mm; margin-top: 4mm; font: 500 16px/1 var(--cond); letter-spacing: .36em; text-transform: uppercase; color: var(--gold-l); }
     .cover__top::before, .cover__top::after { content: ''; width: 28mm; height: 1px; background: var(--gold-l); opacity: .8; }
     .cover__mid { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-    .cover__logo { width: 170mm; height: auto; filter: drop-shadow(0 0 14px rgba(214,178,104,.38)) drop-shadow(0 0 42px rgba(201,162,74,.22)); }
-    .cover__tag { margin-top: 5mm; font: 600 28px/1 var(--cond); letter-spacing: .06em; text-transform: uppercase; color: var(--gold-l); }
+    .cover__logo { width: 150mm; height: auto; filter: drop-shadow(0 2px 3px rgba(0,0,0,.55)); }
+    .cover__tag { margin-top: 6mm; font: 600 30px/1 var(--cond); letter-spacing: .06em; text-transform: uppercase; color: #efe6d4; }
+    .cover__tag em { font-style: normal; color: var(--gold-l); }
+    .cover__sub { margin-top: 4mm; font: 500 15px/1 var(--cond); letter-spacing: .34em; text-transform: uppercase; color: var(--gold-l); }
     .cover__kicker { margin-top: 14mm; font: 500 17px/1 var(--cond); letter-spacing: .26em; text-transform: uppercase; color: var(--gold-l); }
-    .cover__title { margin-top: 10mm; font: 400 92px/1 var(--serif); letter-spacing: .08em; text-transform: uppercase; color: #f3ecdf; }
+    .cover__title { margin-top: 16mm; font: 400 92px/1 var(--serif); letter-spacing: .08em; text-transform: uppercase; color: #f3ecdf; }
     .cover__date { display: flex; align-items: center; gap: 5mm; margin-top: 6mm; font: 400 20px/1 var(--body); color: #cfc6b4; }
     .cover__date::before, .cover__date::after { content: ''; width: 26mm; height: 1px; background: rgba(201,168,106,.55); }
     .cover__slogan { margin-top: 10mm; font: 600 40px/1.1 var(--cond); letter-spacing: .14em; text-transform: uppercase; }
@@ -191,7 +193,7 @@
       .cover__frame { inset: 12px; }
       .cover__top::before, .cover__top::after { width: 40px; }
       .cover__logo { width: 96%; }
-      .cover__tag { font-size: 17px; }
+      .cover__tag { font-size: 20px; } .cover__sub { font-size: 10px; letter-spacing: .24em; }
       .cover__top { font-size: 10px; letter-spacing: .24em; }
       .cover__kicker { margin-top: 36px; font-size: 11px; letter-spacing: .2em; }
       .cover__title { font-size: 48px; }
@@ -248,12 +250,12 @@
     <p class="cover__top">Витримана яловичина · Київ</p>
     <div class="cover__mid">
       <img class="cover__logo" src="../images/wordmark-hq.png" alt="Шо по стейкам?" width="947" height="524">
-      <p class="cover__tag">Преміум стейки · доставка</p>
+      <p class="cover__tag">По стейкам є <em>ВСЕ</em>!</p>
+      <p class="cover__sub">Преміум стейки · доставка</p>
       
       <h1 class="cover__title">Прайс-лист</h1>
       <p class="cover__date" data-date>актуально</p>
-      <p class="cover__slogan"><span>Шо по стейкам?</span>По стейкам є <em>ВСЕ</em>.</p>
-      <p class="cover__cut">Ціни — за 1 кг. <em>Наріжемо порційно під твій запит</em> — товщина й вага на твій вибір.</p>
+            <p class="cover__cut">Ціни — за 1 кг. <em>Наріжемо порційно під твій запит</em> — товщина й вага на твій вибір.</p>
     </div>
     <div class="cover__bottom">
       <div><b>Замовлення</b><p>daud-coder.github.io/sho-po-steikam</p></div>
