@@ -55,6 +55,10 @@
     .cover__date::before, .cover__date::after { content: ''; width: 26mm; height: 1px; background: rgba(201,168,106,.55); }
     .cover__slogan { margin-top: 14mm; font: 600 15px/1 var(--cond); letter-spacing: .14em; text-transform: uppercase; }
     .cover__slogan em { font-style: normal; color: var(--gold-l); }
+    .cover__cut { margin-top: 9mm; max-width: 120mm; padding: 4mm 7mm; border: 1px solid rgba(201,168,106,.55); font: 400 13px/1.45 var(--body); color: #cfc6b4; }
+    .cover__cut em { font-style: normal; color: var(--gold-l); font-weight: 500; }
+    .cutnote { display: flex; align-items: baseline; gap: 4mm; margin-top: 4mm; padding: 3mm 5mm; border: 1px solid var(--gold); background: rgba(176,141,74,.08); font: 400 14px/1.4 var(--body); color: var(--text); }
+    .cutnote b { flex: none; font: 600 10px/1 var(--cond); letter-spacing: .26em; text-transform: uppercase; color: var(--gold); }
     .cover__bottom { display: flex; justify-content: space-between; align-items: flex-end; margin: 0 6mm 4mm; padding-top: 5mm; border-top: 1px solid rgba(201,168,106,.35); }
     .cover__bottom b { display: block; margin-bottom: 2mm; font: 500 7.5px/1 var(--cond); letter-spacing: .34em; text-transform: uppercase; color: var(--gold-l); }
     .cover__bottom p { font: 600 13px/1.2 var(--cond); color: #f3ecdf; }
@@ -100,7 +104,7 @@
     .ghead { padding: 2.2mm 0 1.6mm; border-bottom: 1px solid var(--rule); }
     .ghead span { text-align: right; font: 600 11px/1.2 var(--cond); letter-spacing: .24em; text-transform: uppercase; color: var(--gold); }
     .ghead span:first-child { text-align: left; color: var(--muted); }
-        .grow { padding: 3.4mm 0; border-bottom: 1px solid var(--rule); break-inside: avoid; }
+        .grow { padding: 3mm 0; border-bottom: 1px solid var(--rule); break-inside: avoid; }
     .grow .row__por { text-align: center; }
     .gcell { text-align: right; font: 700 28px/1 var(--cond); font-variant-numeric: tabular-nums; }
     .gcell.dash { color: #b9b09e; font-weight: 400; }
@@ -189,6 +193,8 @@
       .cover__title { font-size: 44px; }
       .cover__date::before, .cover__date::after { width: 40px; }
       .cover__slogan { margin-top: 36px; font-size: 13px; }
+      .cover__cut { margin-top: 22px; font-size: 13px; padding: 12px 14px; }
+      .cutnote { flex-direction: column; gap: 6px; padding: 12px 14px; font-size: 14px; }
       .cover__bottom { flex-direction: column; align-items: flex-start; gap: 12px; margin: 0 4px 6px; }
       .cover__bottom div:last-child { text-align: left; }
       .page { padding: 22px 16px 22px; }
@@ -240,6 +246,7 @@
       <h1 class="cover__title">Прайс-лист</h1>
       <p class="cover__date" data-date>актуально</p>
       <p class="cover__slogan">Шо по стейкам? По стейкам є <em>все</em>.</p>
+      <p class="cover__cut">Ціни — за 1 кг. <em>Наріжемо порційно під твій запит</em> — товщина й вага на твій вибір.</p>
     </div>
     <div class="cover__bottom">
       <div><b>Замовлення</b><p>daud-coder.github.io/sho-po-steikam</p></div>
@@ -255,6 +262,7 @@
     </header>
 
     <div class="band"><div><h2>Класичні</h2><p>Волога витримка 21 день · класи мармуру</p></div><span data-count="classic"></span></div>
+    <p class="cutnote"><b>Ціни за 1 кг</b> Наріжемо порційно під твій запит — товщина й вага на твій вибір. Точну суму назвемо після зважування.</p>
     <p class="tip">Натисни на стейк — покажемо фото. У класиці — одразу всі класи мармуру.</p>
     <div class="ghead"><span>Відруб · ціна за 1 кг</span><span>Select</span><span>Choice · Клас.</span><span>Prime</span></div>
     <div data-classic></div>
@@ -263,7 +271,6 @@
       <p><b>Choice · Класичний</b>Помірний мармур — баланс ніжності й ціни.</p>
       <p><b>Prime</b>Виразний мармур — найсоковитіший.</p>
     </div>
-    <p class="fine">Усі ціни — за 1 кг. Кожен стейк ріжемо вручну, тож точну суму назвемо після зважування, ще до оплати.</p>
     <div class="spacer"></div>
     <footer class="pfoot"><span>Шо по стейкам? · ціни у гривнях · <span data-date2></span></span><span><b>01</b> / 03</span></footer>
   </section>
