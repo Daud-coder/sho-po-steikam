@@ -258,7 +258,7 @@
   <section class="sheet page">
     <header class="phead">
       <img src="../img/logo-header.webp" alt="Шо по стейкам?" width="240" height="131">
-      <p><b>Стейки та ціни</b>самовивіз у Києві · Нова Пошта по Україні</p>
+      <p><b>Стейки та ціни</b>самовивіз і доставка по Києву · Нова Пошта по Україні</p>
     </header>
 
     <div class="band"><div><h2>Класичні</h2><p>Волога витримка 21 день · класи мармуру</p></div><span data-count="classic"></span></div>
@@ -279,7 +279,7 @@
   <section class="sheet page">
     <header class="phead">
       <img src="../img/logo-header.webp" alt="Шо по стейкам?" width="240" height="131">
-      <p><b>Стейки та ціни</b>самовивіз у Києві · Нова Пошта по Україні</p>
+      <p><b>Стейки та ціни</b>самовивіз і доставка по Києву · Нова Пошта по Україні</p>
     </header>
 
     <div class="band"><div><h2>Альтернативні</h2><p>Для тих, хто вже скуштував рібай</p></div><span data-count="alt"></span></div>
@@ -292,7 +292,7 @@
   <section class="sheet page">
     <header class="phead">
       <img src="../img/logo-header.webp" alt="Шо по стейкам?" width="240" height="131">
-      <p><b>Стейки та ціни</b>самовивіз у Києві · Нова Пошта по Україні</p>
+      <p><b>Стейки та ціни</b>самовивіз і доставка по Києву · Нова Пошта по Україні</p>
     </header>
 
     <div class="band"><div><h2>Для гриля й казана</h2><p>Сирі · у вакуумі · одразу на вогонь</p></div><span data-count="burger"></span></div>
@@ -302,14 +302,15 @@
     <dl class="terms">
       <div><dt>Мінімальне замовлення</dt><dd data-min>2 000 грн</dd></div>
       <div><dt>Самовивіз з цеху</dt><dd>0 грн</dd></div>
-      <div><dt>Нова Пошта по Україні</dt><dd data-np>150 грн</dd></div>
-      <div><dt>Перша доставка НП з кодовим словом</dt><dd class="gold">0 грн</dd></div>
-      <div><dt>Упаковка</dt><dd>вакуум + термобокс з льодом</dd></div>
+      <div><dt>Доставка по Києву</dt><dd>150 грн</dd></div>
+      <div><dt>Перша доставка по Києву з кодовим словом</dt><dd class="gold">0 грн</dd></div>
+      <div><dt>Нова Пошта по Україні</dt><dd>за тарифами перевізника</dd></div>
+      <div><dt>Упаковка · вакуум, термобокс, лід</dt><dd class="gold">безкоштовно</dd></div>
       <div><dt>Оплата</dt><dd>після підтвердження</dd></div>
     </dl>
 
     <div class="promo">
-      <div><b>Кодове слово</b><p>Впиши <em>„Шо по стейкам?“</em> у кошику</p><small>Перша доставка Новою Поштою — безкоштовно. Самовивіз і так безкоштовний.</small></div>
+      <div><b>Кодове слово</b><p>Впиши <em>„Шо по стейкам?“</em> у кошику</p><small>Перша доставка по Києву — безкоштовно. Самовивіз і так безкоштовний.</small></div>
       <div class="promo__zero">0<small>грн</small></div>
     </div>
 
@@ -374,7 +375,6 @@
 
     // умови й контакти з config.js
     if (CFG.minOrder) document.querySelector('[data-min]').textContent = num(CFG.minOrder) + ' грн';
-    if (CFG.deliveryFee && CFG.deliveryFee.np != null) document.querySelector('[data-np]').textContent = num(CFG.deliveryFee.np) + ' грн';
     if (CFG.pickupAddress) document.querySelector('[data-addr]').textContent = CFG.pickupAddress;
     if (CFG.phone) document.querySelector('[data-phone]').textContent = CFG.phone;
     function social(key, sel) { var v = CFG[key]; if (v && v !== '#') document.querySelector(sel).textContent = v.replace(/^https?:\/\/(www\.)?/, ''); }
