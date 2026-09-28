@@ -42,6 +42,7 @@ window.PRODUCTS = [
   { id: 'flank',       cat: 'alt', name: 'Фланк',       en: 'Flank',          desc: 'Яскравий м’ясний смак',       perKg: 750, weight: 400, badge: '',    photo: 'images/flank.webp', like: 'Нежирний, різати тонко поперек волокон' },
   { id: 'rump',        cat: 'alt', name: 'Рамп',        en: 'Rump',           desc: 'Щільний стейк з огузка',       perKg: 0,   weight: 350, badge: '',    photo: '', like: 'Нежирний, з глибоким «м’ясним» смаком' },
   { id: 'top-round',   cat: 'alt', name: 'Топ раунд',   en: 'Top round',      desc: 'Найпісніший стейк зі стегна',  perKg: 0,   weight: 350, badge: '',    photo: '', like: 'До medium rare і тонко поперек волокон — або на ростбіф' },
+  { id: 'ossobuco',    cat: 'alt', name: 'Оссобуко',    en: 'Ossobuco',       desc: 'Зріз гомілки з мозковою кісткою', perKg: 470,   weight: 450, badge: '',    photo: '', like: 'Не для пательні: тушкувати 2–3 год — м’ясо тане, мозок — делікатес' },
   { id: 'picanha',     cat: 'alt', name: 'Піканья',     en: 'Picanha',        desc: 'З жировою шапкою, хіт гриля', perKg: 950, weight: 350, badge: 'Хіт', photo: 'images/picanha.webp', like: 'Соковита, як рібай, завдяки жировій шапці' },
 
   // ---------- БУРГЕР І ШАШЛИК ----------
