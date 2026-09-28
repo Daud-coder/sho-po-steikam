@@ -191,31 +191,47 @@
           <h2 class="section__title" id="aging-title">Як ми витримуємо м’ясо</h2>
           <span class="badge badge--soon">Скоро: сухе витримування</span>
         </div>
-        <div class="timeline" data-reveal>
-          <div class="timeline__scale" aria-hidden="true">
-            <span class="timeline__track"><span class="timeline__fill"></span></span>
-            <span class="timeline__tick timeline__tick--start" style="--at:0">0</span>
-            <span class="timeline__tick" style="--at:.3333">7</span>
-            <span class="timeline__tick" style="--at:.6667">14</span>
-            <span class="timeline__tick timeline__tick--end" style="--at:1">21 день</span>
+        <p class="section__lead ager__lead">Потягни повзунок — і подивись, що відбувається з м’ясом, поки воно чекає свого дня.</p>
+        <div class="ager" data-ager data-reveal>
+          <div class="ager__panel">
+            <p class="ager__day" aria-hidden="true"><span class="ager__num" data-ager-num>0</span><span class="ager__unit" data-ager-unit>день</span></p>
+            <div class="ager__info" aria-live="polite">
+              <p class="ager__stage" data-ager-stage>Відбір</p>
+              <p class="ager__text" data-ager-text>Беремо охолоджені відруби з добрим мармуром і рівним жировим покривом, пакуємо у вакуум.</p>
+            </div>
+            <div class="ager__meters" aria-hidden="true">
+              <div class="meter"><span class="meter__label">Ніжність</span><span class="meter__bar"><span data-ager-tender></span></span></div>
+              <div class="meter"><span class="meter__label">Глибина смаку</span><span class="meter__bar"><span data-ager-flavor></span></span></div>
+            </div>
           </div>
-          <ol class="timeline__stages">
-            <li class="stage">
+          <div class="ager__control">
+            <label class="visually-hidden" for="ager-range">День витримки</label>
+            <input class="ager__range" id="ager-range" type="range" min="0" max="21" step="1" value="0" data-ager-range>
+            <div class="ager__ticks">
+              <button type="button" data-ager-go="0" style="--at:0.0000">0</button>
+              <button type="button" data-ager-go="7" style="--at:0.3333">7</button>
+              <button type="button" data-ager-go="14" style="--at:0.6667">14</button>
+              <button type="button" data-ager-go="21" style="--at:1">21 день</button>
+            </div>
+          </div>
+          <ol class="ager__stages">
+            <li class="stage" data-ager-step="0">
               <span class="stage__day">День 0</span>
               <h3 class="stage__title">Відбираємо відруби</h3>
-              <p class="stage__text">Беремо охолоджену яловичину з добрим мармуром і рівним жировим покривом.</p>
+              <p class="stage__text">Охолоджена яловичина з добрим мармуром і рівним жировим покривом.</p>
             </li>
-            <li class="stage">
+            <li class="stage" data-ager-step="1">
               <span class="stage__day">Дні 1–21</span>
               <h3 class="stage__title">Вологе витримування</h3>
-              <p class="stage__text">М’ясо відпочиває у вакуумі при 0…+2 °C. Ферменти роблять його ніжнішим, сік лишається всередині.</p>
+              <p class="stage__text">Вакуум, 0…+2 °C. Власні ферменти м’яса розм’якшують волокна, сік лишається всередині.</p>
             </li>
-            <li class="stage">
+            <li class="stage" data-ager-step="2">
               <span class="stage__day">День 21</span>
               <h3 class="stage__title">Ріжемо і віддаємо</h3>
-              <p class="stage__text">Порціонуємо під замовлення і пакуємо у вакуум: забираєш у цеху або отримуєш Новою Поштою в термобоксі з льодом.</p>
+              <p class="stage__text">Порціонуємо під замовлення: самовивіз з цеху або Нова Пошта в термобоксі з льодом.</p>
             </li>
           </ol>
+          <p class="ager__note">Шкали ніжності й смаку — ілюстрація процесу, а не лабораторний замір.</p>
         </div>
         <p class="aging__note">Готуємо камеру для сухої витримки — смак густіший, з горіховими нотами. Хочеш спробувати першим? Напиши нам.</p>
       </div>

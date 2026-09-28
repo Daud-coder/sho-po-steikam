@@ -623,6 +623,70 @@
     $$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
   }
 
+
+  /* ---------- «Як ми витримуємо»: повзунок 0 → 21 день ---------- */
+  function initAger() {
+    var root = $('[data-ager]');
+    if (!root) return;
+    var range = $('[data-ager-range]', root);
+    var STEPS = [
+      { to: 0,  stage: 'Відбір', text: 'Беремо охолоджені відруби з добрим мармуром і рівним жировим покривом, пакуємо у вакуум.' },
+      { to: 3,  stage: 'Ферменти прокидаються', text: 'Власні ферменти м’яса починають потроху розм’якшувати волокна. Жодних добавок — тільки холод і час.' },
+      { to: 9,  stage: 'Стає ніжнішим', text: 'Волокна розслабляються. Такий стейк уже м’якший за магазинний, а сік тримається всередині.' },
+      { to: 15, stage: 'Смак набирає глибину', text: 'Смак стає повнішим і більш «м’ясним», текстура — рівною від краю до центру.' },
+      { to: 20, stage: 'Майже готово', text: 'Ще кілька днів у вакуумі при 0…+2 °C — і стейк на піку.' },
+      { to: 21, stage: 'Готово — ріжемо', text: 'Порціонуємо під замовлення: самовивіз з цеху на Данченка або Нова Пошта в термобоксі з льодом.' }
+    ];
+    var num = $('[data-ager-num]', root), unit = $('[data-ager-unit]', root);
+    var stageEl = $('[data-ager-stage]', root), textEl = $('[data-ager-text]', root);
+    var tender = $('[data-ager-tender]', root), flavor = $('[data-ager-flavor]', root);
+    var steps = $$('[data-ager-step]', root), ticks = $$('[data-ager-go]', root);
+    var lastStage = '';
+
+    function dayWord(d) { var m10 = d % 10, m100 = d % 100; return m10 === 1 && m100 !== 11 ? 'день' : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? 'дні' : 'днів'; }
+    function render(d) {
+      d = Math.round(d);
+      root.style.setProperty('--p', d / 21);
+      range.value = d;
+      range.setAttribute('aria-valuetext', d + ' ' + dayWord(d) + ' витримки');
+      num.textContent = d; unit.textContent = dayWord(d);
+      var st = STEPS.filter(function (s) { return d <= s.to; })[0];
+      if (st.stage !== lastStage) { stageEl.textContent = st.stage; textEl.textContent = st.text; lastStage = st.stage; }
+      // ілюстративні криві: ніжність росте швидко на початку, смак — рівномірно
+      tender.style.transform = 'scaleX(' + (0.12 + 0.88 * (1 - Math.exp(-d / 6.5)) / (1 - Math.exp(-21 / 6.5))) + ')';
+      flavor.style.transform = 'scaleX(' + (0.12 + 0.88 * d / 21) + ')';
+      var active = d === 0 ? 0 : d === 21 ? 2 : 1;
+      steps.forEach(function (el, i) { el.classList.toggle('is-active', i === active); el.classList.toggle('is-done', i < active); });
+      ticks.forEach(function (b) { b.classList.toggle('is-on', +b.dataset.agerGo <= d); });
+    }
+
+    var raf = 0;
+    function animateTo(target, ms) {
+      cancelAnimationFrame(raf);
+      var from = +range.value, t0 = performance.now();
+      if (reduceMotion || from === target) { render(target); return; }
+      (function step(now) {
+        var k = Math.min(1, (now - t0) / ms);
+        var e = 1 - Math.pow(1 - k, 3);
+        render(from + (target - from) * e);
+        if (k < 1) raf = requestAnimationFrame(step);
+      })(t0);
+    }
+
+    range.addEventListener('input', function () { cancelAnimationFrame(raf); played = true; render(+range.value); });
+    ticks.forEach(function (b) { b.addEventListener('click', function () { played = true; animateTo(+b.dataset.agerGo, 600); }); });
+    render(0);
+
+    // один раз «програємо» 21 день, коли блок з’являється на екрані
+    var played = false;
+    if ('IntersectionObserver' in window && !reduceMotion) {
+      var obs = new IntersectionObserver(function (es) {
+        if (es[0].isIntersecting && !played) { played = true; obs.disconnect(); setTimeout(function () { animateTo(21, 3200); }, 350); }
+      }, { threshold: 0.45 });
+      obs.observe(root);
+    } else { render(21); }
+  }
+
   /* ---------- старт ---------- */
   load();
   codewordInput.value = state.codeword;
@@ -632,4 +696,5 @@
   renderTabs();
   renderGrid();
   renderCart();
+  initAger();
 })();

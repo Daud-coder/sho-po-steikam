@@ -630,6 +630,66 @@ textarea.input { resize: vertical; min-height: 84px; }
 
 @media (min-width: 1024px) and (max-width: 1279px) { .nav { gap: 20px; } .nav a { font-size: 13px; letter-spacing: .08em; } }
 
+/* ---------- «Як ми витримуємо»: інтерактивна шкала 0 → 21 день ---------- */
+.ager__lead { margin: -12px 0 24px; }
+.ager { --p: 0; }
+.ager__panel {
+  display: grid; gap: 18px; padding: 22px 20px; margin-bottom: 22px;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--r);
+}
+@media (min-width: 900px) { .ager__panel { grid-template-columns: auto 1fr minmax(240px, 300px); align-items: center; gap: 36px; padding: 28px 32px; } }
+.ager__day { display: flex; align-items: baseline; gap: 10px; min-width: 150px; }
+.ager__num { font: 600 clamp(64px, 9vw, 112px)/.85 var(--f-head); color: var(--gold); font-variant-numeric: tabular-nums; }
+.ager__unit { font: 600 16px/1 var(--f-head); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.ager__stage { font: 600 22px/1.15 var(--f-head); letter-spacing: .06em; text-transform: uppercase; }
+.ager__text { margin-top: 8px; font-size: 17px; line-height: 1.5; color: #cfc8bb; max-width: 52ch; min-height: 3em; }
+.ager__meters { display: grid; gap: 14px; }
+.meter { display: grid; gap: 7px; }
+.meter__label { font: 600 12px/1 var(--f-head); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.meter__bar { display: block; height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.meter__bar span { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, var(--gold-dark), var(--gold)); transform-origin: left; transform: scaleX(.1); transition: transform .35s var(--ease-out); }
+
+.ager__control { position: relative; padding: 4px 0 0; }
+.ager__range {
+  -webkit-appearance: none; appearance: none; display: block; width: 100%; height: 44px; margin: 0; background: transparent; cursor: pointer;
+}
+.ager__range::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: linear-gradient(90deg, var(--gold) calc(var(--p) * 100%), var(--line) calc(var(--p) * 100%)); }
+.ager__range::-moz-range-track { height: 4px; border-radius: 2px; background: var(--line); }
+.ager__range::-moz-range-progress { height: 4px; border-radius: 2px; background: var(--gold); }
+.ager__range::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 28px; height: 28px; margin-top: -12px; border-radius: 50%;
+  background: var(--gold); border: 4px solid var(--bg); box-shadow: 0 0 0 1px var(--gold), 0 4px 14px rgba(0,0,0,.5);
+  transition: transform .16s var(--ease-out);
+}
+.ager__range::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: var(--gold); border: 4px solid var(--bg); box-shadow: 0 0 0 1px var(--gold); }
+.ager__range:active::-webkit-slider-thumb { transform: scale(1.12); }
+.ager__range:focus-visible { outline: none; }
+.ager__range:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px var(--gold-hover), 0 4px 14px rgba(0,0,0,.5); }
+.ager__ticks { position: relative; height: 36px; margin-top: 2px; }
+.ager__ticks button { position: absolute; top: 0; white-space: nowrap; left: calc(14px + (100% - 28px) * var(--at)); transform: translateX(-50%); }
+.ager__ticks button:first-child { transform: translateX(-14px); }
+.ager__ticks button:last-child { transform: translateX(calc(-100% + 14px)); }
+.ager__ticks button {
+  min-height: 36px; padding: 0 6px; border: 0; background: none; cursor: pointer;
+  font: 600 13px/1 var(--f-head); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); transition: color .2s;
+}
+.ager__ticks button:first-child { padding-left: 0; }
+.ager__ticks button:last-child { padding-right: 0; }
+.ager__ticks button.is-on { color: var(--gold); }
+@media (hover: hover) { .ager__ticks button:hover { color: var(--text); } }
+
+.ager__stages { display: grid; gap: 12px; margin-top: 22px; }
+@media (min-width: 768px) { .ager__stages { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
+.ager__stages .stage {
+  margin: 0; padding: 18px 18px 20px; border: 1px solid var(--line); border-radius: var(--r); text-align: left !important;
+  opacity: .45; transition: opacity .3s, border-color .3s, background-color .3s;
+}
+.ager__stages .stage::before { display: none; }
+.ager__stages .stage .stage__text { margin: 8px 0 0 !important; }
+.ager__stages .stage.is-active { opacity: 1; border-color: var(--gold-dark); background: rgba(198,166,110,.05); }
+.ager__stages .stage.is-done { opacity: .8; }
+.ager__note { margin-top: 14px; font-size: 13px; color: var(--muted); }
+
 /* ---------- зерно і поява ---------- */
 body::after {
   content: ''; position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: .07;
