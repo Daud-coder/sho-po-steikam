@@ -46,8 +46,7 @@
     .cover__frame::before { top: -1.5mm; left: -1.5mm; border-right: 0; border-bottom: 0; }
     .cover__frame::after { right: -1.5mm; bottom: -1.5mm; border-left: 0; border-top: 0; }
     .cover__top { display: flex; align-items: center; justify-content: center; gap: 5mm; margin-top: 4mm; font: 500 8.5px/1 var(--cond); letter-spacing: .42em; text-transform: uppercase; color: var(--gold-l); }
-    .cover__top::before, .cover__top::after { content: ''; width: 36mm; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-l)); }
-    .cover__top::after { background: linear-gradient(90deg, var(--gold-l), transparent); }
+    .cover__top::before, .cover__top::after { content: ''; width: 36mm; height: 1px; background: var(--gold-l); opacity: .8; }
     .cover__mid { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
     .cover__logo { width: 118mm; height: auto; }
     .cover__kicker { margin-top: 18mm; font: 500 9px/1 var(--cond); letter-spacing: .38em; text-transform: uppercase; color: var(--gold-l); }
@@ -75,51 +74,51 @@
     .phead p b { display: block; font: 600 9px/1 var(--cond); letter-spacing: .38em; text-transform: uppercase; color: var(--text); margin-bottom: 1.5mm; }
 
     /* єдина чорна смуга на розділ */
-    .band { position: relative; display: flex; align-items: center; justify-content: space-between; margin-top: 5mm; padding: 4mm 7mm 3.6mm; background: linear-gradient(95deg, #151413 0%, #1f1c17 60%, #29241a 100%); color: #f3ecdf; }
+    .band { position: relative; display: flex; align-items: center; justify-content: space-between; margin-top: 6mm; padding: 5mm 7mm 4.5mm; background: linear-gradient(95deg, #151413 0%, #1f1c17 60%, #29241a 100%); color: #f3ecdf; }
     .band::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1.2mm; background: var(--gold-l); }
-    .band h2 { font: 400 27px/1 var(--serif); letter-spacing: .14em; text-transform: uppercase; }
+    .band h2 { font: 400 34px/1 var(--serif); letter-spacing: .14em; text-transform: uppercase; }
     .band p { margin-top: 2mm; font: 500 8px/1 var(--cond); letter-spacing: .34em; text-transform: uppercase; color: var(--gold-l); }
     .band span { font: 500 8.5px/1 var(--cond); letter-spacing: .26em; text-transform: uppercase; color: #bdb4a2; }
     .band span b { margin-right: 6px; color: var(--gold-l); font-weight: 600; }
 
     /* рядки */
-    .row { display: grid; grid-template-columns: 1fr 26mm 44mm; align-items: center; column-gap: 4mm; padding: 1.55mm 0; border-bottom: 1px solid var(--rule); break-inside: avoid; }
+    .row { display: grid; grid-template-columns: 1fr 30mm 46mm; align-items: center; column-gap: 4mm; padding: 2.6mm 0; border-bottom: 1px solid var(--rule); break-inside: avoid; }
     .row__name { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 9px; }
-    .row__uk { font: 700 15px/1.15 var(--cond); color: var(--text); }
-    .row__en { font: 500 7.5px/1 var(--cond); letter-spacing: .32em; text-transform: uppercase; color: var(--gold); }
-    .row__desc { margin-top: 1mm; font: 400 10px/1.35 var(--body); color: var(--muted); }
-    .row__por { text-align: center; font: 400 10px/1.35 var(--body); color: var(--muted); }
-    .row__por small { display: block; font-size: 8.5px; color: var(--gold); }
-    .row__price { text-align: right; font: 700 20px/1 var(--cond); letter-spacing: -.01em; font-variant-numeric: tabular-nums; color: var(--text); white-space: nowrap; }
-    .row__price small { margin-left: 3px; font: 400 10px/1 var(--body); color: var(--muted); }
+    .row__uk { font: 700 26px/1.1 var(--cond); color: var(--text); }
+    .row__en { font: 500 11px/1 var(--cond); letter-spacing: .28em; text-transform: uppercase; color: var(--gold); }
+    .row__desc { margin-top: 1.2mm; font: 400 15px/1.35 var(--body); color: var(--muted); }
+    .row__por { text-align: center; font: 400 15px/1.35 var(--body); color: var(--muted); }
+    .row__por small { display: block; font-size: 12px; color: var(--gold); }
+    .row__price { text-align: right; font: 700 34px/1 var(--cond); letter-spacing: -.01em; font-variant-numeric: tabular-nums; color: var(--text); white-space: nowrap; }
+    .row__price small { margin-left: 4px; font: 400 15px/1 var(--body); color: var(--muted); }
     .blank { color: var(--gold); font-weight: 500; letter-spacing: .04em; font-size: .8em; }
-    .badge { display: inline-block; padding: 2px 6px; background: var(--wine); color: #f6e3cf; font: 600 7px/1.2 var(--cond); letter-spacing: .18em; text-transform: uppercase; transform: translateY(-2px); }
+    .badge { display: inline-block; padding: 3px 8px; background: var(--wine); color: #f6e3cf; font: 600 10px/1.2 var(--cond); letter-spacing: .18em; text-transform: uppercase; transform: translateY(-2px); }
 
     /* класичні: три класи мармуру */
-    .ghead, .grow { display: grid; grid-template-columns: 1fr 20mm 22mm 22mm 22mm; column-gap: 3mm; align-items: center; }
+    .ghead, .grow { display: grid; grid-template-columns: 1fr 22mm 24mm 24mm 24mm; column-gap: 3mm; align-items: center; }
     .ghead { padding: 2.2mm 0 1.6mm; border-bottom: 1px solid var(--rule); }
-    .ghead span { text-align: right; font: 600 8px/1.2 var(--cond); letter-spacing: .24em; text-transform: uppercase; color: var(--gold); }
+    .ghead span { text-align: right; font: 600 11px/1.2 var(--cond); letter-spacing: .24em; text-transform: uppercase; color: var(--gold); }
     .ghead span:first-child { text-align: left; color: var(--muted); }
     .ghead span:nth-child(2) { text-align: center; color: var(--muted); }
-    .grow { padding: 1.6mm 0; border-bottom: 1px solid var(--rule); break-inside: avoid; }
+    .grow { padding: 3.4mm 0; border-bottom: 1px solid var(--rule); break-inside: avoid; }
     .grow .row__por { text-align: center; }
-    .gcell { text-align: right; font: 700 17px/1 var(--cond); font-variant-numeric: tabular-nums; }
+    .gcell { text-align: right; font: 700 28px/1 var(--cond); font-variant-numeric: tabular-nums; }
     .gcell.dash { color: #b9b09e; font-weight: 400; }
     .gcell--wide { grid-column: span 3; }
     .gcell--wide small { margin-left: 4px; font: 400 9px/1 var(--body); color: var(--muted); }
     .gnote { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5mm; margin-top: 3mm; }
-    .gnote p { font: 400 9.5px/1.4 var(--body); color: var(--muted); }
-    .gnote b { display: block; margin-bottom: 1px; font: 600 8px/1 var(--cond); letter-spacing: .24em; text-transform: uppercase; color: var(--gold); }
-    .fine { margin-top: 3mm; font: 400 9.5px/1.4 var(--body); color: var(--muted); }
+    .gnote p { font: 400 13px/1.4 var(--body); color: var(--muted); }
+    .gnote b { display: block; margin-bottom: 2px; font: 600 11px/1 var(--cond); letter-spacing: .24em; text-transform: uppercase; color: var(--gold); }
+    .fine { margin-top: 4mm; font: 400 12px/1.4 var(--body); color: var(--muted); }
 
     /* умови — без чорної смуги */
     .shead { display: flex; align-items: baseline; justify-content: space-between; margin-top: 5mm; padding-bottom: 2mm; border-bottom: 1.5px solid var(--gold); }
     .shead h3 { font: 500 24px/1 var(--serif); letter-spacing: .12em; text-transform: uppercase; }
     .shead span { font: 500 8px/1 var(--cond); letter-spacing: .32em; text-transform: uppercase; color: var(--gold); }
     .terms { display: grid; grid-template-columns: 1fr 1fr; column-gap: 9mm; }
-    .terms div { display: flex; justify-content: space-between; align-items: baseline; gap: 4mm; padding: 1.5mm 0; border-bottom: 1px solid var(--rule); }
-    .terms dt { font: 400 11px/1.2 var(--body); color: var(--muted); }
-    .terms dd { font: 700 12px/1.2 var(--cond); text-align: right; }
+    .terms div { display: flex; justify-content: space-between; align-items: baseline; gap: 4mm; padding: 2.4mm 0; border-bottom: 1px solid var(--rule); }
+    .terms dt { font: 400 14px/1.2 var(--body); color: var(--muted); }
+    .terms dd { font: 700 16px/1.2 var(--cond); text-align: right; }
     .terms dd.gold { color: var(--gold); }
 
     .promo { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 6mm; margin-top: 4.5mm; padding: 3.5mm 7mm; border: 1.5px solid var(--gold); background: linear-gradient(135deg, rgba(176,141,74,.10), rgba(176,141,74,.02)); }
@@ -132,7 +131,7 @@
 
     .contacts { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 6mm; margin-top: 4.5mm; }
     .contacts b { display: block; margin-bottom: 1.5mm; font: 600 7.5px/1 var(--cond); letter-spacing: .32em; text-transform: uppercase; color: var(--gold); }
-    .contacts p { font: 500 12px/1.45 var(--cond); }
+    .contacts p { font: 500 15px/1.45 var(--cond); }
     .contacts p span { color: var(--muted); font-weight: 400; }
 
     .pfoot { display: flex; justify-content: space-between; margin-top: auto; padding-top: 4mm; border-top: 1px solid var(--rule); font: 500 7.5px/1 var(--cond); letter-spacing: .3em; text-transform: uppercase; color: var(--muted); }
@@ -197,15 +196,15 @@
       .band { margin: 26px -16px 0; padding: 18px 20px; }
       .band h2 { font-size: 28px; } .band span { display: none; }
       .row { grid-template-columns: 1fr auto; row-gap: 4px; padding: 12px 0; }
-      .row__por { grid-column: 1; grid-row: 2; text-align: left; font-size: 12px; }
+      .row__por { grid-column: 1; grid-row: 2; text-align: left; font-size: 13px; }
       .row__por small { display: inline; margin-left: 6px; }
-      .row__price { grid-column: 2; grid-row: 1 / span 2; font-size: 22px; }
-      .row__uk { font-size: 17px; } .row__en { display: none; } .row__desc { font-size: 13px; }
+      .row__price { grid-column: 2; grid-row: 1 / span 2; font-size: 26px; }
+      .row__uk { font-size: 20px; } .row__en { display: none; } .row__desc { font-size: 14px; }
       .ghead { display: none; }
       .grow { grid-template-columns: 1fr 1fr 1fr; row-gap: 8px; padding: 13px 0; }
       .grow > .grow__main { grid-column: 1 / -1; }
       .grow > .row__por { display: none; }
-      .gcell { text-align: left; font-size: 18px; }
+      .gcell { text-align: left; font-size: 22px; }
       .gcell::after { content: attr(data-label); display: block; margin-top: 3px; font: 600 9px/1 var(--cond); letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
       .gcell--wide { grid-column: 1 / -1; }
       .gcell--wide small { display: none; }
@@ -249,7 +248,7 @@
     </div>
   </section>
 
-  <!-- АРКУШ 1: класичні + для гриля й казана -->
+  <!-- АРКУШ 1: класичні -->
   <section class="sheet page">
     <header class="phead">
       <img src="../img/logo-header.webp" alt="Шо по стейкам?" width="240" height="131">
@@ -265,16 +264,12 @@
       <p><b>Choice · Класичний</b>Помірний мармур — баланс ніжності й ціни.</p>
       <p><b>Prime</b>Виразний мармур — найсоковитіший.</p>
     </div>
-
-    <div class="band"><div><h2>Для гриля й казана</h2><p>Сирі · у вакуумі · одразу на вогонь</p></div><span data-count="burger"></span></div>
-    <ul data-grill></ul>
-    <p class="fine">Ціна стейка — за кілограм. Порція «≈ вага» орієнтовна: кожен стейк ріжемо вручну, точну суму назвемо після зважування, ще до оплати.</p>
-
+    <p class="fine">Ціна — за кілограм. Порція «≈ вага» орієнтовна: кожен стейк ріжемо вручну, точну суму назвемо після зважування, ще до оплати.</p>
     <div class="spacer"></div>
-    <footer class="pfoot"><span>Шо по стейкам? · ціни у гривнях · <span data-date2></span></span><span><b>01</b> / 02</span></footer>
+    <footer class="pfoot"><span>Шо по стейкам? · ціни у гривнях · <span data-date2></span></span><span><b>01</b> / 03</span></footer>
   </section>
 
-  <!-- АРКУШ 2: альтернативні + умови -->
+  <!-- АРКУШ 2: альтернативні -->
   <section class="sheet page">
     <header class="phead">
       <img src="../img/logo-header.webp" alt="Шо по стейкам?" width="240" height="131">
@@ -283,6 +278,19 @@
 
     <div class="band"><div><h2>Альтернативні</h2><p>Для тих, хто вже скуштував рібай</p></div><span data-count="alt"></span></div>
     <ul data-alt></ul>
+    <div class="spacer"></div>
+    <footer class="pfoot"><span>Шо по стейкам? · ціни у гривнях · <span data-date2></span></span><span><b>02</b> / 03</span></footer>
+  </section>
+
+  <!-- АРКУШ 3: для гриля й казана + умови -->
+  <section class="sheet page">
+    <header class="phead">
+      <img src="../img/logo-header.webp" alt="Шо по стейкам?" width="240" height="131">
+      <p><b>Стейки та ціни</b>самовивіз у Києві · Нова Пошта по Україні</p>
+    </header>
+
+    <div class="band"><div><h2>Для гриля й казана</h2><p>Сирі · у вакуумі · одразу на вогонь</p></div><span data-count="burger"></span></div>
+    <ul data-grill></ul>
 
     <div class="shead"><h3>Умови</h3><span>Отримання й оплата</span></div>
     <dl class="terms">
@@ -304,10 +312,10 @@
       <div><b>Замовлення</b><p><span data-phone>073 450 54 35</span><br><span>daud-coder.github.io/sho-po-steikam</span></p></div>
       <div><b>Ми в соцмережах</b><p>Instagram <span data-ig>[___]</span><br>TikTok <span data-tt>[___]</span><br>YouTube <span data-yt>[___]</span></p></div>
     </div>
-
     <div class="spacer"></div>
-    <footer class="pfoot"><span>Шо по стейкам? · ціни у гривнях · <span data-date2></span></span><span><b>02</b> / 02</span></footer>
+    <footer class="pfoot"><span>Шо по стейкам? · ціни у гривнях · <span data-date2></span></span><span><b>03</b> / 03</span></footer>
   </section>
+
 
   <script src="../js/config.js"></script>
   <script src="../js/products.js"></script>
