@@ -948,11 +948,82 @@
     });
   }
 
+
+  /* ---------- «Звідки який стейк»: схема туші ---------- */
+  function initCowMap() {
+    var root = $('[data-cowmap]');
+    if (!root) return;
+    // зона → назва, англ., опис і наші товари звідти (id з products.js)
+    var ZONES = {
+      chuck:      { name: 'Лопатка', en: 'Chuck', desc: 'Робоча частина: більше сполучної тканини, зате яскравий смак.', ids: ['top-blade'] },
+      rib:        { name: 'Товстий край', en: 'Rib', desc: 'Найбільше мармуру — звідси найсоковитіші стейки.', ids: ['ribeye', 'cowboy', 'tomahawk'] },
+      shortloin:  { name: 'Тонкий край', en: 'Short loin', desc: 'Щільне ніжне м’ясо вздовж хребта. Ті-бон і портерхаус — разом із шматком вирізки.', ids: ['striploin', 'club', 't-bone', 'porterhouse'] },
+      tenderloin: { name: 'Вирізка', en: 'Tenderloin', desc: 'М’яз, який майже не працює, — найніжніше м’ясо туші.', ids: ['filet', 'shashlyk'] },
+      sirloin:    { name: 'Кострець', en: 'Sirloin', desc: 'Між тонким краєм і огузком: м’ясний смак за помірну ціну.', ids: ['tri-tip'] },
+      rump:       { name: 'Огузок', en: 'Rump', desc: 'Щільне м’ясо з глибоким смаком. Тут і піканья з жировою шапкою.', ids: ['picanha', 'rump', 'spider'] },
+      round:      { name: 'Стегно', en: 'Round', desc: 'Найпісніша частина: швидко до medium rare і тонко поперек волокон — або тушкувати.', ids: ['topside', 'silverside', 'eye-round'] },
+      flank:      { name: 'Пашина', en: 'Flank', desc: 'Плоскі стейки з довгими волокнами: смажити швидко, різати поперек.', ids: ['flank', 'bavette'] },
+      plate:      { name: 'Покромка', en: 'Short plate', desc: 'Звідси шорт-ріб і скерт. Поки не продаємо.', ids: [] },
+      brisket:    { name: 'Грудинка', en: 'Brisket', desc: 'Для копчення й довгого тушкування. Поки не продаємо.', ids: [] },
+      shank:      { name: 'Гомілка', en: 'Shank', desc: 'Багато колагену: тушкувати 2–3 години — і м’ясо тане.', ids: ['ossobuco'] }
+    };
+    var zones = $$('.cz', root);
+    // на телефоні підписи на схемі дрібні — дублюємо зони кнопками під нею
+    var order = ['chuck', 'rib', 'shortloin', 'tenderloin', 'sirloin', 'rump', 'round', 'flank', 'plate', 'brisket', 'shank'];
+    $('[data-cow-chips]', root).innerHTML = order.map(function (id) {
+      return '<button type="button" class="cowchip" data-zone="' + id + '">' + esc(ZONES[id].name) + '</button>';
+    }).join('');
+    zones.forEach(function (z) {
+      var Z = ZONES[z.dataset.zone];
+      z.setAttribute('tabindex', '0'); z.setAttribute('role', 'button');
+      z.setAttribute('aria-label', Z.name + (Z.ids.length ? ': ' + Z.ids.length + ' поз.' : ''));
+    });
+    function select(id) {
+      var Z = ZONES[id];
+      if (!Z) return;
+      zones.forEach(function (z) { var on = z.dataset.zone === id; z.classList.toggle('is-on', on); z.setAttribute('aria-pressed', String(on)); });
+      $$('.cowchip', root).forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.zone === id)); });
+      $$('.cz__label', root).forEach(function (l) { l.classList.toggle('is-on', l.dataset.for === id); });
+      $('[data-cow-name]', root).textContent = Z.name;
+      $('[data-cow-en]', root).textContent = Z.en;
+      $('[data-cow-desc]', root).textContent = Z.desc;
+      var items = Z.ids.map(function (i) { return byId[i]; }).filter(Boolean);
+      $('[data-cow-cuts]', root).innerHTML = items.length
+        ? items.map(function (p) {
+            return '<li><button class="cowcut" type="button" data-goto="' + p.id + '">' +
+              (p.photo || (p.grades && byKey[gradeKey(p)].photo) ? '<span class="cowcut__img">' + media(p.grades ? byKey[gradeKey(p)] : p, 'thumb') + '</span>' : '') +
+              '<span class="cowcut__name">' + esc(p.name) + '<small>' + esc(p.en) + '</small></span>' +
+              '<svg class="i" aria-hidden="true"><use href="#i-back"/></svg></button></li>';
+          }).join('')
+        : '<li class="cowmap__none">З цієї частини зараз нічого не продаємо.</li>';
+    }
+    root.addEventListener('click', function (e) {
+      var z = e.target.closest('.cz, .cowchip');
+      if (z) { select(z.dataset.zone); return; }
+      var g = e.target.closest('[data-goto]');
+      if (g) gotoProduct(g.dataset.goto);
+    });
+    root.addEventListener('keydown', function (e) {
+      var z = e.target.closest('.cz');
+      if (z && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); select(z.dataset.zone); }
+    });
+    select('rib');
+  }
+  // Прокрутити до картки товару й коротко підсвітити її
+  function gotoProduct(id) {
+    if (state.filter !== 'all') setFilter('all');
+    var el = gridEl.querySelector('[data-id="' + id + '"]');
+    if (!el) return;
+    el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+    el.classList.remove('is-flash'); void el.offsetWidth; el.classList.add('is-flash');
+    setTimeout(function () { el.classList.remove('is-flash'); }, 1800);
+  }
+
   /* ---------- старт ---------- */
   load();
   codewordInput.value = state.codeword;
   applyConfig();
-  $$('.section__head, .perks__list, .delivery__grid, .faq__list, .pains, .horeca__points, .about__grid, .contacts__grid, .gradeinfo, .gradeinfo__note, .roast').forEach(function (el) { el.setAttribute('data-reveal', ''); });
+  $$('.cowmap, .section__head, .perks__list, .delivery__grid, .faq__list, .pains, .horeca__points, .about__grid, .contacts__grid, .gradeinfo, .gradeinfo__note, .roast').forEach(function (el) { el.setAttribute('data-reveal', ''); });
   observeReveal(document);
   renderTabs();
   renderGrid();
@@ -960,4 +1031,5 @@
   initAger();
   initRoast();
   initGradeImages();
+  initCowMap();
 })();

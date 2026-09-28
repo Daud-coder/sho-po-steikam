@@ -186,12 +186,13 @@
           <h2 class="section__title" id="grades-title">Select · Choice · Prime — що це?</h2>
           <p class="section__lead gradeinfo__lead">Назви класів — з американської шкали мармуровості USDA: що більше тонких жирових прожилок усередині м’яза, то вищий клас. Штампа USDA на нашому м’ясі немає — відруби сортуємо самі, за видимим мармуром на зрізі.</p>
         </div>
+        <figure class="gradecmp">
+          <img src="images/grades-compare.webp" srcset="images/grades-compare-800.webp 800w, images/grades-compare.webp 1376w" sizes="(min-width: 1240px) 1176px, 100vw"
+               alt="Три однакові стейки нью-йорк: Select майже без мармуру, Choice з помірним мармуром, Prime з густим мармуром" width="1376" height="300" loading="lazy" decoding="async">
+          <figcaption><span>Select</span><span>Choice</span><span>Prime</span></figcaption>
+        </figure>
         <ol class="gradeinfo">
           <li class="ginfo">
-            <div class="ginfo__media">
-              <span class="ph__cap">Фото незабаром</span>
-              <img src="images/grade-select.webp" alt="Зріз стейка класу Select: мало мармуру" width="800" height="600" loading="lazy" decoding="async" data-grade-img>
-            </div>
             <div class="ginfo__body">
               <h3 class="ginfo__name">Select</h3>
               <p class="marb" data-lvl="1"><span class="marb__bar" aria-hidden="true"><i></i><i></i><i></i></span>Мармур: мінімальний</p>
@@ -200,10 +201,6 @@
             </div>
           </li>
           <li class="ginfo">
-            <div class="ginfo__media">
-              <span class="ph__cap">Фото незабаром</span>
-              <img src="images/grade-choice.webp" alt="Зріз стейка класу Choice: помірний мармур" width="800" height="600" loading="lazy" decoding="async" data-grade-img>
-            </div>
             <div class="ginfo__body">
               <h3 class="ginfo__name">Choice</h3>
               <p class="marb" data-lvl="2"><span class="marb__bar" aria-hidden="true"><i></i><i></i><i></i></span>Мармур: помірний</p>
@@ -212,10 +209,6 @@
             </div>
           </li>
           <li class="ginfo">
-            <div class="ginfo__media">
-              <span class="ph__cap">Фото незабаром</span>
-              <img src="images/grade-prime.webp" alt="Зріз стейка класу Prime: густий мармур" width="800" height="600" loading="lazy" decoding="async" data-grade-img>
-            </div>
             <div class="ginfo__body">
               <h3 class="ginfo__name">Prime</h3>
               <p class="marb" data-lvl="3"><span class="marb__bar" aria-hidden="true"><i></i><i></i><i></i></span>Мармур: виразний</p>
@@ -225,6 +218,34 @@
           </li>
         </ol>
         <p class="gradeinfo__note"><strong>Ті-бон, портерхаус і клаб-стейк</strong> — у двох класах: «Класичний» (приблизно рівень Choice) і Prime. Рібай, нью-йорк, ковбой і томагавк — у всіх трьох. Мармур — природна ознака, тож два стейки одного класу можуть трохи відрізнятися.</p>
+      </div>
+    </section>
+
+    <!-- ЗВІДКИ ЯКИЙ СТЕЙК: інтерактивна схема туші (зони й товари — у js/app.js, initCowMap) -->
+    <section class="section cowmap-sec" id="cuts-map" aria-labelledby="cowmap-title">
+      <div class="container">
+        <div class="section__head">
+          <h2 class="section__title" id="cowmap-title">Звідки який стейк</h2>
+          <p class="section__lead">Натисни на частину туші — покажемо, які наші стейки з неї і чим вони відрізняються.</p>
+        </div>
+        <div class="cowmap" data-cowmap>
+          <svg class="cowmap__svg" viewBox="310 125 780 530" role="img" aria-labelledby="cow-title cow-desc">
+            <title id="cow-title">Схема яловичої туші</title>
+            <desc id="cow-desc">Натисни на частину туші, щоб побачити наші стейки з неї.</desc>
+            <defs><mask id="cowmask" maskUnits="userSpaceOnUse" x="0" y="0" width="1376" height="768"><image href="images/cow-mask.png" x="0" y="0" width="1376" height="768"/></mask></defs>
+            <image href="images/cow-map.webp" x="0" y="0" width="1376" height="768"/>
+            <g mask="url(#cowmask)"><polygon class="cz" data-zone="chuck" points="520,110 607,110 622,280 634,376 493,383 462,334 500,280 515,205"/><polygon class="cz" data-zone="rib" points="607,110 722,110 730,300 735,371 634,376 622,280"/><polygon class="cz" data-zone="shortloin" points="722,110 806,110 816,300 822,379 735,371 730,300"/><polygon class="cz" data-zone="sirloin" points="806,110 883,110 900,250 908,300 897,410 822,379 816,300"/><polygon class="cz" data-zone="rump" points="883,110 1080,110 1080,278 1000,278 908,292 900,250"/><polygon class="cz" data-zone="round" points="908,292 1000,278 1080,278 1080,420 985,415 918,428 897,410"/><polygon class="cz" data-zone="brisket" points="420,383 634,376 640,452 582,462 470,462"/><polygon class="cz" data-zone="plate" points="634,376 735,371 820,379 792,490 640,480 640,452"/><polygon class="cz" data-zone="flank" points="820,379 897,410 872,490 792,490"/><polygon class="cz" data-zone="shank" points="560,452 640,452 660,720 510,720"/><polygon class="cz" data-zone="shank" points="918,428 1080,420 1080,720 850,720 872,490"/><ellipse class="cz cz--tender" data-zone="tenderloin" cx="812" cy="352" rx="62" ry="11"/></g>
+            <g class="cz__labels" aria-hidden="true"><text class="cz__label" data-for="chuck" x="563" y="300"><tspan x="563" dy="0">Лопатка</tspan></text><text class="cz__label" data-for="rib" x="676" y="290"><tspan x="676" dy="0">Товстий</tspan><tspan x="676" dy="21">край</tspan></text><text class="cz__label" data-for="shortloin" x="772" y="280"><tspan x="772" dy="0">Тонкий</tspan><tspan x="772" dy="21">край</tspan></text><text class="cz__label" data-for="sirloin" x="856" y="290"><tspan x="856" dy="0">Костр.</tspan></text><text class="cz__label" data-for="rump" x="955" y="245"><tspan x="955" dy="0">Огузок</tspan></text><text class="cz__label" data-for="round" x="975" y="355"><tspan x="975" dy="0">Стегно</tspan></text><text class="cz__label" data-for="brisket" x="560" y="420"><tspan x="560" dy="0">Грудинка</tspan></text><text class="cz__label" data-for="plate" x="715" y="425"><tspan x="715" dy="0">Покромка</tspan></text><text class="cz__label" data-for="flank" x="850" y="440"><tspan x="850" dy="0">Пашина</tspan></text><text class="cz__label" data-for="shank" x="600" y="560"><tspan x="600" dy="0">Гомілка</tspan></text><text class="cz__label cz__label--sm" data-for="tenderloin" x="812" y="357">вирізка</text></g>
+          </svg>
+          <div class="cowmap__chips" data-cow-chips role="group" aria-label="Частини туші"></div>
+          <div class="cowmap__panel" aria-live="polite">
+            <p class="cowmap__en" data-cow-en>Rib</p>
+            <h3 class="cowmap__name" data-cow-name>Товстий край</h3>
+            <p class="cowmap__desc" data-cow-desc></p>
+            <ul class="cowmap__cuts" data-cow-cuts></ul>
+          </div>
+        </div>
+        <p class="cowmap__note">Бургерну котлету й люля робимо з обрізі витриманих стейків різних частин.</p>
       </div>
     </section>
 
