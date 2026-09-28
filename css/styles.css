@@ -163,24 +163,22 @@ ul, ol { padding: 0; list-style: none; }
 .codeword-plate strong { color: var(--gold); font-weight: 500; white-space: nowrap; }
 .codeword-plate__label { display: block; margin-bottom: 4px; font: 600 12px/1.2 var(--f-head); letter-spacing: .18em; text-transform: uppercase; color: var(--gold); }
 
-/* мобільний: фото стейка зверху (окремий кадр, стейк по центру), текст нижче з легким накладанням */
+/* мобільний: вертикальний кадр, стейк у верхній частині, текст нижче з легким накладанням */
 @media (max-width: 767px) {
   .hero { min-height: calc(100svh - var(--header-h)); }
-  .hero__media { top: 0; left: 0; right: 0; height: 340px; }
-  .hero__media img { object-fit: contain; object-position: center top; }
-  .hero__media picture { -webkit-mask-image: linear-gradient(90deg, transparent 18%, #000 32%, #000 68%, transparent 82%); mask-image: linear-gradient(90deg, transparent 18%, #000 32%, #000 68%, transparent 82%); }
-  .hero__media::after { background: linear-gradient(180deg, rgba(12,12,13,0) 55%, #0c0c0d 100%); }
+  .hero__media { top: 0; left: 0; right: 0; height: 380px; }
+  .hero__media img { object-fit: cover; object-position: center 22%; }
+  .hero__media::after { background: linear-gradient(180deg, rgba(12,12,13,0) 50%, #0c0c0d 100%); }
   .hero__inner { padding-top: 250px; padding-bottom: 24px; }
   .hero__wordmark { margin-left: -2vw; }
 }
 
-/* десктоп: фото на правих 60%, стейк повністю в кадрі */
+/* десктоп: фото на всю ширину — у кадрі вже є темне місце під текст зліва */
 @media (min-width: 768px) {
   .hero { align-items: center; height: 90vh; height: 90svh; min-height: 620px; max-height: 1100px; }
-  .hero__media { top: 0; bottom: 0; right: 0; width: 60%; }
-  .hero__media img { object-position: 100% center; }
-  /* м'який перехід лівого краю фото у фон; справа фото без затемнення */
-  .hero__media::after { background: linear-gradient(90deg, #0c0c0d 0%, rgba(12,12,13,.55) 18%, rgba(12,12,13,0) 40%); }
+  .hero__media { inset: 0; }
+  .hero__media img { object-position: 80% center; }
+  .hero__media::after { background: linear-gradient(90deg, rgba(12,12,13,.8) 0%, rgba(12,12,13,.35) 40%, rgba(12,12,13,0) 60%), linear-gradient(0deg, rgba(12,12,13,.7) 0%, rgba(12,12,13,0) 20%); }
   .hero__inner { padding-top: 32px; padding-bottom: 32px; }
   .hero__wordmark { width: 620px; max-width: 48vw; margin-left: -10px; }
   .hero__answer { font-size: 40px; }
@@ -381,7 +379,7 @@ button.mrow__img { cursor: zoom-in; }
 
 /* ---------- банер ---------- */
 .banner { position: relative; overflow: hidden; display: flex; align-items: center; min-height: 340px; height: 56vw; max-height: 620px; border-bottom: 1px solid var(--line); background: #0e0e10; }
-.banner__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 62% center; }
+.banner__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 75% center; }
 .banner::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(19,19,21,.92) 0%, rgba(19,19,21,.8) 38%, rgba(19,19,21,.35) 68%, rgba(19,19,21,.1) 100%); }
 .banner__inner { position: relative; z-index: 1; }
 .banner__text {
@@ -592,7 +590,7 @@ textarea.input { resize: vertical; min-height: 84px; }
 .horeca__grid { display: grid; gap: 28px; align-items: center; }
 @media (min-width: 1024px) { .horeca__grid { grid-template-columns: 1fr 1.05fr; gap: 56px; } }
 .horeca__media { aspect-ratio: 4 / 3; border-radius: var(--r); overflow: hidden; border: 1px solid var(--line); background: #0e0e10; }
-.horeca__media img { width: 100%; height: 100%; object-fit: cover; object-position: 55% center; }
+.horeca__media img { width: 100%; height: 100%; object-fit: cover; object-position: center 70%; }
 @media (min-width: 1024px) { .horeca__media { aspect-ratio: 4 / 5; } }
 .horeca__points { display: grid; gap: 14px; }
 .horeca__points li { position: relative; padding-left: 26px; font-size: 17px; line-height: 1.45; color: var(--muted); }
@@ -711,6 +709,12 @@ textarea.input { resize: vertical; min-height: 84px; }
 .zoom__price small { font-size: .6em; color: var(--muted); margin-right: 2px; }
 .zoom__price span { display: block; margin-top: 4px; font: 400 13px/1.2 var(--f-body); color: var(--muted); }
 @media (prefers-reduced-motion: reduce) { .zoom[open] { animation: none; } }
+
+/* фон камери витримки під блоком «Як ми витримуємо» */
+.aging { position: relative; overflow: hidden; }
+.aging__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .32; }
+.aging::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(19,19,21,.55) 0%, rgba(19,19,21,.85) 45%, var(--bg) 100%); }
+.aging__inner { position: relative; z-index: 1; }
 
 /* ---------- зерно і поява ---------- */
 body::after {

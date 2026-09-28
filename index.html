@@ -26,7 +26,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:wght@400;500&family=Roboto+Condensed:wght@500;600&display=swap&subset=cyrillic" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="preload" as="image" href="images/hero.webp" imagesrcset="images/hero-800.webp 800w, images/hero.webp 1376w" imagesizes="60vw" media="(min-width: 768px)" fetchpriority="high">
+  <link rel="preload" as="image" href="images/hero.webp" imagesrcset="images/hero-800.webp 800w, images/hero.webp 1376w" imagesizes="100vw" media="(min-width: 768px)" fetchpriority="high">
   <link rel="preload" as="image" href="images/hero-mobile.webp" media="(max-width: 767px)" fetchpriority="high">
   <link rel="preload" as="image" href="images/hero_wordmark.webp" fetchpriority="high">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Store", "name": "Шо по стейкам?", "description": "Витримані класичні та альтернативні стейки. Самовивіз з цеху в Києві або Нова Пошта по Україні.", "url": "https://daud-coder.github.io/sho-po-steikam/", "image": "https://daud-coder.github.io/sho-po-steikam/img/og-image.jpg", "telephone": "+380734505435", "address": {"@type": "PostalAddress", "streetAddress": "вул. Сергія Данченка, 34", "addressLocality": "Київ", "addressCountry": "UA"}, "areaServed": [{"@type": "City", "name": "Київ"}, {"@type": "Country", "name": "Україна"}], "priceRange": "₴₴₴", "currenciesAccepted": "UAH"}</script>
@@ -95,8 +95,8 @@
       <div class="hero__media">
         <picture>
           <source media="(max-width: 767px)" srcset="images/hero-mobile.webp">
-          <img src="images/hero.webp" srcset="images/hero-800.webp 800w, images/hero.webp 1376w" sizes="60vw"
-               alt="Нарізаний стейк на кістці на чорній дошці" width="1376" height="768" fetchpriority="high" decoding="async">
+          <img src="images/hero.webp" srcset="images/hero-800.webp 800w, images/hero.webp 1376w" sizes="100vw"
+               alt="Обсмажений стейк на кістці в чавунній сковороді, нарізаний до medium rare" width="1376" height="768" fetchpriority="high" decoding="async">
         </picture>
       </div>
       <div class="container hero__inner">
@@ -178,8 +178,8 @@
 
     <!-- БАНЕР -->
     <section class="banner" aria-label="Шо по стейкам? — Все по стейкам.">
-      <img class="banner__img" src="images/banner.webp" srcset="images/banner-800.webp 800w, images/banner.webp 1584w" sizes="100vw"
-           alt="Кухар нарізає обсмажений стейк на дерев’яній дошці" width="1584" height="672" loading="lazy" decoding="async">
+      <img class="banner__img" src="images/banner.webp" srcset="images/banner-800.webp 800w, images/banner.webp 1376w" sizes="100vw"
+           alt="Два стейки на решітці гриля над вогнем" width="1376" height="768" loading="lazy" decoding="async">
       <div class="container banner__inner" data-reveal>
         <p class="banner__text">Шо по стейкам?<span>Все по стейкам.</span></p>
       </div>
@@ -187,7 +187,9 @@
 
     <!-- 4. ЯК МИ ВИТРИМУЄМО -->
     <section class="section aging" aria-labelledby="aging-title">
-      <div class="container">
+      <img class="aging__bg" src="images/aging-room.webp" srcset="images/aging-room-800.webp 800w, images/aging-room.webp 1376w" sizes="100vw"
+           alt="" width="1376" height="768" loading="lazy" decoding="async">
+      <div class="container aging__inner">
         <div class="section__head section__head--row" data-reveal>
           <h2 class="section__title" id="aging-title">Як ми витримуємо м’ясо</h2>
           <span class="badge badge--soon">Скоро: сухе витримування</span>
@@ -242,8 +244,8 @@
     <section class="section horeca" id="horeca" aria-labelledby="horeca-title">
       <div class="container horeca__grid">
         <div class="horeca__media">
-          <img src="images/chef-slicing.webp" srcset="images/chef-slicing-800.webp 800w, images/chef-slicing.webp 1376w" sizes="(min-width: 1024px) 45vw, 100vw"
-               alt="Кухар нарізає обсмажений стейк на дошці" width="1376" height="768" loading="lazy" decoding="async">
+          <img src="images/horeca-plate.webp" srcset="images/horeca-plate-600.webp 600w, images/horeca-plate.webp 896w" sizes="(min-width: 1024px) 45vw, 100vw"
+               alt="Кухар ресторану подає нарізаний стейк на тарілці" width="896" height="1200" loading="lazy" decoding="async">
         </div>
         <div class="horeca__body">
           <div class="section__head">
