@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Прайс «Шо по стейкам?» — витримані стейки</title>
+  <meta name="description" content="Прайс-лист «Шо по стейкам?»: класичні стейки в класах мармуру, альтернативні відруби, шашлик, люля, оссобуко. Самовивіз у Києві, Нова Пошта по Україні.">
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap&subset=cyrillic" rel="stylesheet">
+  <style>
+    /* =========================================================
+       ПРАЙС «Шо по стейкам?» — A4 для друку/PDF і версія для телефона.
+       Позиції й ціни НЕ пишуться тут: беруться з ../js/products.js
+       (той самий файл, що й на сайті). Ціна 0 → «[___]».
+       ========================================================= */
+    :root {
+      --ink: #0d0d0e;
+      --ink-2: #141415;
+      --gold: #c9a24a;
+      --gold-soft: #d4b56a;
+      --gold-deep: #8f7331;
+      --wine: #6b1e1e;
+      --text: #efe8dc;
+      --muted: #a79f90;
+      --line: rgba(201, 162, 74, .28);
+      --serif: 'Cormorant Garamond', 'Times New Roman', serif;
+      --sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+      --metal: linear-gradient(100deg, #8f7331 0%, #d9bd72 28%, #f2dfa6 46%, #c9a24a 62%, #8f7331 100%);
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { margin: 0; background: #050505; color: var(--text); font: 400 12px/1.45 var(--sans); -webkit-font-smoothing: antialiased; }
+    h1, h2, h3, p, ul, dl, dd { margin: 0; }
+    ul { padding: 0; list-style: none; }
+
+    /* ---------- аркуш ---------- */
+    .sheet {
+      position: relative; width: 210mm; min-height: 297mm; margin: 24px auto; padding: 14mm 16mm 12mm;
+      overflow: hidden; display: flex; flex-direction: column;
+      background:
+        radial-gradient(120% 70% at 50% 0%, rgba(201,162,74,.10) 0%, rgba(201,162,74,0) 55%),
+        radial-gradient(140% 90% at 50% 110%, rgba(107,30,30,.14) 0%, rgba(107,30,30,0) 60%),
+        var(--ink);
+      box-shadow: 0 24px 60px rgba(0,0,0,.6);
+    }
+    /* матова фактура */
+    .sheet::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .09; mix-blend-mode: screen;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .9 0 0 0 0 .75 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    /* рамка й кутові орнаменти */
+    .frame { position: absolute; inset: 7mm; border: 1px solid var(--line); pointer-events: none; }
+    .corner { position: absolute; width: 16mm; height: 16mm; pointer-events: none; }
+    .corner::before, .corner::after { content: ''; position: absolute; background: var(--gold); }
+    .corner::before { width: 100%; height: 1.5px; }
+    .corner::after { width: 1.5px; height: 100%; }
+    .corner i { position: absolute; width: 5px; height: 5px; background: var(--gold); transform: rotate(45deg); }
+    .corner--tl { top: 5mm; left: 5mm; } .corner--tl i { top: 3.4mm; left: 3.4mm; }
+    .corner--tr { top: 5mm; right: 5mm; transform: scaleX(-1); } .corner--tr i { top: 3.4mm; left: 3.4mm; }
+    .corner--bl { bottom: 5mm; left: 5mm; transform: scaleY(-1); } .corner--bl i { top: 3.4mm; left: 3.4mm; }
+    .corner--br { bottom: 5mm; right: 5mm; transform: scale(-1); } .corner--br i { top: 3.4mm; left: 3.4mm; }
+    .content { position: relative; z-index: 1; display: flex; flex-direction: column; flex: 1; }
+
+    /* ---------- шапка ---------- */
+    .mast { text-align: center; }
+    .mast__logo { display: block; width: 44mm; height: auto; margin: 0 auto; }
+    .mast__rule { display: flex; align-items: center; gap: 12px; margin: 4mm auto 0; max-width: 150mm; }
+    .mast__rule::before, .mast__rule::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
+    .mast__rule::after { background: linear-gradient(90deg, var(--gold), transparent); }
+    .mast__rule span { font: 600 26px/1 var(--serif); letter-spacing: .22em; text-transform: uppercase; background: var(--metal); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .mast__sub { margin-top: 3mm; font: 500 9px/1.4 var(--sans); letter-spacing: .32em; text-transform: uppercase; color: var(--muted); }
+    .mast--small { display: flex; align-items: center; justify-content: space-between; text-align: left; padding-bottom: 5mm; border-bottom: 1px solid var(--line); }
+    .mast--small .mast__logo { width: 30mm; margin: 0; }
+    .mast--small .mast__sub { margin: 0; text-align: right; }
+
+    /* ---------- розділ ---------- */
+    .sec { margin-top: 6mm; }
+    .sec__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; padding-bottom: 2.5mm; border-bottom: 1px solid var(--gold-deep); }
+    .sec__title { font: 600 25px/1 var(--serif); letter-spacing: .06em; background: var(--metal); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .sec__title em { font-style: italic; font-weight: 500; }
+    .sec__note { font: 500 8.5px/1.3 var(--sans); letter-spacing: .22em; text-transform: uppercase; color: var(--muted); text-align: right; }
+    .sec__lead { margin-top: 2mm; color: var(--muted); font-size: 10.5px; font-style: italic; font-family: var(--serif); font-size: 13px; }
+
+    /* ---------- позиції ---------- */
+    .items { margin-top: 2mm; }
+    .item { display: grid; grid-template-columns: 1fr auto; column-gap: 5mm; align-items: baseline; padding: 1.7mm 0 1.8mm; border-bottom: 1px solid rgba(201,162,74,.12); break-inside: avoid; }
+    .item__name { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+    .item__uk { font: 600 13.5px/1.2 var(--sans); color: var(--text); white-space: nowrap; }
+    .item__en { font: 500 8px/1 var(--sans); letter-spacing: .2em; text-transform: uppercase; color: var(--gold); white-space: nowrap; }
+    .item__lead { flex: 1; min-width: 12mm; align-self: center; height: 0; border-bottom: 1px dotted rgba(201,162,74,.55); margin: 0 2px; transform: translateY(3px); }
+    .item__desc { grid-column: 1; margin-top: 1mm; font: 400 10px/1.4 var(--sans); color: var(--muted); }
+    .item__desc b { font-weight: 500; color: #cfc6b4; }
+    .item__price { grid-column: 2; grid-row: 1; text-align: right; white-space: nowrap; font: 600 15px/1 var(--sans); font-variant-numeric: tabular-nums; color: var(--text); }
+    .item__price small { margin-left: 3px; font: 500 8.5px/1 var(--sans); letter-spacing: .08em; color: var(--muted); }
+    .item__portion { grid-column: 2; text-align: right; font: 400 9.5px/1.3 var(--sans); color: var(--muted); white-space: nowrap; }
+    .blank { color: var(--gold-soft); letter-spacing: .06em; font-weight: 500; }
+
+    .badge { display: inline-block; padding: 2px 6px 2px; border-radius: 2px; background: var(--wine); color: #f3dcc4; font: 600 7px/1.2 var(--sans); letter-spacing: .16em; text-transform: uppercase; transform: translateY(-1px); }
+
+    /* класичні: колонки класів мармуру */
+    .gradehead, .gitem { display: grid; grid-template-columns: 1fr 23mm 23mm 23mm; column-gap: 3mm; align-items: baseline; }
+    .gradehead { padding: 3mm 0 1.5mm; border-bottom: 1px solid rgba(201,162,74,.2); }
+    .gradehead span { text-align: right; font: 600 8.5px/1 var(--sans); letter-spacing: .22em; text-transform: uppercase; color: var(--gold); }
+    .gradehead span:first-child { text-align: left; color: var(--muted); letter-spacing: .18em; }
+    .gitem { padding: 1.9mm 0; border-bottom: 1px solid rgba(201,162,74,.12); break-inside: avoid; }
+    .gitem__main { min-width: 0; }
+    .gitem__cell { text-align: right; font: 600 14px/1 var(--sans); font-variant-numeric: tabular-nums; }
+    .gitem__cell small { display: none; margin-top: 2px; font: 500 7.5px/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    .gitem__cell--wide { grid-column: span 3; }
+    .gitem__cell--wide small { display: inline !important; margin-left: 6px; }
+    .gitem__cell.dash { color: rgba(167,159,144,.45); font-weight: 400; }
+    .gradeinfo { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; margin-top: 3mm; }
+    .gradeinfo p { font: 400 9px/1.4 var(--sans); color: var(--muted); }
+    .gradeinfo b { display: block; margin-bottom: 1px; font: 600 8.5px/1 var(--sans); letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
+
+    /* ---------- промо й умови ---------- */
+    .promo { position: relative; margin-top: 6mm; padding: 4mm 7mm; text-align: center; border: 1px solid var(--gold); background: linear-gradient(180deg, rgba(201,162,74,.12), rgba(201,162,74,.03)); }
+    .promo::before, .promo::after { content: '◆'; position: absolute; top: 50%; transform: translateY(-50%); color: var(--gold); font-size: 9px; }
+    .promo::before { left: 3mm; } .promo::after { right: 3mm; }
+    .promo__k { font: 600 8.5px/1 var(--sans); letter-spacing: .3em; text-transform: uppercase; color: var(--gold); }
+    .promo__t { margin-top: 2mm; font: 600 22px/1.15 var(--serif); color: var(--text); }
+    .promo__t span { background: var(--metal); -webkit-background-clip: text; background-clip: text; color: transparent; font-style: italic; }
+    .promo__s { margin-top: 1.5mm; font-size: 10px; color: var(--muted); }
+
+    .terms { display: grid; grid-template-columns: 1fr 1fr; column-gap: 8mm; margin-top: 3mm; }
+    .terms div { display: flex; align-items: baseline; gap: 6px; padding: 1.6mm 0; border-bottom: 1px solid rgba(201,162,74,.12); }
+    .terms dt { font-size: 10.5px; color: var(--muted); white-space: nowrap; }
+    .terms div::after { content: ''; order: 2; flex: 1; border-bottom: 1px dotted rgba(201,162,74,.45); transform: translateY(-3px); }
+    .terms dd { order: 3; font: 600 11px/1.2 var(--sans); color: var(--text); white-space: nowrap; }
+
+    .contacts { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 6mm; margin-top: auto; padding-top: 5mm; }
+    .contacts b { display: block; margin-bottom: 1.5mm; font: 600 8px/1 var(--sans); letter-spacing: .26em; text-transform: uppercase; color: var(--gold); }
+    .contacts p { font-size: 11px; color: var(--text); line-height: 1.5; }
+    .contacts p span { color: var(--muted); }
+    .foot { display: flex; justify-content: space-between; margin-top: 4mm; padding-top: 3mm; border-top: 1px solid var(--line); font: 500 7.5px/1 var(--sans); letter-spacing: .24em; text-transform: uppercase; color: var(--muted); }
+    .foot b { color: var(--gold); font-weight: 600; }
+
+    /* ---------- панель на екрані ---------- */
+    .bar { position: relative; z-index: 5; display: flex; justify-content: center; gap: 10px; padding: 12px; background: rgba(5,5,5,.9); border-bottom: 1px solid #1d1d1d; }
+    .bar button, .bar a { min-height: 40px; padding: 0 18px; border: 1px solid var(--gold); border-radius: 3px; background: transparent; color: var(--gold); font: 600 11px/40px var(--sans); letter-spacing: .16em; text-transform: uppercase; text-decoration: none; cursor: pointer; }
+    .bar button:first-child { background: var(--gold); color: var(--ink); }
+
+    /* ---------- телефон (для Instagram / Telegram) ---------- */
+    @media screen and (max-width: 820px) {
+      body { font-size: 14px; }
+      .sheet { width: auto; min-height: 0; margin: 0 0 14px; padding: 30px 22px 26px; box-shadow: none; }
+      .frame { inset: 10px; } .corner { width: 26px; height: 26px; }
+      .corner--tl, .corner--tr { top: 7px; } .corner--bl, .corner--br { bottom: 7px; }
+      .corner--tl, .corner--bl { left: 7px; } .corner--tr, .corner--br { right: 7px; }
+      .corner i { top: 6px !important; left: 6px !important; }
+      .mast__logo { width: 200px; } .mast--small .mast__logo { width: 110px; }
+      .mast__rule { margin-top: 18px; } .mast__rule span { font-size: 22px; }
+      .mast__sub { font-size: 9px; }
+      .sec { margin-top: 30px; } .sec__title { font-size: 26px; }
+      .sec__note { display: none; }
+      .item { padding: 11px 0; } .item__uk { font-size: 15px; white-space: normal; } .item__desc { font-size: 12.5px; }
+      .item__en { display: none; } .item__price { font-size: 16px; } .item__portion { font-size: 11.5px; }
+      .gradehead { display: none; }
+      .gitem { grid-template-columns: 1fr 1fr 1fr; row-gap: 8px; padding: 12px 0; }
+      .gitem__main { grid-column: 1 / -1; }
+      .gitem__cell { text-align: left; font-size: 15px; }
+      .gitem__cell small { display: block; font-size: 9px; }
+      .gradeinfo { grid-template-columns: 1fr; gap: 8px; } .gradeinfo p { font-size: 12px; }
+      .promo { padding: 18px 22px; } .promo__t { font-size: 22px; } .promo__s { font-size: 12.5px; }
+      .terms { grid-template-columns: 1fr; } .terms dt, .terms dd { font-size: 13px; }
+      .contacts { grid-template-columns: 1fr; gap: 14px; padding-top: 26px; } .contacts p { font-size: 14px; }
+      .foot { flex-direction: column; gap: 8px; font-size: 8.5px; }
+    }
+
+    /* ---------- друк / PDF ---------- */
+    @page { size: A4; margin: 0; }
+    @media print {
+      body { background: var(--ink); }
+      .bar { display: none; }
+      /* металевий градієнт у PDF малюється з рамкою — у друці рівне золото */
+      .sec__title, .mast__rule span, .promo__t span { background: none; -webkit-background-clip: border-box; background-clip: border-box; color: var(--gold-soft); }
+      .sheet { margin: 0; box-shadow: none; width: 210mm; height: 297mm; min-height: 0; page-break-after: always; break-after: page; }
+      .sheet:last-child { page-break-after: auto; break-after: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bar"><button type="button" onclick="window.print()">Зберегти PDF / друк</button><a href="../">На сайт</a></div>
+
+  <!-- АРКУШ 1: шапка, класичні, для гриля й казана -->
+  <section class="sheet">
+    <span class="frame"></span><span class="corner corner--tl"><i></i></span><span class="corner corner--tr"><i></i></span><span class="corner corner--bl"><i></i></span><span class="corner corner--br"><i></i></span>
+    <div class="content">
+      <header class="mast">
+        <img class="mast__logo" src="../img/logo-full.webp" alt="Шо по стейкам? — преміум стейки, доставка" width="480" height="312">
+        <p class="mast__rule"><span>Прайс</span></p>
+        <p class="mast__sub">Витримана яловичина · самовивіз у Києві · Нова Пошта по Україні</p>
+      </header>
+
+      <section class="sec">
+        <div class="sec__head"><h2 class="sec__title">Класичні стейки</h2><p class="sec__note">Волога витримка 21 день<br>ціни за 1 кг</p></div>
+        <div class="gradehead"><span>Відруб</span><span>Select</span><span>Choice / Клас.</span><span>Prime</span></div>
+        <div data-classic></div>
+        <div class="gradeinfo">
+          <p><b>Select</b>Мінімум мармуру: щільніший і нежирний.</p>
+          <p><b>Choice · Класичний</b>Помірний мармур — баланс ніжності й ціни.</p>
+          <p><b>Prime</b>Виразний мармур — найсоковитіший.</p>
+        </div>
+      </section>
+
+      <section class="sec">
+        <div class="sec__head"><h2 class="sec__title">Для гриля <em>й</em> казана</h2><p class="sec__note">Сирі · у вакуумі</p></div>
+        <ul class="items" data-grill></ul>
+      </section>
+
+      <footer class="foot"><span>Шо по стейкам? · ціни у гривнях · <span data-date></span></span><span><b>01</b> / 02</span></footer>
+    </div>
+  </section>
+
+  <!-- АРКУШ 2: альтернативні, промо, умови, контакти -->
+  <section class="sheet">
+    <span class="frame"></span><span class="corner corner--tl"><i></i></span><span class="corner corner--tr"><i></i></span><span class="corner corner--bl"><i></i></span><span class="corner corner--br"><i></i></span>
+    <div class="content">
+      <header class="mast mast--small">
+        <img class="mast__logo" src="../img/logo-header.webp" alt="Шо по стейкам?" width="240" height="131">
+        <p class="mast__sub">Преміум стейки · доставка</p>
+      </header>
+
+      <section class="sec">
+        <div class="sec__head"><h2 class="sec__title">Альтернативні стейки</h2><p class="sec__note">Для тих, хто вже скуштував рібай<br>ціни за 1 кг</p></div>
+        <ul class="items" data-alt></ul>
+      </section>
+
+      <div class="promo">
+        <p class="promo__k">Кодове слово</p>
+        <p class="promo__t">Впиши <span>„Шо по стейкам?“</span> у кошику на сайті</p>
+        <p class="promo__s">— і перша доставка Новою Поштою безкоштовна. Самовивіз і так 0 грн.</p>
+      </div>
+
+      <section class="sec">
+        <div class="sec__head"><h2 class="sec__title">Умови</h2><p class="sec__note">Отримання й оплата</p></div>
+        <dl class="terms">
+          <div><dt>Мінімальне замовлення</dt><dd data-min>2 000 грн</dd></div>
+          <div><dt>Самовивіз з цеху</dt><dd>0 грн</dd></div>
+          <div><dt>Нова Пошта по Україні</dt><dd data-np>150 грн</dd></div>
+          <div><dt>Упаковка</dt><dd>вакуум + термобокс з льодом</dd></div>
+          <div><dt>Точна сума</dt><dd>після зважування</dd></div>
+          <div><dt>Оплата</dt><dd>після підтвердження</dd></div>
+        </dl>
+      </section>
+
+      <div class="contacts">
+        <div><b>Самовивіз · цех</b><p data-addr>м. Київ, вул. Сергія Данченка, 34</p></div>
+        <div><b>Замовлення</b><p><span data-phone>073 450 54 35</span><br><span>daud-coder.github.io/sho-po-steikam</span></p></div>
+        <div><b>Ми в соцмережах</b><p>Instagram <span data-ig>[___]</span><br>TikTok <span data-tt>[___]</span><br>YouTube <span data-yt>[___]</span></p></div>
+      </div>
+
+      <footer class="foot"><span>Шо по стейкам? · ціни у гривнях · <span data-date></span></span><span><b>02</b> / 02</span></footer>
+    </div>
+  </section>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/products.js"></script>
+  <script>
+  (function () {
+    'use strict';
+    var CFG = window.CONFIG || {};
+    var P = (window.PRODUCTS || []).filter(function (p) { return !p.hidden; });
+    var BLANK = '<span class="blank">[___]</span>';
+    function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+    function num(n) { return Math.round(n).toLocaleString('uk-UA'); }
+    function price(v) { return v > 0 ? num(v) + '<small>грн</small>' : BLANK; }
+    function portion(g) { return g >= 1000 ? '≈ ' + (g / 1000).toLocaleString('uk-UA') + ' кг' : '≈ ' + g + ' г'; }
+    function badge(p) { return p.badge && p.badge.indexOf('Витримка') !== 0 ? ' <span class="badge">' + esc(p.badge) + '</span>' : ''; }
+    function nameHTML(p) {
+      return '<div class="item__name"><span class="item__uk">' + esc(p.name) + '</span><span class="item__en">' + esc(p.en) + '</span>' + badge(p) + '</div>';
+    }
+
+    // КЛАСИЧНІ — рядок на відруб, колонки Select / Choice-Класичний / Prime
+    document.querySelector('[data-classic]').innerHTML = P.filter(function (p) { return p.cat === 'classic'; }).map(function (p) {
+      var g = {}; (p.grades || []).forEach(function (x) { g[x.id] = x; });
+      function cell(id, label) {
+        var x = g[id];
+        if (!x) return '<div class="gitem__cell dash">—</div>';
+        return '<div class="gitem__cell">' + price(x.perKg) + '<small>' + esc(label) + '</small></div>';
+      }
+      var main = '<div class="gitem__main">' + nameHTML(p) + '<p class="item__desc">' + esc(p.desc) + ' · <b>' + portion(p.weight) + '</b></p></div>';
+      // без класів мармуру (міньйон) — одна ціна на всю ширину колонок
+      if (!p.grades) return '<div class="gitem">' + main + '<div class="gitem__cell gitem__cell--wide">' + price(p.perKg) + '<small>один клас</small></div></div>';
+      var mid = g.choice ? cell('choice', 'Choice') : cell('classic', 'Класичний');
+      return '<div class="gitem">' + main + cell('select', 'Select') + mid + cell('prime', 'Prime') + '</div>';
+    }).join('');
+
+    // АЛЬТЕРНАТИВНІ та ГРИЛЬ — назва ····· ціна
+    function row(p) {
+      var perPack = !!p.pack;
+      var val = perPack ? p.price : p.perKg;
+      var unit = perPack ? p.pack : 'за 1 кг';
+      return '<li class="item">' +
+        '<div class="item__name"><span class="item__uk">' + esc(p.name) + '</span><span class="item__en">' + esc(p.en) + '</span>' + badge(p) + '<span class="item__lead"></span></div>' +
+        '<div class="item__price">' + price(val) + '</div>' +
+        '<p class="item__desc">' + esc(p.like || p.desc) + '</p>' +
+        '<p class="item__portion">' + (perPack ? esc(unit) : unit + ' · ' + portion(p.weight)) + '</p>' +
+      '</li>';
+    }
+    document.querySelector('[data-alt]').innerHTML = P.filter(function (p) { return p.cat === 'alt'; }).map(row).join('');
+    document.querySelector('[data-grill]').innerHTML = P.filter(function (p) { return p.cat === 'burger'; }).map(function (p) {
+      var q = Object.assign({}, p);
+      if (p.id === 'ossobuco') q.desc = 'Зріз гомілки з мозковою кісткою — тушкувати 2–3 год';
+      q.like = q.desc;
+      return row(q);
+    }).join('');
+
+    // умови й контакти з config.js
+    if (CFG.minOrder) document.querySelector('[data-min]').textContent = num(CFG.minOrder) + ' грн';
+    if (CFG.deliveryFee && CFG.deliveryFee.np != null) document.querySelector('[data-np]').textContent = num(CFG.deliveryFee.np) + ' грн';
+    if (CFG.pickupAddress) document.querySelector('[data-addr]').textContent = CFG.pickupAddress;
+    if (CFG.phone) document.querySelector('[data-phone]').textContent = CFG.phone;
+    function social(key, sel) { var v = CFG[key]; if (v && v !== '#') document.querySelector(sel).textContent = v.replace(/^https?:\/\/(www\.)?/, ''); }
+    social('instagram', '[data-ig]'); social('tiktok', '[data-tt]'); social('youtube', '[data-yt]');
+    var d = new Date(), dd = ('0' + d.getDate()).slice(-2) + '.' + ('0' + (d.getMonth() + 1)).slice(-2) + '.' + d.getFullYear();
+    Array.prototype.forEach.call(document.querySelectorAll('[data-date]'), function (el) { el.textContent = 'актуально на ' + dd; });
+  })();
+  </script>
+</body>
+</html>
