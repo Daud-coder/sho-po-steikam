@@ -68,7 +68,8 @@ window.PRODUCTS = [
       { id: 'classic', label: 'Класичний', perKg: 0, photo: '' },
       { id: 'prime',   label: 'Prime',     perKg: 0, photo: '' }
     ] },
-  { id: 'filet',       cat: 'classic', name: 'Міньйон',     en: 'Filet mignon', desc: 'Найніжніший, з центру вирізки',       perKg: 2200, weight: 300,  badge: '',                 photo: 'images/filet-mignon.webp' },  // без класів мармуру — одна позиція
+  { id: 'filet',       cat: 'classic', name: 'Міньйон',     en: 'Filet mignon', desc: 'Найніжніший, з центру вирізки',       perKg: 2200, weight: 300,  badge: '',                 photo: 'images/filet-mignon.webp', featured: true,  // без класів мармуру — одна позиція
+    cook: [['Просмаження', 'rare — medium rare, 50–56 °C'], ['Сковорода', '2–3 хв з кожного боку, наприкінці — шматочок масла'], ['Порада', 'Нежирний: далі medium не смаж, інакше пересохне']] },
 
   // ---------- АЛЬТЕРНАТИВНІ (склад від 29.09) ----------
   // perKg: 0 / price: 0 — ціна ще не вказана: на сайті «Ціну уточнюйте» і кнопка дзвінка замість «В кошик».

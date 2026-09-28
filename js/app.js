@@ -160,7 +160,7 @@
   }
 
   function priceHTML(p, cls) {
-    if (!hasPrice(p)) return '<span class="' + cls + ' price-none">Ціну уточнюйте</span>';
+    if (!hasPrice(p)) return '<span class="' + cls + ' price-none">Ціна за запитом</span>';
     return '<span class="' + cls + '">' + (isApprox(p) ? '<small>≈</small>' : '') + money(unitPrice(p)) + '</span>';
   }
 
@@ -176,8 +176,17 @@
       p.grades.map(function (g) {
         return '<button class="grade__btn" type="button" data-grade="' + p.id + '" data-gid="' + g.id + '" aria-pressed="' + (g.id === cur.gid) + '">' + esc(g.label) + '</button>';
       }).join('') + '</div>' +
-      '<p class="grade__hint" data-grade-hint>' + esc(HINTS[cur.gid] || '') + '</p>' +
+      '<p class="grade__hint"><span data-grade-hint>' + esc(HINTS[cur.gid] || '') + '</span> <a class="grade__what" href="#grades">Що це?</a></p>' +
     '</div>';
+  }
+
+  // Плитка-підказка в кінці класики: що таке класи мармуру (заодно закриває порожню клітинку сітки)
+  function gradeNoteHTML() {
+    return '<aside class="card card--note">' +
+      '<p class="note__title">Select, Choice чи Prime?</p>' +
+      '<p class="note__text">Клас — це кількість мармуру в м’ясі. Select — нежирний, Choice — баланс ніжності й ціни, Prime — найсоковитіший.</p>' +
+      '<a class="btn btn--outline" href="#grades">Порівняти класи</a>' +
+    '</aside>';
   }
 
   // КЛАСИЧНІ — великі картки, featured — на 2 колонки
@@ -286,7 +295,7 @@
     if (!list.length) return '';
     if (cat === 'classic') {
       return '<div class="cgroup cgroup--classic" id="group-classic"><div class="container">' + groupHead(cat) +
-        '<div class="cgrid" data-reveal>' + list.map(classicCardHTML).join('') + '</div></div></div>';
+        '<div class="cgrid" data-reveal>' + list.map(classicCardHTML).join('') + gradeNoteHTML() + '</div></div></div>';
     }
     if (cat === 'alt') {
       return '<div class="cgroup cgroup--alt" id="group-alt"><div class="container">' + groupHead(cat) +
@@ -326,7 +335,7 @@
       var tel = CFG.phoneHref ? 'tel:' + CFG.phoneHref : '#contacts';
       addBtn = slot.dataset.kind === 'compact'
         ? '<a class="btn-plus" href="' + tel + '" aria-label="Дізнатись ціну: ' + esc(p.name) + '"><svg class="i" aria-hidden="true"><use href="#i-phone"/></svg></a>'
-        : '<a class="btn btn--outline" href="' + tel + '">Дізнатись ціну</a>';
+        : '<a class="btn btn--outline" href="' + tel + '" data-askprice>Дізнатись ціну</a>';
       qty = 0;
     }
     slot.innerHTML = qty ? stepperHTML(id, qty, p.name) : addBtn;
@@ -387,7 +396,7 @@
     $('[data-zoom-desc]', zoomDlg).textContent = p.like || p.desc;
     $('[data-zoom-price]', zoomDlg).innerHTML = hasPrice(p)
       ? (isApprox(p) ? '<small>≈</small>' : '') + money(unitPrice(p)) + '<span>' + metaLabel(p) + '</span>'
-      : 'Ціну уточнюйте<span>порція ≈ ' + weightLabel(p.weight) + '</span>';
+      : 'Ціна за запитом<span>порція ≈ ' + weightLabel(p.weight) + '</span>';
     $('[data-zoom-add]', zoomDlg).dataset.zoomAdd = id;
     $('[data-zoom-add]', zoomDlg).hidden = !hasPrice(p);
     zoomDlg.showModal();
@@ -400,6 +409,16 @@
     });
     zoomDlg.addEventListener('close', function () { if (zoomFrom && document.contains(zoomFrom)) zoomFrom.focus(); });
   }
+
+  // На комп’ютері tel: нікуди не веде — показуємо номер прямо в кнопці (наступне натискання вже дзвонить)
+  var canHover = window.matchMedia('(hover: hover) and (pointer: fine)');
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-askprice]');
+    if (!a || !canHover.matches || a.classList.contains('is-revealed') || !filled(CFG.phone)) return;
+    e.preventDefault();
+    a.textContent = CFG.phone;
+    a.classList.add('is-revealed');
+  });
 
   /* ---------- шапка / меню ---------- */
   var navEl = $('#nav');
@@ -450,7 +469,8 @@
   function openCart() {
     lastFocus = document.activeElement;
     closeNav();
-    if (view === 'thanks') setView('cart');
+    if (pendingOrder && !Object.keys(state.cart).length) { showThanks(pendingOrder, false); setView('thanks'); }
+    else if (view === 'thanks') setView('cart');
     renderCart();
     overlay.hidden = false; drawer.hidden = false;
     page.inert = true; cartbar.inert = true;
@@ -468,7 +488,7 @@
     var done = function () { if (!drawer.classList.contains('is-open')) { drawer.hidden = true; overlay.hidden = true; } };
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     reduce ? done() : setTimeout(done, 400);
-    if (view === 'thanks') setView('cart');
+    if (view === 'thanks' && !pendingOrder) setView('cart');
     if (lastFocus && document.contains(lastFocus)) lastFocus.focus({ preventScroll: true });
   }
 
@@ -548,7 +568,7 @@
     var hint = $('[data-codeword-hint]');
     // «не підходить» — тільки коли введено слово повної довжини, а не з першої літери
     var typed = norm(state.codeword).length >= norm(CFG.codeword).length;
-    hint.textContent = t.free ? 'Кодове слово прийнято — доставка Новою Поштою безкоштовна' : typed ? 'Слово не підходить. Перевір написання' : 'Перша доставка Новою Поштою — безкоштовно';
+    hint.textContent = t.free ? 'Кодове слово прийнято — доставка Новою Поштою безкоштовна' : typed ? 'Слово не підходить. Перевір написання' : 'Слово «Шо по стейкам?» — перша доставка Новою Поштою безкоштовно';
     hint.classList.toggle('is-ok', t.free);
 
     // підсумки (у кошику й у формі)
@@ -684,27 +704,44 @@
   }
 
   // Екран після оформлення: «прийняли» (надіслано) або «надішліть нам» (endpoint ще не підключений)
+  /* Замовлення без сервера зберігаємо, доки покупець сам не закриє («Готово, я подзвонив»):
+     × чи клік повз кошик не губить текст, а іконка кошика повертає на цей екран. */
+  var ORDER_KEY = 'shopostejkam.lastorder.v1';
+  var pendingOrder = null;
+  try { pendingOrder = JSON.parse(localStorage.getItem(ORDER_KEY) || 'null'); } catch (e) {}
+  function keepOrder(o) {
+    pendingOrder = o;
+    try { o ? localStorage.setItem(ORDER_KEY, JSON.stringify(o)) : localStorage.removeItem(ORDER_KEY); } catch (e) {}
+  }
+
   function showThanks(order, sent) {
     $$('[data-order-no]').forEach(function (el) { el.textContent = order.number; });
     $('[data-thanks-sent]').hidden = !sent;
     $('[data-thanks-manual]').hidden = sent;
-    if (sent) return;
-    var text = orderText(order);
+    if (sent) { keepOrder(null); return; }
+    var text = order.text || orderText(order);
+    keepOrder({ number: order.number, text: text });
     $('[data-order-text]').value = text;
     var tg = $('[data-order-tg]');
     var user = filled(CFG.telegram) ? CFG.telegram.replace(/^https?:\/\/t\.me\//, '').replace(/[\/?].*$/, '') : '';
     tg.hidden = !user;
     if (user) tg.href = 'https://t.me/' + user + '?text=' + encodeURIComponent(text);
-    var box = $('[data-thanks-manual]'), canSend = !!user || filled(CFG.phone);
-    $('.thanks__title', box).textContent = canSend ? 'Залишився один крок' : 'Замовлення сформовано';
-    $('.thanks__text', box).innerHTML = canSend
-      ? 'Надішли нам замовлення <strong>' + esc(order.number) + '</strong> — і менеджер передзвонить, щоб уточнити вагу, час і оплату.'
-      : 'Номер замовлення — <strong>' + esc(order.number) + '</strong>.';
+    var hasPhone = filled(CFG.phone) && CFG.phoneHref;
+    var callBtn = $('[data-order-callbtn]');
+    callBtn.hidden = !hasPhone;
+    if (hasPhone) callBtn.href = 'tel:' + CFG.phoneHref;
     var call = $('[data-order-call]');
-    call.hidden = !filled(CFG.phone) && !!user;
-    call.textContent = filled(CFG.phone) ? 'Або зателефонуй: ' + CFG.phone
-      : 'Онлайн-замовлення запускаємо найближчими днями. Скопіюй текст — він знадобиться, щойно ми відкриємо прийом.';
+    call.hidden = !hasPhone;
+    call.innerHTML = hasPhone ? 'Номер: <a href="tel:' + esc(CFG.phoneHref) + '">' + esc(CFG.phone) + '</a> · назви номер замовлення <strong>' + esc(order.number) + '</strong>' : '';
+    $('[data-order-lead]').textContent = hasPhone
+      ? 'Подзвони нам, щоб підтвердити: менеджер звірить вагу, час і оплату. Замовлення збережеться тут, доки ти його не закриєш.'
+      : 'Скопіюй текст замовлення і надішли нам — менеджер звірить вагу, час і оплату.';
   }
+  $('[data-order-done]').addEventListener('click', function () {
+    keepOrder(null);
+    setView('cart');
+    closeCart();
+  });
   $('[data-order-copy]').addEventListener('click', function () {
     var ta = $('[data-order-text]'), b = this;
     var done = function () { b.textContent = 'Скопійовано'; setTimeout(function () { b.textContent = 'Скопіювати текст'; }, 2000); };
@@ -830,32 +867,32 @@
     // t — у центрі після відпочинку, off — коли знімати з вогню (на 2–3 °C раніше), °C
     // core — колір центру на розрізі, k — яку частку зрізу займає центр (решта — сіра смуга)
     var LEVELS = {
-      'blue': { name: 'Blue', t: [46, 49], off: '44–46', core: '#6d1521', k: .94,
+      'blue': { name: 'Blue', uk: 'майже сирий', t: [46, 49], off: '44–46', core: '#6d1521', k: .94,
         look: 'Темно-червоний, майже сирий центр — прогріта лише скоринка.',
         feel: 'Дуже м’який, волокна ще не стиснулись. Жир усередині не встигає розтанути.',
         fits: 'Міньйон. Мармуровим відрубам зарано — жир не розкриється.',
         tip: 'Дістань стейк з холодильника за 30–40 хв, інакше центр лишиться холодним.' },
-      'rare': { name: 'Rare', t: [50, 52], off: '47–49', core: '#9f1f2e', k: .87,
+      'rare': { name: 'Rare', uk: 'з кров’ю', t: [50, 52], off: '47–49', core: '#9f1f2e', k: .87,
         look: 'Яскраво-червоний центр, тонка сіра смужка під скоринкою.',
         feel: 'Ніжний і дуже соковитий, трохи «желейний» у центрі.',
-        fits: 'Міньйон, фланк, топ раунд — нежирним відрубам низька температура на користь.',
+        fits: 'Міньйон, фланк, топ сайд, ай раунд — нежирним відрубам низька температура на користь.',
         tip: 'Термометр вводь збоку в найтовщу частину, не торкаючись кістки.' },
-      'medium-rare': { name: 'Medium rare', t: [54, 57], off: '52–54', core: '#c03c4b', k: .79, rec: true,
+      'medium-rare': { name: 'Medium rare', uk: 'рожевий і соковитий', t: [54, 57], off: '52–54', core: '#c03c4b', k: .79, rec: true,
         look: 'Рожево-червоний центр, теплий по всьому зрізу.',
         feel: 'Найбільше соку, мармур уже тане: стейк ніжний, але тримає форму.',
         fits: 'Рібай, нью-йорк, ковбой, томагавк, ті-бон, піканья — наш вибір за замовчуванням для мармурових стейків.',
         tip: 'Дай стейку відпочити 5 хв (томагавку — 10): сік розійдеться, а температура додасть ще 2–3 °C.' },
-      'medium': { name: 'Medium', t: [60, 63], off: '57–60', core: '#cc7070', k: .63,
+      'medium': { name: 'Medium', uk: 'рожевий центр', t: [60, 63], off: '57–60', core: '#cc7070', k: .63,
         look: 'Рожевий центр, широка сіра смуга по краю.',
         feel: 'Щільніший, соку менше, жир розтанув повністю.',
-        fits: 'Жирні відруби: рібай, ковбой, піканья, чак-ай рол. Для фланку й топ раунду це межа — далі стануть жорсткими.',
+        fits: 'Жирні відруби: рібай, ковбой, піканья, спайдер. Для фланку, топ сайду й ай раунду це межа — далі стануть жорсткими.',
         tip: 'Жирну шапку піканьї чи край рібаю спершу витопи на пательні ребром, 2–3 хв.' },
-      'medium-well': { name: 'Medium well', t: [65, 68], off: '62–65', core: '#ad8674', k: .42,
+      'medium-well': { name: 'Medium well', uk: 'майже просмажений', t: [65, 68], off: '62–65', core: '#ad8674', k: .42,
         look: 'Ледь рожевий відтінок лише в самому центрі.',
         feel: 'Щільний і помітно сухіший. Нежирні відруби вже жорсткі.',
-        fits: 'Лише мармурові відруби — рібай, ковбой, томагавк. Фланк, топ раунд і міньйон так не радимо.',
+        fits: 'Лише мармурові відруби — рібай, ковбой, томагавк. Фланк, топ сайд і міньйон так не радимо.',
         tip: 'Після скоринки доводь у духовці при 120–150 °C — край пересохне менше.' },
-      'well-done': { name: 'Well done', t: [70, 0], off: '67–68', core: '#7c5c4a', k: .2,
+      'well-done': { name: 'Well done', uk: 'повністю просмажений', t: [70, 0], off: '67–68', core: '#7c5c4a', k: .2,
         look: 'Сіро-коричневий по всьому зрізу, без рожевого.',
         feel: 'Щільний і сухий, соку мало. Витримка тут майже не відчувається.',
         fits: 'Якщо любиш саме так — бери найжирніший рібай чи ковбой, або бургерну котлету.',
@@ -864,7 +901,7 @@
     var MIN = 40, MAX = 75;   // шкала термометра, °C
     var btns = $$('[data-roast-go]', root);
     var el = {};
-    ['name', 'rec', 'temp', 'off', 'look', 'feel', 'fits', 'tip'].forEach(function (k) { el[k] = $('[data-roast-' + k + ']', root); });
+    ['name', 'uk', 'rec', 'temp', 'off', 'look', 'feel', 'fits', 'tip'].forEach(function (k) { el[k] = $('[data-roast-' + k + ']', root); });
     var pos = function (c) { return Math.max(0, Math.min(1, (c - MIN) / (MAX - MIN))); };
 
     function render(id) {
@@ -876,6 +913,7 @@
       root.style.setProperty('--t', pos(L.t[1] ? (L.t[0] + L.t[1]) / 2 : L.t[0] + 2));
       root.style.setProperty('--off', pos(parseInt(L.off, 10)));
       el.name.textContent = L.name;
+      el.uk.textContent = L.uk || '';
       el.rec.hidden = !L.rec;
       el.temp.textContent = L.t[1] ? L.t[0] + '–' + L.t[1] : L.t[0] + '+';
       el.off.textContent = L.off + ' °C';

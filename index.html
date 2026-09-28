@@ -75,6 +75,7 @@
         <a href="#delivery">Доставка</a>
         <a href="#faq">Питання</a>
         <a href="#contacts">Контакти</a>
+        <a class="nav__call" data-link="tel" href="tel:+380734505435"><svg class="i" aria-hidden="true"><use href="#i-phone"/></svg><span data-cfg="phone">073 450 54 35</span></a>
       </nav>
 
       <div class="header__actions">
@@ -137,12 +138,40 @@
       </ul>
     </section>
 
+    <!-- ЧОМУ НЕ СУПЕРМАРКЕТ -->
+    <section class="section pains-sec" aria-labelledby="pains-title">
+      <div class="container">
+        <div class="section__head">
+          <h2 class="section__title" id="pains-title">Чому стейк із супермаркету розчаровує</h2>
+          <p class="section__lead">Купив гарний шматок, засмажив як у відео — а він гумовий. Справа не в тобі.</p>
+        </div>
+        <ol class="pains">
+          <li class="pain">
+            <p class="pain__q">Свіже — не означає смачне</p>
+            <p class="pain__bad">М’ясо без витримки жорстке, скільки його не смаж.</p>
+            <p class="pain__good"><strong>У нас:</strong> кожен відруб 21 день відпочиває у вакуумі при 0…+2 °C. Волокна розм’якшуються самі — без маринадів і хімії.</p>
+          </li>
+          <li class="pain">
+            <p class="pain__q">Незрозуміло, що береш</p>
+            <p class="pain__bad">На вітрині «стейк яловичий» — а що це за м’яз і як його готувати, ніхто не скаже.</p>
+            <p class="pain__good"><strong>У нас:</strong> назва відрубу, вага порції, на що він схожий і як його смажити — прямо в меню.</p>
+          </li>
+          <li class="pain">
+            <p class="pain__q">Рібай є, а далі — пусто</p>
+            <p class="pain__bad">Піканью, топ блейд чи рамп у магазині не знайти.</p>
+            <p class="pain__good"><strong>У нас:</strong> 7 класичних стейків у класах мармуру, 10 альтернативних відрубів, а ще шашлик, люля, котлета й оссобуко — в одному місці.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
     <!-- 3. КАТАЛОГ (групи малює js/app.js з js/products.js) -->
     <section class="section catalog" id="catalog" aria-labelledby="catalog-title">
       <div class="container">
         <div class="section__head">
           <h2 class="section__title" id="catalog-title">Меню</h2>
           <p class="section__lead">Ціна порції орієнтовна — точну суму назвемо після зважування.</p>
+          <p class="catalog__terms"><span>Замовлення від <b data-cfg="minOrder">2 000 ₴</b></span><span>Самовивіз з цеху <b>0 ₴</b></span><span>Нова Пошта <b data-cfg="deliveryFee">150 ₴</b></span><span>Кодове слово «Шо по стейкам?» — перша доставка <b>0 ₴</b></span></p>
         </div>
         <div class="tabs" role="group" aria-label="Фільтр каталогу" data-tabs></div>
       </div>
@@ -196,33 +225,6 @@
           </li>
         </ol>
         <p class="gradeinfo__note"><strong>Ті-бон, портерхаус і клаб-стейк</strong> — у двох класах: «Класичний» (приблизно рівень Choice) і Prime. Рібай, нью-йорк, ковбой і томагавк — у всіх трьох. Мармур — природна ознака, тож два стейки одного класу можуть трохи відрізнятися.</p>
-      </div>
-    </section>
-
-    <!-- ЧОМУ НЕ СУПЕРМАРКЕТ -->
-    <section class="section pains-sec" aria-labelledby="pains-title">
-      <div class="container">
-        <div class="section__head">
-          <h2 class="section__title" id="pains-title">Чому стейк із супермаркету розчаровує</h2>
-          <p class="section__lead">Купив гарний шматок, засмажив як у відео — а він гумовий. Справа не в тобі.</p>
-        </div>
-        <ol class="pains">
-          <li class="pain">
-            <p class="pain__q">Свіже — не означає смачне</p>
-            <p class="pain__bad">М’ясо без витримки жорстке, скільки його не смаж.</p>
-            <p class="pain__good"><strong>У нас:</strong> кожен відруб 21 день відпочиває у вакуумі при 0…+2 °C. Волокна розм’якшуються самі — без маринадів і хімії.</p>
-          </li>
-          <li class="pain">
-            <p class="pain__q">Незрозуміло, що береш</p>
-            <p class="pain__bad">На вітрині «стейк яловичий» — а що це за м’яз і як його готувати, ніхто не скаже.</p>
-            <p class="pain__good"><strong>У нас:</strong> назва відрубу, вага порції, на що він схожий і як його смажити — прямо в меню.</p>
-          </li>
-          <li class="pain">
-            <p class="pain__q">Рібай є, а далі — пусто</p>
-            <p class="pain__bad">Піканью, топ блейд чи рамп у магазині не знайти.</p>
-            <p class="pain__good"><strong>У нас:</strong> 7 класичних стейків у класах мармуру, 10 альтернативних відрубів, а ще шашлик, люля, котлета й оссобуко — в одному місці.</p>
-          </li>
-        </ol>
       </div>
     </section>
 
@@ -286,7 +288,7 @@
           </ol>
           <p class="ager__note">Шкали ніжності й смаку — ілюстрація процесу, а не лабораторний замір.</p>
         </div>
-        <p class="aging__note">Готуємо камеру для сухої витримки — смак густіший, з горіховими нотами. Хочеш спробувати першим? Напиши нам.</p>
+        <p class="aging__note">Готуємо камеру для сухої витримки — смак густіший, з горіховими нотами. Хочеш спробувати першим? Подзвони — запишемо: <a data-link="tel" href="tel:+380734505435"><span data-cfg="phone">073 450 54 35</span></a>.</p>
       </div>
     </section>
 
@@ -315,7 +317,7 @@
               </div>
             </div>
             <div class="roast__info" aria-live="polite">
-              <p class="roast__head"><span class="roast__name" data-roast-name>Medium rare</span><span class="badge roast__rec" data-roast-rec>Радимо</span></p>
+              <p class="roast__head"><span class="roast__name" data-roast-name>Medium rare</span><span class="badge roast__rec" data-roast-rec>Радимо</span><span class="roast__uk" data-roast-uk>рожевий і соковитий</span></p>
               <p class="roast__temp"><span data-roast-temp>54–57</span><small>°C у центрі</small></p>
               <dl class="roast__facts">
                 <div><dt>Знімати з вогню</dt><dd data-roast-off>52–54 °C</dd></div>
@@ -340,9 +342,8 @@
         </div>
         <div class="horeca__body">
           <div class="section__head">
-            <p class="kicker">Для ресторанів і кухонь</p>
-            <h2 class="section__title" id="horeca-title">Стейк у вашому меню — наша робота</h2>
-            <p class="section__lead">Шеф має готувати, а не шукати постачальника, у якого рібай щоразу інший.</p>
+            <h2 class="section__title" id="horeca-title">Ресторанам і кухням</h2>
+            <p class="section__lead">Стейк у вашому меню — наша робота. Шеф має готувати, а не шукати постачальника, у якого рібай щоразу інший.</p>
           </div>
           <ul class="horeca__points">
             <li><strong>Однаковий калібр.</strong> Ріжемо під вашу вагу порції, щоб собівартість страви не гуляла.</li>
@@ -368,7 +369,7 @@
           <article class="dcard">
             <svg class="dcard__icon" aria-hidden="true"><use href="#i-pin"/></svg>
             <h3 class="dcard__title">Самовивіз з цеху</h3>
-            <p class="dcard__text"><span data-cfg="pickupAddress">м. Київ, вул. Сергія Данченка, 34</span>. Час узгодимо телефоном — заберете стейки прямо з холоду.</p>
+            <p class="dcard__text"><span data-cfg="pickupAddress">м. Київ, вул. Сергія Данченка, 34</span>. Час узгодимо телефоном — забереш стейки прямо з холоду.</p>
             <a class="dcard__link" data-link="map" href="#">Прокласти маршрут →</a>
           </article>
           <article class="dcard">
@@ -443,12 +444,12 @@
     <section class="section about" id="about" aria-labelledby="about-title">
       <div class="container about__grid">
         <div>
-          <p class="kicker">Про нас</p>
-          <h2 class="section__title" id="about-title">Ми самі довго питали: «Шо по стейкам?»</h2>
+          <h2 class="section__title" id="about-title">Про нас</h2>
+          <p class="about__lead">Ми самі довго питали: «Шо по стейкам?»</p>
         </div>
         <div class="about__text">
           <p>Знайомо: хочеш на вихідних нормальний стейк, а в магазині — або сіре м’ясо без назви, або рібай за ціною ресторану і без жодних гарантій. Ми були тими самими людьми, які після кожної покупки гадали, чому знову не вийшло.</p>
-          <p>Тому зробили свій цех. Самі відбираємо відруби, самі витримуємо, самі ріжемо і самі відповідаємо на дзвінки. Ніяких посередників між холодильною камерою і вашою пательнею.</p>
+          <p>Тому зробили свій цех. Самі відбираємо відруби, самі витримуємо, самі ріжемо і самі відповідаємо на дзвінки. Ніяких посередників між холодильною камерою і твоєю пательнею.</p>
           <p>Наша назва — це питання, яке ставить кожен, хто любить м’ясо. А відповідь ми пакуємо у вакуум.</p>
         </div>
       </div>
@@ -458,7 +459,7 @@
     <section class="section contacts" id="contacts" aria-labelledby="contacts-title">
       <div class="container contacts__grid">
         <div class="contacts__body">
-          <h2 class="contacts__title" id="contacts-title">Шо по стейкам? <span>Замовляй — і по стейкам буде все.</span></h2>
+          <h2 class="contacts__title" id="contacts-title">Шо по стейкам? <span>Обирай стейк — решту беремо на себе.</span></h2>
           <p class="section__lead">Збери кошик на сайті, подзвони або приїжджай у цех. Ресторанам — окремі умови.</p>
           <div class="contacts__actions">
             <a class="btn btn--primary btn--lg" href="#catalog">Обрати стейк</a>
@@ -549,7 +550,7 @@
       <div class="field codeword" data-codeword-wrap>
         <label class="field__label" for="codeword">Кодове слово</label>
         <input class="input" id="codeword" name="codeword" type="text" autocomplete="off" placeholder="Знаєш слово? Впиши сюди" aria-describedby="codeword-hint">
-        <p class="field__hint" id="codeword-hint" data-codeword-hint>Перша доставка Новою Поштою — безкоштовно</p>
+        <p class="field__hint" id="codeword-hint" data-codeword-hint>Слово «Шо по стейкам?» — перша доставка Новою Поштою безкоштовно</p>
       </div>
     </div>
     <div class="drawer__foot" data-foot>
@@ -617,21 +618,26 @@
   <div class="drawer__view" data-view="thanks" hidden>
     <div class="drawer__body thanks" data-thanks-sent>
       <svg class="thanks__icon" aria-hidden="true"><use href="#i-shield"/></svg>
-      <p class="thanks__title">Дякуємо! Ми зв’яжемося з вами</p>
+      <p class="thanks__title">Дякуємо! Ми тобі зателефонуємо</p>
       <p class="thanks__text">Замовлення <strong data-order-no></strong> прийняли. Менеджер передзвонить, щоб уточнити вагу, час отримання та оплату.</p>
       <button class="btn btn--ghost" type="button" data-close-cart>Повернутися на сайт</button>
     </div>
     <div class="drawer__body thanks thanks--manual" data-thanks-manual hidden>
-      <p class="thanks__title">Залишився один крок</p>
-      <p class="thanks__text">Надішли нам замовлення <strong data-order-no></strong> — і менеджер передзвонить, щоб уточнити вагу, час і оплату.</p>
-      <label class="visually-hidden" for="order-text">Текст замовлення</label>
-      <textarea class="input thanks__order" id="order-text" data-order-text rows="9" readonly></textarea>
+      <svg class="thanks__icon" aria-hidden="true"><use href="#i-phone"/></svg>
+      <p class="thanks__title">Замовлення <span data-order-no></span> сформовано</p>
+      <p class="thanks__text" data-order-lead>Подзвони нам, щоб підтвердити: менеджер звірить вагу, час і оплату. Замовлення збережеться тут, доки ти його не закриєш.</p>
       <div class="thanks__actions">
-        <a class="btn btn--primary btn--block" data-order-tg target="_blank" rel="noopener" hidden>Надіслати в Telegram</a>
-        <button class="btn btn--outline btn--block" type="button" data-order-copy>Скопіювати текст</button>
+        <a class="btn btn--primary btn--block btn--lg" data-order-callbtn data-link="tel" href="tel:+380734505435"><svg class="i" aria-hidden="true"><use href="#i-phone"/></svg>Подзвонити й підтвердити</a>
+        <a class="btn btn--outline btn--block" data-order-tg target="_blank" rel="noopener" hidden>Надіслати в Telegram</a>
       </div>
+      <details class="thanks__details">
+        <summary>Текст замовлення</summary>
+        <label class="visually-hidden" for="order-text">Текст замовлення</label>
+        <textarea class="input thanks__order" id="order-text" data-order-text rows="9" readonly></textarea>
+        <button class="btn btn--ghost btn--block" type="button" data-order-copy>Скопіювати текст</button>
+      </details>
       <p class="thanks__text" data-order-call hidden></p>
-      <button class="btn btn--ghost" type="button" data-close-cart>Повернутися на сайт</button>
+      <button class="btn btn--ghost" type="button" data-order-done>Готово, я подзвонив</button>
     </div>
   </div>
 </aside>
