@@ -734,7 +734,9 @@ a.btn-plus { text-decoration: none; }
 
 /* ---------- класи мармуру в картці: Select / Choice / Prime ---------- */
 .grade { margin-bottom: 14px; }
-.grade__seg { display: grid; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); padding: 3px; gap: 3px; border: 1px solid var(--line); border-radius: var(--r); background: var(--card-2); }
+.grade::before { content: 'Обери клас мармуру'; display: block; margin-bottom: 8px; font: 600 12px/1 var(--f-head); letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
+.grade__seg { display: grid; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); padding: 3px; gap: 3px; border: 1.5px solid var(--gold); border-radius: var(--r); background: rgba(198, 166, 110, .06); box-shadow: 0 0 0 4px rgba(198, 166, 110, .07); }
+.grade__seg .grade__btn[aria-pressed="false"] { color: var(--gold-hover); }
 .grade__btn {
   min-width: 0; min-height: 40px; padding: 0 6px; border: 1px solid transparent; border-radius: 2px; background: transparent; cursor: pointer;
   font: 600 13px/1 var(--f-head); letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
@@ -744,7 +746,13 @@ a.btn-plus { text-decoration: none; }
 }
 .grade__btn:active { transform: scale(.97); }
 .grade__btn[aria-pressed="true"] { color: var(--bg); border-color: var(--gold); background: var(--gold); }
-@media (hover: hover) { .grade__btn[aria-pressed="false"]:hover { color: var(--text); } }
+@media (hover: hover) { .grade__seg .grade__btn[aria-pressed="false"]:hover { color: var(--text); background: rgba(198, 166, 110, .16); } }
+
+/* більше золота: заголовки розділів — золоті, під ними коротка золота риска */
+.section__title { color: var(--gold); }
+.section__head .section__title::after { content: ''; display: block; width: 56px; height: 2px; margin-top: 14px; background: var(--gold); }
+.section__head--row .section__title::after { display: none; }
+.cgroup__title { color: var(--gold-hover); }
 .grade__hint { margin-top: 8px; font-size: 14px; line-height: 1.35; color: #CDBB93; min-height: 1.35em; }
 /* плавна зміна фото при перемиканні класу */
 .card__media .media-next { position: absolute; inset: 0; opacity: 0; transition: opacity .32s var(--ease-out); }
