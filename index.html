@@ -149,6 +149,56 @@
       <div class="catalog__groups" data-grid aria-live="polite"></div>
     </section>
 
+    <!-- КЛАСИ МАРМУРУ. Фото класів: images/grade-select.webp, grade-choice.webp, grade-prime.webp —
+         поки файлів немає, показується заглушка «Фото незабаром»; поклади файли — і фото з’являться самі -->
+    <section class="section grades-sec" id="grades" aria-labelledby="grades-title">
+      <div class="container">
+        <div class="section__head">
+          <h2 class="section__title" id="grades-title">Select · Choice · Prime — що це?</h2>
+          <p class="section__lead gradeinfo__lead">Назви класів — з американської шкали мармуровості USDA: що більше тонких жирових прожилок усередині м’яза, то вищий клас. Штампа USDA на нашому м’ясі немає — відруби сортуємо самі, за видимим мармуром на зрізі.</p>
+        </div>
+        <ol class="gradeinfo">
+          <li class="ginfo">
+            <div class="ginfo__media">
+              <span class="ph__cap">Фото незабаром</span>
+              <img src="images/grade-select.webp" alt="Зріз стейка класу Select: мало мармуру" width="800" height="600" loading="lazy" decoding="async" data-grade-img>
+            </div>
+            <div class="ginfo__body">
+              <h3 class="ginfo__name">Select</h3>
+              <p class="marb" data-lvl="1"><span class="marb__bar" aria-hidden="true"><i></i><i></i><i></i></span>Мармур: мінімальний</p>
+              <p class="ginfo__text">Прожилок мало, м’ясо щільніше й нежирне. Смак чистий, яловичий.</p>
+              <p class="ginfo__for"><strong>Кому:</strong> хто любить нежирне м’ясо. Найкраще до medium — далі підсихає.</p>
+            </div>
+          </li>
+          <li class="ginfo">
+            <div class="ginfo__media">
+              <span class="ph__cap">Фото незабаром</span>
+              <img src="images/grade-choice.webp" alt="Зріз стейка класу Choice: помірний мармур" width="800" height="600" loading="lazy" decoding="async" data-grade-img>
+            </div>
+            <div class="ginfo__body">
+              <h3 class="ginfo__name">Choice</h3>
+              <p class="marb" data-lvl="2"><span class="marb__bar" aria-hidden="true"><i></i><i></i><i></i></span>Мармур: помірний</p>
+              <p class="ginfo__text">Прожилки помітні, але не по всьому зрізу. Ніжний і соковитий, жир не перебиває смак м’яса.</p>
+              <p class="ginfo__for"><strong>Кому:</strong> на щодень і для першого знайомства з рібаєм чи нью-йорком.</p>
+            </div>
+          </li>
+          <li class="ginfo">
+            <div class="ginfo__media">
+              <span class="ph__cap">Фото незабаром</span>
+              <img src="images/grade-prime.webp" alt="Зріз стейка класу Prime: густий мармур" width="800" height="600" loading="lazy" decoding="async" data-grade-img>
+            </div>
+            <div class="ginfo__body">
+              <h3 class="ginfo__name">Prime</h3>
+              <p class="marb" data-lvl="3"><span class="marb__bar" aria-hidden="true"><i></i><i></i><i></i></span>Мармур: виразний</p>
+              <p class="ginfo__text">Густий дрібний мармур по всьому зрізу. Жир тане під час смаження — найсоковитіший і найм’якший.</p>
+              <p class="ginfo__for"><strong>Кому:</strong> на особливий привід. Смаж до medium rare — medium, щоб жир розкрився.</p>
+            </div>
+          </li>
+        </ol>
+        <p class="gradeinfo__note"><strong>Ті-бон, портерхаус і клаб-стейк</strong> — у двох класах: «Класичний» (приблизно рівень Choice) і Prime. Рібай, нью-йорк, ковбой і томагавк — у всіх трьох. Мармур — природна ознака, тож два стейки одного класу можуть трохи відрізнятися.</p>
+      </div>
+    </section>
+
     <!-- ЧОМУ НЕ СУПЕРМАРКЕТ -->
     <section class="section pains-sec" aria-labelledby="pains-title">
       <div class="container">
@@ -237,6 +287,47 @@
           <p class="ager__note">Шкали ніжності й смаку — ілюстрація процесу, а не лабораторний замір.</p>
         </div>
         <p class="aging__note">Готуємо камеру для сухої витримки — смак густіший, з горіховими нотами. Хочеш спробувати першим? Напиши нам.</p>
+      </div>
+    </section>
+
+    <!-- СТУПЕНІ ПРОЖАРЮВАННЯ (дані рівнів — initRoast() у js/app.js) -->
+    <section class="section roast-sec" id="doneness" aria-labelledby="doneness-title">
+      <div class="container">
+        <div class="section__head">
+          <h2 class="section__title" id="doneness-title">Ступені прожарювання</h2>
+          <p class="section__lead">Обери ступінь — і подивись, яким стейк буде всередині і коли знімати його з вогню. Без термометра вгадати складно, з ним — жодних сюрпризів.</p>
+        </div>
+        <div class="roast" data-roast>
+          <div class="roast__levels" role="group" aria-label="Ступінь прожарювання">
+            <button class="roast__btn" type="button" data-roast-go="blue" aria-pressed="false">Blue</button>
+            <button class="roast__btn" type="button" data-roast-go="rare" aria-pressed="false">Rare</button>
+            <button class="roast__btn" type="button" data-roast-go="medium-rare" aria-pressed="true">Medium rare</button>
+            <button class="roast__btn" type="button" data-roast-go="medium" aria-pressed="false">Medium</button>
+            <button class="roast__btn" type="button" data-roast-go="medium-well" aria-pressed="false">Medium well</button>
+            <button class="roast__btn" type="button" data-roast-go="well-done" aria-pressed="false">Well done</button>
+          </div>
+          <div class="roast__panel">
+            <div class="roast__visual" aria-hidden="true">
+              <div class="steakx"><span class="steakx__band"><span class="steakx__core"></span></span></div>
+              <div class="thermo">
+                <span class="thermo__track"><span class="thermo__fill"></span><span class="thermo__off"></span></span>
+                <span class="thermo__scale"><span>40 °C</span><span>55</span><span>75 °C</span></span>
+              </div>
+            </div>
+            <div class="roast__info" aria-live="polite">
+              <p class="roast__head"><span class="roast__name" data-roast-name>Medium rare</span><span class="badge roast__rec" data-roast-rec>Радимо</span></p>
+              <p class="roast__temp"><span data-roast-temp>54–57</span><small>°C у центрі</small></p>
+              <dl class="roast__facts">
+                <div><dt>Знімати з вогню</dt><dd data-roast-off>52–54 °C</dd></div>
+                <div><dt>На розрізі</dt><dd data-roast-look>Рожево-червоний центр, теплий по всьому зрізу.</dd></div>
+                <div><dt>Текстура</dt><dd data-roast-feel>Найбільше соку, мармур уже тане: стейк ніжний, але тримає форму.</dd></div>
+                <div><dt>Підходить</dt><dd data-roast-fits>Рібай, нью-йорк, ковбой, томагавк, ті-бон, піканья — наш вибір за замовчуванням для мармурових стейків.</dd></div>
+                <div><dt>Порада</dt><dd data-roast-tip>Дай стейку відпочити 5 хв (томагавку — 10): сік розійдеться, а температура додасть ще 2–3 °C.</dd></div>
+              </dl>
+            </div>
+          </div>
+          <p class="roast__note">Знімаємо з вогню на 2–3 °C раніше: поки стейк відпочиває, тепло з країв доходить до центру. Кольори на малюнку — ілюстрація, реальний відтінок залежить від відрубу й мармуру.</p>
+        </div>
       </div>
     </section>
 

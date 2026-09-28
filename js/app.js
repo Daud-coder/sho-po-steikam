@@ -8,11 +8,30 @@
   var CFG = window.CONFIG;
   var PRODUCTS = window.PRODUCTS.filter(function (p) { return !p.hidden; });
   var CATS = window.CATEGORIES;
+  var HINTS = window.GRADE_HINTS || {};
   var byId = {};
   PRODUCTS.forEach(function (p) { byId[p.id] = p; });
 
+  /* Позиції кошика. Ключ — id товару, а для товару з класами мармуру —
+     'id@клас' (напр. 'ribeye@prime'). Клас — це «варіант»: копія товару з ціною
+     й фото класу, тож unitPrice / hasPrice / media працюють з ним без змін. */
+  function variant(p, g) {
+    return {
+      id: p.id + '@' + g.id, pid: p.id, gid: g.id, grade: g.label, cat: p.cat,
+      name: p.name + ' · ' + g.label, en: p.en, desc: p.desc,
+      perKg: g.perKg || 0, weight: p.weight, photo: g.photo || p.photo
+    };
+  }
+  var byKey = {};
+  PRODUCTS.forEach(function (p) {
+    if (p.grades && p.grades.length) p.grades.forEach(function (g) { var v = variant(p, g); byKey[v.id] = v; });
+    else byKey[p.id] = p;
+  });
+
   var STORE_KEY = 'shopostejkam.cart.v1';
-  var state = { cart: {}, codeword: '', filter: 'all', method: 'pickup' };
+  // grade: обраний у картці клас { ribeye: 'prime' }; за замовчуванням — перший
+  var state = { cart: {}, codeword: '', filter: 'all', method: 'pickup', grade: {} };
+  function gradeKey(p) { return p.grades && p.grades.length ? p.id + '@' + (state.grade[p.id] || p.grades[0].id) : p.id; }
 
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
@@ -46,8 +65,9 @@
   function load() {
     try {
       var saved = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
-      Object.keys(saved.cart || {}).forEach(function (id) {
-        if (byId[id] && hasPrice(byId[id]) && saved.cart[id] > 0) state.cart[id] = Math.min(99, saved.cart[id] | 0);
+      // невідомі ключі й класи без ціни відкидаємо (старий 'ribeye' без класу теж)
+      Object.keys(saved.cart || {}).forEach(function (key) {
+        if (byKey[key] && hasPrice(byKey[key]) && saved.cart[key] > 0) state.cart[key] = Math.min(99, saved.cart[key] | 0);
       });
       state.codeword = saved.codeword || '';
     } catch (e) { /* приватний режим або заблоковане сховище — працюємо без нього */ }
@@ -58,9 +78,9 @@
 
   /* ---------- підрахунки ---------- */
   function lines() {
-    return Object.keys(state.cart).map(function (id) {
-      var p = byId[id];
-      return { p: p, qty: state.cart[id], sum: unitPrice(p) * state.cart[id] };
+    return Object.keys(state.cart).map(function (key) {
+      var p = byKey[key];
+      return { p: p, qty: state.cart[key], sum: unitPrice(p) * state.cart[key] };
     });
   }
   function totals() {
@@ -73,11 +93,15 @@
     return { lines: ls, count: count, subtotal: subtotal, delivery: delivery, free: free, total: subtotal + delivery, left: Math.max(0, CFG.minOrder - subtotal) };
   }
 
-  function setQty(id, qty) {
+  // key — id товару або 'id@клас'. Без ціни в кошик не пускаємо.
+  function setQty(key, qty) {
+    var p = byKey[key];
+    if (!p) return;
     qty = Math.max(0, Math.min(99, qty));
-    if (qty === 0) delete state.cart[id]; else state.cart[id] = qty;
+    if (qty > 0 && !hasPrice(p)) return;
+    if (qty === 0) delete state.cart[key]; else state.cart[key] = qty;
     save();
-    renderCardAction(id);
+    renderCardAction(p.pid || key);
     renderCart();
   }
 
@@ -134,10 +158,27 @@
     return '<span class="' + cls + '">' + (isApprox(p) ? '<small>≈</small>' : '') + money(unitPrice(p)) + '</span>';
   }
 
+  function cardPriceHTML(p) {
+    return priceHTML(p, 'card__sum') + '<span class="card__meta">' + (hasPrice(p) ? metaLabel(p) : 'порція ≈ ' + weightLabel(p.weight)) + '</span>';
+  }
+
+  // Перемикач класів мармуру (Select / Choice / Prime) — тільки для товарів з grades
+  function gradeSwitchHTML(p) {
+    var cur = byKey[gradeKey(p)];
+    return '<div class="grade" data-grades="' + p.id + '">' +
+      '<div class="grade__seg" role="group" aria-label="Клас мармуру: ' + esc(p.name) + '" style="--n:' + p.grades.length + '">' +
+      p.grades.map(function (g) {
+        return '<button class="grade__btn" type="button" data-grade="' + p.id + '" data-gid="' + g.id + '" aria-pressed="' + (g.id === cur.gid) + '">' + esc(g.label) + '</button>';
+      }).join('') + '</div>' +
+      '<p class="grade__hint" data-grade-hint>' + esc(HINTS[cur.gid] || '') + '</p>' +
+    '</div>';
+  }
+
   // КЛАСИЧНІ — великі картки, featured — на 2 колонки
   function classicCardHTML(p) {
+    var v = byKey[gradeKey(p)];   // товар або обраний клас
     return '<article class="card' + (p.featured ? ' card--hero' : '') + '" data-id="' + p.id + '">' +
-      '<div class="card__media">' + media(p, p.featured ? 'hero' : 'card') + badge(p) + '</div>' +
+      '<div class="card__media" data-media>' + media(v, p.featured ? 'hero' : 'card') + badge(p) + '</div>' +
       '<div class="card__body">' +
         '<h4 class="card__name">' + esc(p.name) + '</h4>' +
         '<p class="card__en">' + esc(p.en) + '</p>' +
@@ -146,11 +187,49 @@
           return '<div><dt>' + esc(c[0]) + '</dt><dd>' + esc(c[1]) + '</dd></div>';
         }).join('') + '</dl>' : '') +
         '<div class="card__foot">' +
-          '<div class="card__price">' + priceHTML(p, 'card__sum') + '<span class="card__meta">' + (hasPrice(p) ? metaLabel(p) : 'порція ≈ ' + weightLabel(p.weight)) + '</span></div>' +
+          (p.grades && p.grades.length ? gradeSwitchHTML(p) : '') +
+          '<div class="card__price" data-price>' + cardPriceHTML(v) + '</div>' +
           '<div class="card__action" data-action="' + p.id + '" data-kind="full"></div>' +
         '</div>' +
       '</div>' +
     '</article>';
+  }
+
+  // Зміна класу: кнопки, підказка, ціна, фото (плавна зміна) і кнопка кошика — для цього класу
+  function setGrade(pid, gid) {
+    var p = byId[pid];
+    if (!p || !p.grades || gradeKey(p) === pid + '@' + gid) return;
+    var prev = byKey[gradeKey(p)];
+    state.grade[pid] = gid;
+    var v = byKey[gradeKey(p)];
+    var card = gridEl.querySelector('.card[data-id="' + pid + '"]');
+    if (!card) return;
+    $$('[data-grade]', card).forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.gid === gid)); });
+    $('[data-grade-hint]', card).textContent = HINTS[gid] || '';
+    $('[data-price]', card).innerHTML = cardPriceHTML(v);
+    renderCardAction(pid);
+    if (v.photo !== prev.photo) swapPhoto($('[data-media]', card), v, p.featured ? 'hero' : 'card');
+  }
+
+  function swapPhoto(box, v, kind) {
+    var all = $$(':scope > img, :scope > .ph', box);
+    var old = all[all.length - 1];   // при швидких перемиканнях — останнє, що вже показується
+    all.slice(0, -1).forEach(function (el) { el.remove(); });
+    var tmp = document.createElement('div');
+    tmp.innerHTML = media(v, kind);
+    var next = tmp.firstChild;
+    if (reduceMotion || !old) { if (old) box.replaceChild(next, old); else box.insertBefore(next, box.firstChild); return; }
+    // нове фото лягає поверх старого і проявляється; старе прибираємо після переходу
+    next.classList.add('media-next');
+    box.insertBefore(next, old.nextSibling);
+    var shown = false;
+    function show() {
+      if (shown) return; shown = true;
+      requestAnimationFrame(function () { next.classList.add('is-shown'); });
+      setTimeout(function () { old.remove(); next.classList.remove('media-next', 'is-shown'); }, 360);
+    }
+    if (next.tagName === 'IMG' && !next.complete) { next.addEventListener('load', show); next.addEventListener('error', show); }
+    else show();
   }
 
   // АЛЬТЕРНАТИВНІ — компактне меню
@@ -222,11 +301,13 @@
     '</div>';
   }
 
-  function renderCardAction(id) {
-    var slot = gridEl.querySelector('[data-action="' + id + '"]');
+  // id — id товару; для товару з класами малюємо кнопку саме обраного класу
+  function renderCardAction(pid) {
+    var slot = gridEl.querySelector('[data-action="' + pid + '"]');
     if (!slot) return;
+    var id = gradeKey(byId[pid]);
     var qty = state.cart[id] || 0;
-    var p = byId[id];
+    var p = byKey[id];
     var hadFocus = slot.contains(document.activeElement) ? document.activeElement : null;
     var focusKind = hadFocus && (hadFocus.hasAttribute('data-dec') ? 'dec' : hadFocus.hasAttribute('data-inc') ? 'inc' : 'add');
     var addBtn = slot.dataset.kind === 'compact'
@@ -277,6 +358,7 @@
     var b = e.target.closest('button');
     if (!b) return;
     if (b.dataset.zoom) { openZoom(b.dataset.zoom, b); return; }
+    if (b.dataset.grade) { setGrade(b.dataset.grade, b.dataset.gid); return; }
     if (b.dataset.add) { setQty(b.dataset.add, 1); bump(); }
     else if (b.dataset.inc) { setQty(b.dataset.inc, (state.cart[b.dataset.inc] || 0) + 1); bump(); }
     else if (b.dataset.dec) setQty(b.dataset.dec, (state.cart[b.dataset.dec] || 0) - 1);
@@ -547,8 +629,10 @@
         comment: f.comment.value.trim()
       },
       items: t.lines.map(function (l) {
+        // id — ключ кошика ('ribeye@prime'), name уже з класом: «Рібай · Prime»
         return {
-          id: l.p.id, name: l.p.name + (l.p.pack ? ' ' + l.p.pack : ''), qty: l.qty,
+          id: l.p.id, product: l.p.pid || l.p.id, grade: l.p.grade || null,
+          name: l.p.name + (l.p.pack ? ' ' + l.p.pack : ''), qty: l.qty,
           unitPrice: unitPrice(l.p), perKg: l.p.perKg || null, portionGrams: l.p.weight || null, sum: l.sum
         };
       }),
@@ -730,14 +814,103 @@
     } else { render(21); }
   }
 
+  /* ---------- «Ступені прожарювання» ---------- */
+  function initRoast() {
+    var root = $('[data-roast]');
+    if (!root) return;
+    // t — у центрі після відпочинку, off — коли знімати з вогню (на 2–3 °C раніше), °C
+    // core — колір центру на розрізі, k — яку частку зрізу займає центр (решта — сіра смуга)
+    var LEVELS = {
+      'blue': { name: 'Blue', t: [46, 49], off: '44–46', core: '#6d1521', k: .94,
+        look: 'Темно-червоний, майже сирий центр — прогріта лише скоринка.',
+        feel: 'Дуже м’який, волокна ще не стиснулись. Жир усередині не встигає розтанути.',
+        fits: 'Міньйон. Мармуровим відрубам зарано — жир не розкриється.',
+        tip: 'Дістань стейк з холодильника за 30–40 хв, інакше центр лишиться холодним.' },
+      'rare': { name: 'Rare', t: [50, 52], off: '47–49', core: '#9f1f2e', k: .87,
+        look: 'Яскраво-червоний центр, тонка сіра смужка під скоринкою.',
+        feel: 'Ніжний і дуже соковитий, трохи «желейний» у центрі.',
+        fits: 'Міньйон, фланк, топ раунд — нежирним відрубам низька температура на користь.',
+        tip: 'Термометр вводь збоку в найтовщу частину, не торкаючись кістки.' },
+      'medium-rare': { name: 'Medium rare', t: [54, 57], off: '52–54', core: '#c03c4b', k: .79, rec: true,
+        look: 'Рожево-червоний центр, теплий по всьому зрізу.',
+        feel: 'Найбільше соку, мармур уже тане: стейк ніжний, але тримає форму.',
+        fits: 'Рібай, нью-йорк, ковбой, томагавк, ті-бон, піканья — наш вибір за замовчуванням для мармурових стейків.',
+        tip: 'Дай стейку відпочити 5 хв (томагавку — 10): сік розійдеться, а температура додасть ще 2–3 °C.' },
+      'medium': { name: 'Medium', t: [60, 63], off: '57–60', core: '#cc7070', k: .63,
+        look: 'Рожевий центр, широка сіра смуга по краю.',
+        feel: 'Щільніший, соку менше, жир розтанув повністю.',
+        fits: 'Жирні відруби: рібай, ковбой, піканья, чак-ай рол. Для фланку й топ раунду це межа — далі стануть жорсткими.',
+        tip: 'Жирну шапку піканьї чи край рібаю спершу витопи на пательні ребром, 2–3 хв.' },
+      'medium-well': { name: 'Medium well', t: [65, 68], off: '62–65', core: '#ad8674', k: .42,
+        look: 'Ледь рожевий відтінок лише в самому центрі.',
+        feel: 'Щільний і помітно сухіший. Нежирні відруби вже жорсткі.',
+        fits: 'Лише мармурові відруби — рібай, ковбой, томагавк. Фланк, топ раунд і міньйон так не радимо.',
+        tip: 'Після скоринки доводь у духовці при 120–150 °C — край пересохне менше.' },
+      'well-done': { name: 'Well done', t: [70, 0], off: '67–68', core: '#7c5c4a', k: .2,
+        look: 'Сіро-коричневий по всьому зрізу, без рожевого.',
+        feel: 'Щільний і сухий, соку мало. Витримка тут майже не відчувається.',
+        fits: 'Якщо любиш саме так — бери найжирніший рібай чи ковбой, або бургерну котлету.',
+        tip: 'Не тисни стейк лопаткою під час смаження — так витискаєш останній сік.' }
+    };
+    var MIN = 40, MAX = 75;   // шкала термометра, °C
+    var btns = $$('[data-roast-go]', root);
+    var el = {};
+    ['name', 'rec', 'temp', 'off', 'look', 'feel', 'fits', 'tip'].forEach(function (k) { el[k] = $('[data-roast-' + k + ']', root); });
+    var pos = function (c) { return Math.max(0, Math.min(1, (c - MIN) / (MAX - MIN))); };
+
+    function render(id) {
+      var L = LEVELS[id];
+      if (!L) return;
+      btns.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.roastGo === id)); });
+      root.style.setProperty('--core', L.core);
+      root.style.setProperty('--k', L.k);
+      root.style.setProperty('--t', pos(L.t[1] ? (L.t[0] + L.t[1]) / 2 : L.t[0] + 2));
+      root.style.setProperty('--off', pos(parseInt(L.off, 10)));
+      el.name.textContent = L.name;
+      el.rec.hidden = !L.rec;
+      el.temp.textContent = L.t[1] ? L.t[0] + '–' + L.t[1] : L.t[0] + '+';
+      el.off.textContent = L.off + ' °C';
+      el.look.textContent = L.look; el.feel.textContent = L.feel; el.fits.textContent = L.fits; el.tip.textContent = L.tip;
+    }
+
+    root.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-roast-go]');
+      if (b) render(b.dataset.roastGo);
+    });
+    // стрілки ← → між кнопками, як у звичайному перемикачі
+    root.addEventListener('keydown', function (e) {
+      var i = btns.indexOf(document.activeElement);
+      if (i < 0 || (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft')) return;
+      e.preventDefault();
+      var next = btns[(i + (e.key === 'ArrowRight' ? 1 : btns.length - 1)) % btns.length];
+      next.focus(); render(next.dataset.roastGo);
+    });
+    render('medium-rare');
+  }
+
+  /* ---------- «Select · Choice · Prime»: фото класів ----------
+     Шляхи — у src картинок в index.html (images/grade-*.webp). Поки файлів немає,
+     лишається темна заглушка «Фото незабаром»; поклав файл — фото з’явиться само. */
+  function initGradeImages() {
+    $$('[data-grade-img]').forEach(function (img) {
+      var fail = function () { img.hidden = true; };
+      var ok = function () { img.closest('.ginfo__media').classList.add('has-img'); };
+      if (img.complete) { img.naturalWidth ? ok() : fail(); }
+      img.addEventListener('error', fail);
+      img.addEventListener('load', ok);
+    });
+  }
+
   /* ---------- старт ---------- */
   load();
   codewordInput.value = state.codeword;
   applyConfig();
-  $$('.section__head, .perks__list, .delivery__grid, .faq__list, .pains, .horeca__points, .about__grid, .contacts__grid').forEach(function (el) { el.setAttribute('data-reveal', ''); });
+  $$('.section__head, .perks__list, .delivery__grid, .faq__list, .pains, .horeca__points, .about__grid, .contacts__grid, .gradeinfo, .gradeinfo__note, .roast').forEach(function (el) { el.setAttribute('data-reveal', ''); });
   observeReveal(document);
   renderTabs();
   renderGrid();
   renderCart();
   initAger();
+  initRoast();
+  initGradeImages();
 })();

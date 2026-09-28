@@ -721,6 +721,111 @@ textarea.input { resize: vertical; min-height: 84px; }
 .price-none { font-size: 17px !important; color: var(--muted); letter-spacing: .02em; }
 a.btn-plus { text-decoration: none; }
 
+/* ---------- класи мармуру в картці: Select / Choice / Prime ---------- */
+.grade { margin-bottom: 14px; }
+.grade__seg { display: grid; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); padding: 3px; gap: 3px; border: 1px solid var(--line); border-radius: var(--r); background: var(--card-2); }
+.grade__btn {
+  min-width: 0; min-height: 40px; padding: 0 6px; border: 1px solid transparent; border-radius: 2px; background: transparent; cursor: pointer;
+  font: 600 13px/1 var(--f-head); letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: color .2s, background-color .2s, border-color .2s, transform .16s var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+.grade__btn:active { transform: scale(.97); }
+.grade__btn[aria-pressed="true"] { color: var(--gold); border-color: var(--gold-dark); background: rgba(198, 166, 110, .1); }
+@media (hover: hover) { .grade__btn[aria-pressed="false"]:hover { color: var(--text); } }
+.grade__hint { margin-top: 8px; font-size: 14px; line-height: 1.35; color: #CDBB93; min-height: 1.35em; }
+/* плавна зміна фото при перемиканні класу */
+.card__media .media-next { position: absolute; inset: 0; opacity: 0; transition: opacity .32s var(--ease-out); }
+.card__media .media-next.is-shown { opacity: 1; }
+
+/* ---------- «Select · Choice · Prime — що це?» ---------- */
+.gradeinfo__lead { max-width: 72ch; }
+.gradeinfo { display: grid; gap: 14px; }
+@media (min-width: 900px) { .gradeinfo { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
+.ginfo { display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+.ginfo__media {
+  position: relative; aspect-ratio: 4 / 3; display: grid; place-items: center;
+  background: #19191b; background-image: repeating-linear-gradient(135deg, transparent 0 14px, rgba(46, 43, 38, .28) 14px 15px);
+  border-bottom: 1px solid var(--line);
+}
+.ginfo__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ginfo__media.has-img .ph__cap { visibility: hidden; }
+.ginfo__body { padding: 18px 20px 22px; }
+.ginfo__name { font: 600 26px/1 var(--f-head); letter-spacing: .06em; text-transform: uppercase; color: var(--gold); }
+.marb { display: flex; align-items: center; gap: 10px; margin-top: 10px; font: 600 12px/1 var(--f-head); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.marb__bar { display: inline-grid; grid-template-columns: repeat(3, 18px); gap: 3px; }
+.marb__bar i { height: 6px; border-radius: 1px; background: var(--line); }
+.marb__bar i:first-child, .marb[data-lvl="2"] .marb__bar i:nth-child(2), .marb[data-lvl="3"] .marb__bar i { background: var(--gold); }
+.ginfo__text { margin-top: 12px; font-size: 16px; line-height: 1.5; color: #cfc8bb; }
+.ginfo__for { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); font-size: 15px; line-height: 1.45; color: var(--muted); }
+.ginfo__for strong { color: var(--text); font-weight: 500; }
+.gradeinfo__note { margin-top: 20px; padding: 14px 18px; border-left: 2px solid var(--gold-dark); max-width: 80ch; font-size: 16px; line-height: 1.5; color: var(--muted); }
+.gradeinfo__note strong { color: var(--text); font-weight: 500; }
+
+/* ---------- «Ступені прожарювання» ---------- */
+.roast { --core: #c03c4b; --k: .79; --t: .4; --off: .34; }
+.roast__levels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 16px; }
+@media (min-width: 900px) { .roast__levels { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+.roast__btn {
+  min-width: 0; min-height: 44px; padding: 0 8px; border: 1px solid var(--line); border-radius: var(--r); background: transparent; cursor: pointer;
+  font: 500 13px/1.1 var(--f-head); letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+  transition: color .2s, border-color .2s, background-color .2s, transform .16s var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+.roast__btn:active { transform: scale(.97); }
+.roast__btn[aria-pressed="true"] { border-color: var(--gold); color: var(--gold); background: rgba(198, 166, 110, .08); }
+@media (hover: hover) { .roast__btn[aria-pressed="false"]:hover { color: var(--text); border-color: var(--gold-dark); } }
+
+.roast__panel {
+  display: grid; gap: 22px; padding: 22px 20px;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--r);
+}
+@media (min-width: 900px) { .roast__panel { grid-template-columns: minmax(260px, 340px) 1fr; align-items: center; gap: 44px; padding: 32px; } }
+.roast__visual { display: grid; gap: 20px; justify-items: center; }
+
+/* розріз стейка: скоринка → сіра смуга → центр; центр міняє колір і розмір */
+.steakx {
+  position: relative; width: min(100%, 300px); aspect-ratio: 1.45; padding: 7px;
+  border-radius: 48% 52% 46% 54% / 56% 50% 50% 44%;
+  background: radial-gradient(ellipse at 40% 35%, #4a2c1c, #2a1810 70%);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, .45), inset 0 0 0 1px rgba(0, 0, 0, .4);
+}
+.steakx::before { /* жирова облямівка з одного боку */
+  content: ''; position: absolute; top: 14%; right: -2px; width: 12%; height: 62%;
+  border-radius: 0 60% 60% 0 / 0 50% 50% 0; background: linear-gradient(90deg, rgba(0,0,0,0), #d9c7a4 60%, #bca57c); opacity: .75;
+}
+.steakx__band {
+  position: relative; display: grid; place-items: center; width: 100%; height: 100%; overflow: hidden;
+  border-radius: inherit; background: #7b5b49;
+}
+.steakx__core {
+  width: 100%; height: 100%; border-radius: inherit; background: var(--core);
+  /* прожилки мармуру */
+  background-image: radial-gradient(ellipse 18% 6% at 30% 40%, rgba(236, 222, 196, .22), transparent 70%),
+                    radial-gradient(ellipse 14% 5% at 64% 62%, rgba(236, 222, 196, .18), transparent 70%),
+                    radial-gradient(ellipse 10% 4% at 52% 28%, rgba(236, 222, 196, .16), transparent 70%);
+  transform: scale(var(--k)); filter: blur(3px);
+  transition: transform .5s var(--ease-out), background-color .5s var(--ease-out);
+}
+.thermo { width: min(100%, 300px); }
+.thermo__track { position: relative; display: block; height: 6px; border-radius: 3px; background: var(--line); }
+.thermo__fill { position: absolute; inset: 0; border-radius: 3px; background: linear-gradient(90deg, #6d1521, #c03c4b 45%, #cc7070 70%, #7c5c4a); transform-origin: left; transform: scaleX(var(--t)); transition: transform .5s var(--ease-out); }
+.thermo__off { position: absolute; top: -5px; left: calc(var(--off) * 100%); width: 2px; height: 16px; margin-left: -1px; background: var(--text); border-radius: 1px; transition: left .5s var(--ease-out); }
+.thermo__scale { display: flex; justify-content: space-between; margin-top: 8px; font: 500 12px/1 var(--f-head); letter-spacing: .1em; color: var(--muted); }
+
+.roast__head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.roast__name { font: 600 clamp(26px, 3.4vw, 36px)/1 var(--f-head); letter-spacing: .04em; text-transform: uppercase; }
+.roast__temp { display: flex; align-items: baseline; gap: 10px; margin-top: 12px; }
+.roast__temp span { font: 600 clamp(48px, 6vw, 72px)/.9 var(--f-head); color: var(--gold); font-variant-numeric: tabular-nums; }
+.roast__temp small { font: 600 14px/1 var(--f-head); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.roast__facts { margin-top: 18px; border-top: 1px solid var(--line); }
+.roast__facts > div { display: grid; gap: 4px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+@media (min-width: 640px) { .roast__facts > div { grid-template-columns: 150px 1fr; gap: 14px; } }
+.roast__facts dt { font: 500 12px/1.5 var(--f-head); letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+.roast__facts dd { margin: 0; font-size: 16px; line-height: 1.45; color: #cfc8bb; }
+.roast__note { margin-top: 14px; font-size: 13px; color: var(--muted); }
+
 /* ---------- зерно і поява ---------- */
 body::after {
   content: ''; position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: .07;
