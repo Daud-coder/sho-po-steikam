@@ -12,7 +12,7 @@
   PRODUCTS.forEach(function (p) { byId[p.id] = p; });
 
   var STORE_KEY = 'shopostejkam.cart.v1';
-  var state = { cart: {}, codeword: '', filter: 'all', method: 'kyiv' };
+  var state = { cart: {}, codeword: '', filter: 'all', method: 'pickup' };
 
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
@@ -66,7 +66,8 @@
     var count = ls.reduce(function (a, l) { return a + l.qty; }, 0);
     var subtotal = ls.reduce(function (a, l) { return a + l.sum; }, 0);
     var free = codewordOk();
-    var delivery = count === 0 ? 0 : (free ? 0 : CFG.deliveryFee[state.method]);
+    // самовивіз безкоштовний завжди; кодове слово обнуляє доставку Новою Поштою
+    var delivery = count === 0 || state.method === 'pickup' || free ? 0 : CFG.deliveryFee[state.method];
     return { lines: ls, count: count, subtotal: subtotal, delivery: delivery, free: free, total: subtotal + delivery, left: Math.max(0, CFG.minOrder - subtotal) };
   }
 
@@ -413,14 +414,15 @@
     var hint = $('[data-codeword-hint]');
     // «не підходить» — тільки коли введено слово повної довжини, а не з першої літери
     var typed = norm(state.codeword).length >= norm(CFG.codeword).length;
-    hint.textContent = t.free ? 'Кодове слово прийнято — доставка безкоштовна' : typed ? 'Слово не підходить. Перевір написання' : 'Перша доставка безкоштовна';
+    hint.textContent = t.free ? 'Кодове слово прийнято — доставка Новою Поштою безкоштовна' : typed ? 'Слово не підходить. Перевір написання' : 'Перша доставка Новою Поштою — безкоштовно';
     hint.classList.toggle('is-ok', t.free);
 
     // підсумки (у кошику й у формі)
     $$('[data-subtotal]').forEach(function (el) { el.textContent = money(t.subtotal); });
     $$('[data-delivery]').forEach(function (el) {
-      el.textContent = t.free ? '0 ₴ — кодове слово' : money(CFG.deliveryFee[state.method]);
-      el.classList.toggle('is-free', t.free);
+      var pickup = state.method === 'pickup';
+      el.textContent = pickup ? 'самовивіз, 0 ₴' : t.free ? '0 ₴ — кодове слово' : money(CFG.deliveryFee.np);
+      el.classList.toggle('is-free', pickup || t.free);
     });
     $$('[data-total]').forEach(function (el) { el.textContent = money(t.total); });
 
@@ -444,16 +446,14 @@
   var addrLabel = $('[data-address-label]');
   var addrInput = $('#f-address');
 
+  // Самовивіз — показуємо адресу цеху; Нова Пошта — поле «місто і відділення»
   function updateMethodUI() {
-    if (state.method === 'np') {
-      addrLabel.textContent = 'Місто і відділення Нової Пошти';
-      addrInput.placeholder = 'Напр.: Львів, відділення № 12';
-      addrInput.setAttribute('autocomplete', 'off');
-    } else {
-      addrLabel.textContent = 'Адреса доставки';
-      addrInput.placeholder = 'Вулиця, будинок, квартира';
-      addrInput.setAttribute('autocomplete', 'street-address');
-    }
+    var np = state.method === 'np';
+    $('[data-address-field]').hidden = !np;
+    $('[data-pickup-info]').hidden = np;
+    if (!np) setError('address', '');
+    addrLabel.textContent = 'Місто і відділення Нової Пошти';
+    addrInput.placeholder = 'Напр.: Львів, відділення № 12';
     renderCart();
   }
   form.addEventListener('change', function (e) {
@@ -476,7 +476,7 @@
     if (f.name.value.trim().length < 2) errs.name = 'Вкажи, як до тебе звертатися';
     var digits = f.phone.value.replace(/\D/g, '');
     if (digits.length < 10 || digits.length > 13) errs.phone = 'Перевір номер, напр. 067 123 45 67';
-    if (f.address.value.trim().length < 3) errs.address = state.method === 'np' ? 'Вкажи місто і номер відділення' : 'Вкажи адресу доставки';
+    if (state.method === 'np' && f.address.value.trim().length < 3) errs.address = 'Вкажи місто і номер відділення';
     ['name', 'phone', 'address'].forEach(function (k) { setError(k, errs[k]); });
     var first = ['name', 'phone', 'address'].filter(function (k) { return errs[k]; })[0];
     if (first) f[first].focus();
@@ -499,8 +499,8 @@
       customer: {
         name: f.name.value.trim(),
         phone: f.phone.value.trim(),
-        method: state.method === 'np' ? 'Нова Пошта' : 'Київ, кур’єр',
-        address: f.address.value.trim(),
+        method: state.method === 'np' ? 'Нова Пошта' : 'Самовивіз з цеху',
+        address: state.method === 'np' ? f.address.value.trim() : CFG.pickupAddress,
         comment: f.comment.value.trim()
       },
       items: t.lines.map(function (l) {
@@ -588,7 +588,7 @@
       showThanks(order, res.sent);
       state.cart = {}; state.codeword = ''; codewordInput.value = '';
       save();
-      form.reset(); state.method = 'kyiv';
+      form.reset(); state.method = 'pickup';
       updateMethodUI();
       renderCart();
       PRODUCTS.forEach(function (p) { renderCardAction(p.id); });
@@ -606,10 +606,10 @@
   function applyConfig() {
     $$('[data-cfg="phone"]').forEach(function (el) { el.textContent = CFG.phone; });
     $$('[data-cfg="minOrder"]').forEach(function (el) { el.textContent = money(CFG.minOrder); });
-    $$('[data-cfg="deliveryFee"]').forEach(function (el) {
-      var k = CFG.deliveryFee.kyiv, n = CFG.deliveryFee.np;
-      el.textContent = k === n ? money(k) : 'Київ ' + money(k) + ' · НП ' + money(n);
-    });
+    $$('[data-cfg="deliveryFee"]').forEach(function (el) { el.textContent = money(CFG.deliveryFee.np); });
+    $$('[data-cfg="pickupAddress"]').forEach(function (el) { el.textContent = CFG.pickupAddress; });
+    $$('[data-link="map"]').forEach(function (a) { a.href = CFG.mapUrl; a.target = '_blank'; a.rel = 'noopener'; });
+    $$('[data-link="tel"]').forEach(function (a) { a.href = 'tel:' + CFG.phoneHref; a.hidden = !CFG.phoneHref; });
     // Незаповнені контакти не показуємо зовсім — жодних «[ТЕЛЕФОН]» і мертвих посилань
     var phoneLink = $('[data-link="phone"]');
     phoneLink.hidden = !filled(CFG.phone);
@@ -627,7 +627,7 @@
   load();
   codewordInput.value = state.codeword;
   applyConfig();
-  $$('.section__head, .perks__list, .delivery__grid, .faq__list').forEach(function (el) { el.setAttribute('data-reveal', ''); });
+  $$('.section__head, .perks__list, .delivery__grid, .faq__list, .pains, .horeca__points, .about__grid, .contacts__grid').forEach(function (el) { el.setAttribute('data-reveal', ''); });
   observeReveal(document);
   renderTabs();
   renderGrid();

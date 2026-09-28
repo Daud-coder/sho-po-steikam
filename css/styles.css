@@ -561,6 +561,75 @@ textarea.input { resize: vertical; min-height: 84px; }
 .thanks__text { color: var(--muted); max-width: 34ch; }
 .thanks__text strong { color: var(--text); font-weight: 500; }
 
+/* ---------- нові блоки: заклик у hero, «чому не супермаркет», ресторанам, про нас, контакти ---------- */
+.hero__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; }
+.hero__call { gap: 10px; border-color: rgba(198,166,110,.5); color: var(--text); background: rgba(19,19,21,.45); letter-spacing: .08em; }
+.hero__call .i { color: var(--gold); width: 18px; height: 18px; }
+@media (max-width: 767px) {
+  .hero__cta { flex-wrap: nowrap; gap: 10px; }
+  .hero__cta .btn--primary { flex: 1 1 auto; }
+  /* на телефоні — лише іконка, щоб плашка з кодовим словом лишалась у першому екрані */
+  .hero__call { flex: 0 0 52px; width: 52px; padding: 0; }
+  .hero__call span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .hero__call .i { width: 22px; height: 22px; }
+}
+
+.kicker { margin-bottom: 12px; font: 600 13px/1 var(--f-head); letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
+
+.pains { display: grid; gap: 14px; counter-reset: pain; }
+@media (min-width: 900px) { .pains { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
+.pain { position: relative; padding: 24px 22px 26px; background: var(--card); border: 1px solid var(--line); border-radius: var(--r); counter-increment: pain; }
+.pain::before { content: '0' counter(pain); position: absolute; top: 20px; right: 22px; font: 600 14px/1 var(--f-head); letter-spacing: .12em; color: var(--gold-dark); }
+.pain__q { padding-right: 36px; font: 600 21px/1.15 var(--f-head); letter-spacing: .03em; text-transform: uppercase; }
+.pain__bad { margin-top: 10px; color: var(--muted); font-size: 16px; text-decoration: line-through; text-decoration-color: rgba(154,147,134,.45); }
+.pain__good { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 16px; line-height: 1.45; }
+.pain__good strong { color: var(--gold); font-weight: 500; }
+
+.horeca__grid { display: grid; gap: 28px; align-items: center; }
+@media (min-width: 1024px) { .horeca__grid { grid-template-columns: 1fr 1.05fr; gap: 56px; } }
+.horeca__media { aspect-ratio: 4 / 3; border-radius: var(--r); overflow: hidden; border: 1px solid var(--line); background: #0e0e10; }
+.horeca__media img { width: 100%; height: 100%; object-fit: cover; object-position: 55% center; }
+@media (min-width: 1024px) { .horeca__media { aspect-ratio: 4 / 5; } }
+.horeca__points { display: grid; gap: 14px; }
+.horeca__points li { position: relative; padding-left: 26px; font-size: 17px; line-height: 1.45; color: var(--muted); }
+.horeca__points li::before { content: ''; position: absolute; left: 0; top: .62em; width: 12px; height: 2px; background: var(--gold); }
+.horeca__points strong { color: var(--text); font-weight: 500; }
+.horeca__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 28px; }
+.horeca__phone { color: var(--muted); font-size: 16px; }
+.horeca__phone a { color: var(--gold); text-decoration: none; white-space: nowrap; }
+
+.dcard__link { display: inline-block; margin-top: 12px; color: var(--gold); font: 600 13px/1 var(--f-head); letter-spacing: .12em; text-transform: uppercase; text-decoration: none; }
+@media (hover: hover) { .dcard__link:hover { color: var(--gold-hover); } }
+
+.about__grid { display: grid; gap: 20px; }
+@media (min-width: 1024px) { .about__grid { grid-template-columns: .9fr 1.1fr; gap: 64px; } }
+.about__text { display: grid; gap: 16px; font-size: 18px; line-height: 1.6; color: #cfc8bb; max-width: 62ch; }
+.about__text p:last-child { color: var(--text); font-weight: 500; }
+
+.contacts { border-bottom: 0; }
+.contacts__grid { display: grid; gap: 32px; align-items: stretch; }
+@media (min-width: 1024px) { .contacts__grid { grid-template-columns: 1.1fr 1fr; gap: 56px; } }
+.contacts__title { font: 600 clamp(32px, 4.6vw, 56px)/1 var(--f-head); letter-spacing: .02em; text-transform: uppercase; color: var(--gold); }
+.contacts__title span { display: block; margin-top: 10px; font-size: .5em; line-height: 1.15; color: var(--text); }
+.contacts__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+.contacts__actions .btn .i { width: 18px; height: 18px; }
+@media (max-width: 767px) { .contacts__actions .btn { flex: 1 1 100%; } }
+.contacts__list { display: grid; margin-top: 28px; border-top: 1px solid var(--line); }
+.contacts__list div { display: grid; gap: 4px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+@media (min-width: 640px) { .contacts__list div { grid-template-columns: 170px 1fr; gap: 16px; } }
+.contacts__list dt { color: var(--muted); font: 500 13px/1.4 var(--f-head); letter-spacing: .12em; text-transform: uppercase; }
+.contacts__list dd { font-size: 17px; }
+.contacts__list a { color: var(--gold); text-decoration: none; }
+.contacts__map { min-height: 320px; border-radius: var(--r); overflow: hidden; border: 1px solid var(--line); background: #1a1a1c; }
+.contacts__map iframe { display: block; width: 100%; height: 100%; min-height: 320px; border: 0; filter: grayscale(1) invert(.92) contrast(.9) brightness(.9); }
+
+.pickup-info { display: flex; gap: 12px; margin: -4px 0 16px; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--r); background: var(--card); font-size: 15px; line-height: 1.45; }
+.pickup-info .i { color: var(--gold); margin-top: 2px; }
+.pickup-info a { color: var(--gold); }
+.drawer__note--top { margin: -4px 0 12px; }
+
+@media (min-width: 1024px) and (max-width: 1279px) { .nav { gap: 20px; } .nav a { font-size: 13px; letter-spacing: .08em; } }
+
 /* ---------- зерно і поява ---------- */
 body::after {
   content: ''; position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: .07;
