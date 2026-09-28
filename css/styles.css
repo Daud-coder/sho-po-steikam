@@ -409,8 +409,8 @@ button.mrow__img { cursor: zoom-in; }
 .timeline { position: relative; }
 .timeline__scale { display: none; }
 .timeline__stages { display: grid; gap: 0; }
-.stage { position: relative; padding: 0 0 26px 30px; border-left: 2px solid var(--line); margin-left: 6px; }
-.stage:last-child { padding-bottom: 0; border-left-color: transparent; }
+.stage { position: relative; padding: 0 0 26px 30px; margin-left: 6px; background: linear-gradient(var(--line), var(--line)) left top / 2px 100% no-repeat; }  /* лінія вертикальної шкали на телефоні */
+.stage:last-child { padding-bottom: 0; background: none; }
 .stage::before { content: ''; position: absolute; left: -8px; top: 1px; width: 14px; height: 14px; border-radius: 50%; background: var(--bg); box-shadow: inset 0 0 0 2px var(--gold); }
 .stage:nth-child(2)::before { background: var(--gold); }
 .stage__day { display: inline-block; font: 600 13px/1 var(--f-head); letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
@@ -947,7 +947,7 @@ a.is-revealed { letter-spacing: .06em; border-color: var(--gold); color: var(--g
 .roast__strip img { display: block; width: 100%; height: auto; }
 .roast__slice { position: absolute; top: 0; bottom: 0; padding: 0; border: 0; background: rgba(12,12,13,.55); cursor: pointer; transition: background-color .3s var(--ease-out), box-shadow .3s var(--ease-out); }
 .roast__slice:hover { background: rgba(12,12,13,.25); }
-.roast__slice[aria-pressed="true"] { background: transparent; box-shadow: inset 0 -3px 0 var(--gold); }
+.roast__slice[aria-pressed="true"] { background: linear-gradient(transparent calc(100% - 3px), var(--gold) 0); }
 .roast__zoom { position: relative; width: 100%; aspect-ratio: 230 / 175; border-radius: var(--r); overflow: hidden; background: #111; border: 1px solid var(--line); }
 .roast__zoom img { position: absolute; max-width: none; width: calc(1336 / 230 * 100%); top: -28%; left: calc((var(--cx, 565) - 115) / 230 * -100%); transition: left .5s var(--ease-out); }
 @media (prefers-reduced-motion: reduce) { .roast__zoom img { transition: none; } }
