@@ -929,6 +929,11 @@ a.is-revealed { letter-spacing: .06em; border-color: var(--gold); color: var(--g
 .gradecmp figcaption { display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; padding: 12px 0 14px; }
 .gradecmp figcaption span { font: 600 clamp(15px, 2vw, 22px)/1 var(--f-head); letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
 
+/* великі картки: фото цілком (силует рібаю, кістка томагавка), без обрізання */
+.card--hero .card__media { background: #0f0f10; }
+.card--hero .card__media img { object-fit: contain; }
+@media (min-width: 1024px) { .card--hero .card__media { display: flex; align-items: center; } }
+
 /* ---------- зерно і поява ---------- */
 body::after {
   content: ''; position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: .07;

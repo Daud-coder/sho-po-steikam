@@ -52,15 +52,15 @@ window.PRODUCTS = [
     ] },
   { id: 'cowboy',      cat: 'classic', name: 'Ковбой',      en: 'Cowboy',       desc: 'Рібай на короткій кістці',            perKg: 1550, weight: 700,  badge: '',                 photo: 'images/cowboy.webp',
     grades: [
-      { id: 'select', label: 'Select', perKg: 0, photo: 'images/cowboy-select.webp' },
-      { id: 'choice', label: 'Choice', perKg: 0, photo: 'images/cowboy-choice.webp' },
+      { id: 'select', label: 'Select', perKg: 0, photo: 'images/cowboy-choice.webp' },
+      { id: 'choice', label: 'Choice', perKg: 0, photo: 'images/cowboy-select.webp' },
       { id: 'prime',  label: 'Prime',  perKg: 0, photo: 'images/cowboy.webp' }
     ] },
   { id: 'tomahawk',    cat: 'classic', name: 'Томагавк',    en: 'Tomahawk',     desc: 'Рібай на довгій кістці, для компанії', perKg: 1600, weight: 1100, badge: 'Витримка 21 день', photo: 'images/tomahawk.webp', featured: true,
     cook: [['Просмаження', 'medium rare, 54–56 °C'], ['Як готувати', 'Духовка 120 °C до 50 °C всередині, потім 1–2 хв на бік на гриль'], ['Порція', 'на 2–3 людей']],
     grades: [
-      { id: 'select', label: 'Select', perKg: 0, photo: 'images/tomahawk-select.webp' },
-      { id: 'choice', label: 'Choice', perKg: 0, photo: 'images/tomahawk-choice.webp' },
+      { id: 'select', label: 'Select', perKg: 0, photo: 'images/tomahawk-choice.webp' },
+      { id: 'choice', label: 'Choice', perKg: 0, photo: 'images/tomahawk-select.webp' },
       { id: 'prime',  label: 'Prime',  perKg: 0, photo: 'images/tomahawk-prime.webp' }
     ] },
   { id: 'club',        cat: 'classic', name: 'Клаб-стейк',  en: 'Club steak',   desc: 'Нью-Йорк на кістці',                   perKg: 0,    weight: 450,  badge: '',                 photo: '',
