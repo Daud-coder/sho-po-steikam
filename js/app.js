@@ -19,7 +19,7 @@
     return {
       id: p.id + '@' + g.id, pid: p.id, gid: g.id, grade: g.label, cat: p.cat,
       name: p.name + ' · ' + g.label, en: p.en, desc: p.desc,
-      perKg: g.perKg || 0, weight: p.weight, photo: g.photo || p.photo
+      perKg: g.perKg || 0, weight: p.weight, photo: g.photo || ''
     };
   }
   var byKey = {};
@@ -31,7 +31,13 @@
   var STORE_KEY = 'shopostejkam.cart.v1';
   // grade: обраний у картці клас { ribeye: 'prime' }; за замовчуванням — перший
   var state = { cart: {}, codeword: '', filter: 'all', method: 'pickup', grade: {} };
-  function gradeKey(p) { return p.grades && p.grades.length ? p.id + '@' + (state.grade[p.id] || p.grades[0].id) : p.id; }
+  // за замовчуванням у картці — Prime (якщо є фото), інакше перший клас із фото
+  function defaultGrade(p) {
+    var withPhoto = p.grades.filter(function (g) { return g.photo; });
+    var prime = withPhoto.filter(function (g) { return g.id === 'prime'; })[0];
+    return (prime || withPhoto[0] || p.grades[0]).id;
+  }
+  function gradeKey(p) { return p.grades && p.grades.length ? p.id + '@' + (state.grade[p.id] || defaultGrade(p)) : p.id; }
 
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
@@ -113,7 +119,7 @@
   var GROUPS = {
     classic: { title: 'Класичні', lead: 'Перевірені часом відруби' },
     alt: { title: 'Альтернативні', lead: 'Для тих, хто вже скуштував рібай і хоче далі' },
-    burger: { title: 'Бургер і шашлик', lead: 'Котлета з обрізі витриманих стейків і шашлик з вирізки — для гриля й компанії',
+    burger: { title: 'Для гриля й казана', lead: 'Шашлик, люля й котлета — сирі, у вакуумі, одразу на вогонь. Оссобуко — для казана',
       bg: 'images/burgers-bg.webp', bgSmall: 'images/burgers-bg-800.webp' }
   };
 
@@ -255,13 +261,16 @@
   // БУРГЕРИ — картки на фото-смузі
   function burgerCardHTML(p) {
     return '<article class="bcard" data-id="' + p.id + '">' +
-      // фото котлет уже стоїть фоном усієї смуги — у картці не дублюємо (фото товару лишається для кошика)
+      // мініатюра відкривається на весь екран, як у альтернативних
+      (p.photo ? '<button class="bcard__thumb" type="button" data-zoom="' + p.id + '" aria-label="Збільшити фото: ' + esc(p.name) + '">' + media(p, 'thumb') + '</button>' : '') +
+      '<div class="bcard__main">' +
       '<div class="bcard__top"><p class="bcard__pack">' + esc(p.pack || (hasPrice(p) ? money(p.perKg) + '/кг · ' : '') + 'порція ≈ ' + weightLabel(p.weight)) + '</p>' + badge(p, 'bcard__badge') + '</div>' +
       '<h4 class="bcard__name">' + esc(p.name) + '</h4>' +
       '<p class="bcard__en">' + esc(p.en) + '</p>' +
       '<p class="bcard__desc">' + esc(p.desc) + '</p>' +
       '<div class="bcard__foot">' + priceHTML(p, 'bcard__sum') +
         '<div class="card__action" data-action="' + p.id + '" data-kind="full"></div>' +
+      '</div>' +
       '</div>' +
     '</article>';
   }
